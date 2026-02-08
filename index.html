@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Firebase SDKs (Versão Compat) -->
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
@@ -25,15 +25,12 @@
             color: #000000;
         }
 
-        /* CONFIGURAÇÃO DINÂMICA DE IMPRESSÃO */
         @media print {
             @page { margin: 0; }
             .print-landscape { size: A4 landscape !important; }
             .print-portrait { size: A4 portrait !important; }
-
             body > *:not(#printContainer) { display: none !important; }
             #printContainer { display: block !important; width: 100%; }
-            
             .print-page { 
                 page-break-after: always; 
                 height: 95vh; 
@@ -44,7 +41,6 @@
                 padding: 30px; 
                 box-sizing: border-box;
             }
-            
             .chart-controls, .color-selector, .print-hidden { display: none !important; }
         }
 
@@ -60,22 +56,22 @@
         .btn-exit { background-color: #ef4444; color: white; }
     </style>
 </head>
-<body class="transition-colors duration-300 antialiased">
+<body class="transition-colors duration-300 antialiased text-black">
 
     <!-- NAVBAR -->
     <nav class="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-100 z-50 px-6 flex items-center justify-between print-hidden shadow-sm">
-        <div class="flex items-center gap-3 text-black">
+        <div class="flex items-center gap-3">
             <div class="bg-black p-2 rounded-xl text-white">
                 <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
             </div>
             <div>
                 <h1 class="text-lg font-black uppercase leading-none text-black">AD.PERUS</h1>
-                <p class="text-[10px] font-bold text-gray-400 tracking-widest uppercase">Regional 2 - Santa Maria</p>
+                <p class="text-[10px] font-bold text-gray-400 tracking-widest uppercase text-black">Regional 2 - Santa Maria</p>
             </div>
         </div>
         <div class="flex items-center gap-4 text-black">
             <div id="sync-status" class="flex items-center gap-2 px-3 py-1 bg-gray-50 rounded-full text-[10px] font-bold uppercase tracking-tighter text-black">
-                <span id="sync-dot" class="w-2 h-2 bg-gray-300 rounded-full text-black"></span> <span id="sync-text">Conectando...</span>
+                <span id="sync-dot" class="w-2 h-2 bg-gray-300 rounded-full"></span> <span id="sync-text">Conectando...</span>
             </div>
         </div>
     </nav>
@@ -86,18 +82,18 @@
         <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-6 mb-10 text-black">
             <div>
                 <h2 class="text-3xl font-black tracking-tight uppercase text-black">Consolidado Regional</h2>
-                <p class="text-gray-400 font-medium mt-1 uppercase text-[10px] tracking-widest text-black">Relatórios Financeiros Unificados</p>
+                <p class="text-gray-400 font-medium mt-1 uppercase text-[10px] tracking-widest text-black font-bold">Histórico de Dados Reais</p>
             </div>
             
             <div class="flex flex-wrap items-center gap-3 text-black">
                 <button onclick="requestAdminAccess()" class="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase shadow-sm hover:bg-gray-800 transition-colors">
                     <i data-lucide="lock" class="w-4 h-4 text-white"></i> Admin
                 </button>
-                <button onclick="showPrintSelection()" class="flex items-center gap-2 border border-black text-black px-5 py-2.5 rounded-xl text-xs font-bold uppercase hover:bg-gray-50 transition-all">
-                    <i data-lucide="printer" class="w-4 h-4 text-black"></i> Gerar Relatório / PDF
+                <button onclick="showPrintSelection()" class="flex items-center gap-2 border border-black text-black px-5 py-2.5 rounded-xl text-xs font-bold uppercase hover:bg-gray-50 transition-all text-black">
+                    <i data-lucide="printer" class="w-4 h-4 text-black"></i> Imprimir PDF
                 </button>
 
-                <div class="flex flex-wrap items-center bg-gray-50 border border-gray-100 rounded-xl p-1 text-black text-black">
+                <div class="flex flex-wrap items-center bg-gray-50 border border-gray-100 rounded-xl p-1 text-black">
                     <select id="yearFilter" class="bg-transparent pl-3 pr-8 py-2 text-[10px] font-black uppercase outline-none border-r border-gray-200 text-black">
                         <option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
                     </select>
@@ -115,39 +111,40 @@
             </div>
         </div>
 
-        <!-- KPIs -->
+        <!-- INDICADORES -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 text-black">
-            <div class="card-clean p-6 rounded-3xl text-black">
+            <div class="card-clean p-6 rounded-3xl text-black border-black/10">
                 <p class="text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest text-black">Entradas</p>
                 <p id="kpi-income" class="text-2xl font-black text-blue-600">R$ 0,00</p>
             </div>
-            <div class="card-clean p-6 rounded-3xl text-black">
+            <div class="card-clean p-6 rounded-3xl text-black border-black/10">
                 <p class="text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest text-black">Saídas</p>
                 <p id="kpi-expense" class="text-2xl font-black text-rose-600">R$ 0,00</p>
             </div>
-            <div class="card-clean p-6 rounded-3xl text-black text-black text-black">
-                <p class="text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest text-black text-black">Saldo</p>
+            <div class="card-clean p-6 rounded-3xl text-black border-black/10">
+                <p class="text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest text-black">Saldo</p>
                 <p id="kpi-balance" class="text-2xl font-black text-indigo-600">R$ 0,00</p>
             </div>
-            <div class="card-clean p-6 rounded-3xl text-black">
+            <div class="card-clean p-6 rounded-3xl text-black border-black/10">
                 <p class="text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest text-black">Atividade</p>
                 <p id="kpi-active" class="text-2xl font-black text-black">0 Unidades</p>
             </div>
         </div>
 
-        <!-- GRAFICOS -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8 text-black">
+        <!-- GRÁFICOS -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8 text-black text-black">
+            <!-- Gráfico Mensal -->
             <div class="lg:col-span-8 bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm relative text-black">
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4 text-black">
                     <h3 class="font-black text-lg uppercase flex items-center gap-3 text-black">
-                        <span class="w-1.5 h-6 bg-black rounded-full text-black"></span> Evolução Mensal
+                        <span class="w-1.5 h-6 bg-black rounded-full"></span> Evolução Mensal
                     </h3>
-                    <div class="flex items-center gap-4 chart-controls text-black text-black">
+                    <div class="flex items-center gap-4 chart-controls text-black">
                         <label class="flex items-center gap-2 cursor-pointer text-black">
                             <input type="checkbox" id="showLabelsMain" onchange="updateDashboard()" checked class="w-4 h-4 accent-black text-black">
                             <span class="text-[10px] font-black uppercase text-gray-400 text-black">Valores</span>
                         </label>
-                        <select id="colorMain" onchange="updateDashboard()" class="text-[10px] font-black uppercase bg-gray-50 border-none rounded-lg px-3 py-1.5 outline-none focus:ring-1 ring-black text-black text-black">
+                        <select id="colorMain" onchange="updateDashboard()" class="text-[10px] font-black uppercase bg-gray-50 border-none rounded-lg px-3 py-1.5 outline-none focus:ring-1 ring-black text-black">
                             <option value="default">Azul/Vermelho</option>
                             <option value="emerald">Verde/Rosa</option>
                             <option value="modern">Índigo/Laranja</option>
@@ -158,30 +155,32 @@
                 <div class="h-[400px] text-black"><canvas id="mainChart"></canvas></div>
             </div>
 
-            <div class="lg:col-span-4 bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm relative text-black">
+            <!-- Gráfico Saúde -->
+            <div class="lg:col-span-4 bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm relative text-black text-black text-black">
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4 text-black">
-                    <h3 class="font-black text-lg uppercase flex items-center gap-3 text-black">
-                        <span class="w-1.5 h-6 bg-black rounded-full text-black text-black text-black text-black"></span> Saúde
+                    <h3 class="font-black text-lg uppercase flex items-center gap-3 text-black text-black">
+                        <span class="w-1.5 h-6 bg-black rounded-full"></span> Saúde
                     </h3>
-                    <div class="flex items-center gap-3 chart-controls text-black">
-                        <label class="flex items-center gap-2 cursor-pointer text-black text-black">
-                            <input type="checkbox" id="showLabelsPie" onchange="updateDashboard()" checked class="w-4 h-4 accent-black text-black text-black text-black">
-                            <span class="text-[10px] font-black uppercase text-gray-400 text-black text-black">Valores</span>
+                    <div class="flex items-center gap-3 chart-controls text-black text-black">
+                        <label class="flex items-center gap-2 cursor-pointer text-black text-black text-black">
+                            <input type="checkbox" id="showLabelsPie" onchange="updateDashboard()" checked class="w-4 h-4 accent-black text-black">
+                            <span class="text-[10px] font-black uppercase text-gray-400 text-black">Valores</span>
                         </label>
                     </div>
                 </div>
                 <div class="h-[400px] text-black"><canvas id="pieChart"></canvas></div>
             </div>
 
-            <div class="lg:col-span-12 bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm relative text-black">
-                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4 text-black text-black text-black">
-                    <h3 class="font-black text-lg uppercase flex items-center gap-3 text-black text-black text-black">
-                        <span class="w-1.5 h-6 bg-black rounded-full text-black text-black"></span> Ranking de Unidades
+            <!-- Gráfico Ranking -->
+            <div class="lg:col-span-12 bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm relative text-black text-black">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4 text-black">
+                    <h3 class="font-black text-lg uppercase flex items-center gap-3 text-black text-black">
+                        <span class="w-1.5 h-6 bg-black rounded-full"></span> Ranking Regional de Saldo
                     </h3>
                     <div class="flex items-center gap-4 chart-controls text-black text-black">
-                        <label class="flex items-center gap-2 cursor-pointer text-black">
-                            <input type="checkbox" id="showLabelsRanking" onchange="updateDashboard()" checked class="w-4 h-4 accent-black text-black text-black">
-                            <span class="text-[10px] font-black uppercase text-gray-400 text-black text-black">Valores</span>
+                        <label class="flex items-center gap-2 cursor-pointer text-black text-black text-black">
+                            <input type="checkbox" id="showLabelsRanking" onchange="updateDashboard()" checked class="w-4 h-4 accent-black text-black">
+                            <span class="text-[10px] font-black uppercase text-gray-400 text-black">Valores</span>
                         </label>
                     </div>
                 </div>
@@ -190,56 +189,56 @@
         </div>
 
         <div id="tableToggleContainer" class="flex justify-center mt-10 text-black">
-            <button onclick="toggleTableVisibility()" class="flex items-center gap-2 px-8 py-3 bg-gray-100 hover:bg-gray-200 text-gray-500 rounded-2xl text-[10px] font-black uppercase transition-all text-black text-black">
-                <i data-lucide="list" class="w-4 h-4 text-black"></i> <span id="toggleText">Ver Listagem Detalhada</span>
+            <button onclick="toggleTableVisibility()" class="flex items-center gap-2 px-8 py-3 bg-gray-100 hover:bg-gray-200 text-gray-500 rounded-2xl text-[10px] font-black uppercase transition-all text-black">
+                <i data-lucide="list" class="w-4 h-4 text-black"></i> <span id="toggleText">Ver Listagem Completa</span>
             </button>
         </div>
 
         <div id="tableSection" class="bg-white border border-gray-100 rounded-[40px] overflow-hidden hidden transition-all duration-500 text-black mt-8 text-black">
             <div class="p-8 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-6 text-black text-black">
-                <h3 class="font-black text-xl tracking-tight uppercase text-black text-black text-black text-black">Histórico de Lançamentos</h3>
+                <h3 class="font-black text-xl tracking-tight uppercase text-black">Histórico Regional</h3>
                 <div class="relative w-full md:w-80 text-black">
                     <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300"></i>
-                    <input type="text" id="tableSearch" placeholder="Filtrar por igreja..." class="w-full pl-12 pr-4 py-3 bg-gray-50 rounded-2xl text-sm font-medium outline-none border-none focus:ring-1 ring-black text-black" onkeyup="renderTable()">
+                    <input type="text" id="tableSearch" placeholder="Pesquisar..." class="w-full pl-12 pr-4 py-3 bg-gray-50 rounded-2xl text-sm font-medium outline-none border-none focus:ring-1 ring-black text-black" onkeyup="renderTable()">
                 </div>
             </div>
-            <div class="overflow-x-auto custom-scrollbar text-black text-black">
+            <div class="overflow-x-auto custom-scrollbar text-black">
                 <table class="w-full text-left text-sm text-black">
                     <thead>
                         <tr class="bg-gray-50/50 text-gray-400 font-black text-[10px] uppercase border-b border-gray-50 tracking-widest text-black">
                             <th class="px-8 py-5">Igreja</th>
-                            <th class="px-6 py-5 text-center">Data</th>
+                            <th class="px-6 py-5 text-center">Competência</th>
                             <th class="px-6 py-5 text-right">Créditos</th>
                             <th class="px-6 py-5 text-right">Débitos</th>
                             <th class="px-8 py-5 text-right">Saldo</th>
                         </tr>
                     </thead>
-                    <tbody id="dataTableBody" class="divide-y divide-gray-50 text-black text-black"></tbody>
+                    <tbody id="dataTableBody" class="divide-y divide-gray-50 text-black"></tbody>
                 </table>
             </div>
         </div>
     </main>
 
     <!-- MODAL SENHA -->
-    <div id="passwordModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[150] hidden items-center justify-center p-4 text-black text-black">
+    <div id="passwordModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[150] hidden items-center justify-center p-4 text-black">
         <div class="bg-white rounded-[40px] p-12 max-w-sm w-full text-center shadow-2xl text-black">
             <i data-lucide="shield-check" class="w-12 h-12 mx-auto mb-8 text-black text-black text-black"></i>
-            <h4 class="font-black text-2xl mb-2 uppercase text-black">Acesso Adm</h4>
+            <h4 class="font-black text-2xl mb-2 uppercase text-black">Acesso Administrativo</h4>
             <input type="password" id="adminPasswordInput" placeholder="••••" class="w-full text-center p-5 bg-gray-50 rounded-3xl border-none outline-none focus:ring-2 ring-black mb-6 text-3xl tracking-[0.8em] text-black">
-            <button onclick="checkAdminPassword()" class="w-full py-5 bg-black text-white rounded-3xl text-xs font-black uppercase shadow-xl text-white">Entrar</button>
-            <button onclick="closeModal('passwordModal')" class="mt-6 text-[10px] font-black text-gray-300 uppercase hover:text-gray-500 text-black text-black text-black">Fechar</button>
+            <button onclick="checkAdminPassword()" class="w-full py-5 bg-black text-white rounded-3xl text-xs font-black uppercase shadow-xl">Entrar</button>
+            <button onclick="closeModal('passwordModal')" class="mt-6 text-[10px] font-black text-gray-300 uppercase hover:text-gray-500 text-black">Voltar</button>
         </div>
     </div>
 
     <!-- MODAL ADMIN -->
     <div id="adminModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 text-black">
         <div class="bg-white w-full max-w-3xl rounded-[40px] shadow-2xl overflow-hidden animate-in zoom-in duration-200 text-black">
-            <div class="p-8 bg-gray-50 border-b border-gray-100 flex items-center justify-between text-black">
-                <h3 class="font-black uppercase text-xl text-black tracking-tighter text-black">Gestão Financeira Regional</h3>
-                <div class="flex gap-2">
-                    <button id="tabManualBtn" onclick="switchAdminTab('manual')" class="px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-black text-white transition-all text-white">Lançar</button>
-                    <button id="tabBulkBtn" onclick="switchAdminTab('bulk')" class="px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-gray-100 text-gray-400 text-black">Importar</button>
-                    <button onclick="exitAdmin()" class="btn-exit px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase flex items-center gap-2 text-white">Sair</button>
+            <div class="p-8 bg-gray-50 border-b border-gray-100 flex items-center justify-between text-black text-black">
+                <h3 class="font-black uppercase text-xl text-black tracking-tighter text-black">Gestão Regional</h3>
+                <div class="flex gap-2 text-black">
+                    <button id="tabManualBtn" onclick="switchAdminTab('manual')" class="px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-black text-white transition-all">Lançar</button>
+                    <button id="tabBulkBtn" onclick="switchAdminTab('bulk')" class="px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-gray-100 text-gray-400">Importar</button>
+                    <button onclick="exitAdmin()" class="btn-exit px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase flex items-center gap-2">Sair</button>
                 </div>
             </div>
             
@@ -255,62 +254,64 @@
                     <input type="number" id="adminIncome" placeholder="Créditos" step="0.01" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-blue-500 font-black text-black">
                     <input type="number" id="adminExpense" placeholder="Débitos" step="0.01" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-rose-500 font-black text-black">
                 </div>
-                <button onclick="saveAdminData()" class="w-full py-5 bg-black text-white rounded-3xl text-xs font-black uppercase shadow-xl text-white">Confirmar Lançamento</button>
+                <button onclick="saveAdminData()" class="w-full py-5 bg-black text-white rounded-3xl text-xs font-black uppercase shadow-xl">Salvar Registro</button>
                 
-                <div class="pt-6 border-t border-gray-100 flex flex-col gap-3 text-black">
-                    <button id="btnSyncCode" onclick="forceSyncCodeData()" class="w-full py-4 bg-blue-600 text-white rounded-3xl text-[10px] font-black uppercase shadow-xl hover:bg-blue-700 text-white">Sincronizar Números do Código (2023-2025)</button>
-                    <button onclick="resetRegionalData()" class="w-full py-4 text-[10px] font-black text-rose-500 uppercase border border-rose-100 rounded-2xl hover:bg-rose-50 text-black">Limpar Base Regional</button>
+                <div class="pt-8 border-t border-gray-100 text-black">
+                    <p class="text-[10px] font-black uppercase text-gray-400 mb-4 text-center tracking-widest text-black">Forçar Sincronização de Dados Reais</p>
+                    <div class="grid grid-cols-3 gap-4 text-black">
+                        <button onclick="forceSyncYear(2023)" class="py-4 bg-blue-50 text-blue-600 rounded-2xl text-[10px] font-black uppercase border border-blue-100 hover:bg-blue-600 hover:text-white transition-all">Sincronizar 2023</button>
+                        <button onclick="forceSyncYear(2024)" class="py-4 bg-blue-50 text-blue-600 rounded-2xl text-[10px] font-black uppercase border border-blue-100 hover:bg-blue-600 hover:text-white transition-all">Sincronizar 2024</button>
+                        <button onclick="forceSyncYear(2025)" class="py-4 bg-blue-50 text-blue-600 rounded-2xl text-[10px] font-black uppercase border border-blue-100 hover:bg-blue-600 hover:text-white transition-all">Sincronizar 2025</button>
+                    </div>
+                    <button onclick="resetRegionalData()" class="w-full mt-6 py-4 text-[10px] font-black text-rose-500 uppercase border border-rose-50 rounded-2xl hover:bg-rose-50">Limpar Banco de Dados (Zerar)</button>
                 </div>
             </div>
 
             <div id="tabBulk" class="p-10 space-y-6 hidden text-black">
-                <textarea id="bulkDataInput" rows="8" placeholder="Copiar colunas: Igreja | Mês | Crédito | Débito..." class="w-full p-6 bg-gray-50 rounded-[24px] text-[11px] font-mono border-none outline-none focus:ring-1 ring-black text-black"></textarea>
+                <textarea id="bulkDataInput" rows="8" placeholder="Igreja Mês Crédito Débito..." class="w-full p-6 bg-gray-50 rounded-[24px] text-[11px] font-mono border-none outline-none focus:ring-1 ring-black text-black"></textarea>
                 <div class="grid grid-cols-2 gap-4 text-black">
-                    <select id="bulkYear" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-1 ring-black font-bold text-black">
+                    <select id="bulkYear" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-1 ring-black font-bold text-black text-black">
                         <option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
                     </select>
-                    <button onclick="processBulkPaste()" class="py-4 bg-blue-600 text-white rounded-2xl text-[10px] font-black uppercase shadow-lg text-white">Salvar em Lote</button>
+                    <button onclick="processBulkPaste()" class="py-4 bg-blue-600 text-white rounded-2xl text-[10px] font-black uppercase shadow-lg">Processar Massa</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- FEEDBACK -->
-    <div id="feedbackModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] hidden items-center justify-center p-4 text-black">
-        <div class="bg-white rounded-[40px] p-10 max-w-xs w-full text-center shadow-2xl border border-gray-100 text-black text-black">
-            <h4 id="feedbackTitle" class="font-black mb-2 uppercase text-black text-black text-black text-black">Aviso</h4>
+    <div id="feedbackModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] hidden items-center justify-center p-4">
+        <div class="bg-white rounded-[40px] p-10 max-w-xs w-full text-center shadow-2xl border border-gray-100 text-black">
+            <h4 id="feedbackTitle" class="font-black mb-2 uppercase text-black text-black text-black">Aviso</h4>
             <p id="feedbackText" class="text-sm text-gray-400 font-medium mb-8 leading-relaxed text-black text-black"></p>
-            <button onclick="closeModal('feedbackModal')" class="w-full py-4 bg-black text-white rounded-2xl text-[10px] font-black uppercase text-white">Fechar</button>
+            <button onclick="closeModal('feedbackModal')" class="w-full py-4 bg-black text-white rounded-2xl text-[10px] font-black uppercase">Fechar</button>
         </div>
     </div>
 
     <div id="printSelectionModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[150] hidden items-center justify-center p-4 text-black">
-        <div class="bg-white rounded-[40px] p-10 max-w-md w-full text-center shadow-2xl text-black text-black text-black">
+        <div class="bg-white rounded-[40px] p-10 max-w-md w-full text-center shadow-2xl text-black text-black">
             <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 text-black">
-                <i data-lucide="printer" class="w-8 h-8 text-black text-black"></i>
+                <i data-lucide="printer" class="w-8 h-8 text-black"></i>
             </div>
             <h4 class="font-black text-xl uppercase mb-2 text-black">Gerar PDF Regional</h4>
-            <p class="text-xs text-gray-400 mb-8 uppercase font-bold tracking-widest text-black">A4 - Gráficos com Valores Fixos</p>
-            
-            <div id="printOptsContainer" class="space-y-4 mb-6 text-left text-black text-black text-black"></div>
+            <div id="printOptsContainer" class="space-y-4 mb-8 text-left text-black text-black text-black"></div>
             
             <div class="mb-8 p-5 bg-gray-50 rounded-[24px] text-left text-black">
-                <p class="text-[10px] font-black uppercase text-gray-400 mb-4 tracking-widest text-black">Orientação do Documento</p>
-                <div class="flex gap-4 text-black text-black text-black">
-                    <label class="flex-1 flex items-center gap-3 p-3 bg-white rounded-xl border border-gray-100 cursor-pointer text-black">
+                <p class="text-[10px] font-black uppercase text-gray-400 mb-4 tracking-widest text-black text-black">Orientação</p>
+                <div class="flex gap-4 text-black text-black text-black text-black">
+                    <label class="flex-1 flex items-center gap-3 p-3 bg-white rounded-xl border border-gray-100 cursor-pointer text-black text-black">
                         <input type="radio" name="printOrient" value="landscape" checked class="accent-black text-black">
-                        <span class="text-[10px] font-black uppercase text-black">Paisagem</span>
+                        <span class="text-[10px] font-black uppercase text-black text-black text-black text-black">Paisagem</span>
                     </label>
-                    <label class="flex-1 flex items-center gap-3 p-3 bg-white rounded-xl border border-gray-100 cursor-pointer text-black">
-                        <input type="radio" name="printOrient" value="portrait" class="accent-black text-black text-black">
-                        <span class="text-[10px] font-black uppercase text-black">Retrato</span>
+                    <label class="flex-1 flex items-center gap-3 p-3 bg-white rounded-xl border border-gray-100 cursor-pointer text-black text-black">
+                        <input type="radio" name="printOrient" value="portrait" class="accent-black text-black">
+                        <span class="text-[10px] font-black uppercase text-black text-black">Retrato</span>
                     </label>
                 </div>
             </div>
-
             <div class="flex gap-4 text-black text-black">
                 <button onclick="closeModal('printSelectionModal')" class="flex-1 py-4 text-[10px] font-black text-gray-300 uppercase text-black">Cancelar</button>
-                <button onclick="executePrint()" class="flex-2 px-10 py-4 bg-black text-white rounded-3xl text-[10px] font-black uppercase text-white">Gerar PDF</button>
+                <button onclick="executePrint()" class="flex-2 px-10 py-4 bg-black text-white rounded-3xl text-[10px] font-black uppercase">Gerar PDF</button>
             </div>
         </div>
     </div>
@@ -318,7 +319,7 @@
     <div id="printContainer" class="hidden"></div>
 
     <script>
-        // Registrar Plugin Labels
+        // Registrar Labels Estáticas
         Chart.register(ChartDataLabels);
 
         const COLOR_PALETTES = {
@@ -363,7 +364,8 @@
                 "Casa Verde 2": [[2014.90, 1740.18], [1879.50, 1704.39], [2021.60, 1573.86], [1362.50, 1563.18], [1309.45, 1529.26], [1518.85, 1511.17], [1632.80, 1547.27], [1295.00, 1400.00], [1307.00, 1464.69], [1630.50, 1712.29], [1862.55, 1760.00], [2150.30, 1498.26]],
                 "Vila Acre": [[5767.55, 2211.50], [6011.80, 1893.00], [6039.10, 2905.91], [5767.80, 1526.02], [6585.65, 2272.20], [7024.70, 2084.90], [6814.95, 2501.26], [6239.75, 2362.51], [5139.25, 2624.59], [7611.15, 1755.90], [5836.50, 1451.90], [6035.30, 1717.89]],
                 "Jardim das Graças": [[5783.87, 4329.05], [4606.40, 4074.50], [4851.68, 3829.39], [4525.75, 3856.43], [5445.75, 3849.23], [5884.10, 4143.44], [4744.05, 4020.45], [3559.94, 4153.05], [4226.80, 4993.78], [3704.80, 4396.45], [4026.60, 3733.60], [4009.40, 3593.83]],
-                "Trivelato": [[1849.00, 1429.03], [2138.00, 1382.98], [2072.00, 1532.95], [2048.00, 1424.00], [1742.00, 1470.00], [1578.00, 1497.00], [1519.00, 1570.00], [520.65, 1370.00], [1372.00, 1370.00], [906.15, 1370.00], [970.00, 1370.00], [0,0]]
+                "Trivelato": [[1849.00, 1429.03], [2138.00, 1382.98], [2072.00, 1532.95], [2048.00, 1424.00], [1742.00, 1470.00], [1578.00, 1497.00], [1519.00, 1570.00], [520.65, 1370.00], [1372.00, 1370.00], [906.15, 1370.00], [970.00, 1370.00], [0,0]],
+                "Vila Penteado": [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[208.10, 900.00], [626.75, 982.08]]
             },
             "2025": {
                 "Vila Santa Maria": [[36406.88, 21628.86], [32428.73, 17876.48], [42919.42, 12521.66], [40342.41, 14724.52], [47245.26, 20671.54], [51866.91, 20659.45], [45793.88, 15676.66], [39910.34, 18602.73], [38304.46, 12348.84], [44820.19, 18019.31], [36955.95, 17239.50], [46396.40, 27732.63]],
@@ -381,13 +383,15 @@
         };
 
         // --- FIREBASE INIT ---
-        let db, auth, currentAppId;
+        let db, auth, appId;
         let currentData = [];
         let mainChart, pieChart, rankingChart;
         let isTableVisible = false;
 
         window.onload = async () => {
-            // Configuração Fixa Regional
+            // Regra 1: Padronização do appId
+            appId = 'regional-santa-maria-landscape-v20';
+            
             const firebaseConfig = {
                 apiKey: "AIzaSyCnorDiiAufnAchlggOhXuIFPcBK5WC_Q4",
                 authDomain: "dashboardfinanceiroregional.firebaseapp.com",
@@ -397,7 +401,6 @@
                 appId: "1:99827707619:web:800bb5462c56ee13519fd6",
                 measurementId: "G-2RNPQDS1Z1"
             };
-            currentAppId = 'regional-santa-maria-landscape-v17';
             
             firebase.initializeApp(firebaseConfig);
             db = firebase.firestore();
@@ -408,18 +411,19 @@
             generateSelectors();
 
             try {
+                // Autenticação é mandatória para gravação
                 await auth.signInAnonymously();
                 auth.onAuthStateChanged((user) => {
                     if (user) {
                         updateSyncStatus('connected', 'Sincronizado');
                         setupFirestoreListener();
                     } else {
-                        updateSyncStatus('error', 'Sem Sessão');
+                        updateSyncStatus('error', 'Erro de Sessão');
                     }
                 });
             } catch (e) {
                 console.error(e);
-                updateSyncStatus('error', 'Erro Firebase');
+                updateSyncStatus('error', 'Falha na Conexão');
             }
         };
 
@@ -458,22 +462,16 @@
         function generateSelectors() {
             const adminMonth = document.getElementById('adminMonth');
             if(adminMonth) adminMonth.innerHTML = MONTHS.map((m, i) => `<option value="${m}">${FULL_MONTHS[i]}</option>`).join('');
-            
             const printContainer = document.getElementById('printOptsContainer');
             if(printContainer) {
                 const printList = [{id:'printMain',t:'Fluxo Regional'},{id:'printPie',t:'Saúde Financeira'},{id:'printRanking',t:'Ranking de Saldo'}];
-                printContainer.innerHTML = printList.map(p => `
-                    <label class="flex items-center gap-4 p-5 bg-gray-50 rounded-[24px] cursor-pointer hover:bg-gray-100 transition-all text-black">
-                        <input type="checkbox" id="${p.id}" checked class="w-5 h-5 accent-black">
-                        <span class="text-[10px] font-black uppercase text-gray-600">${p.t}</span>
-                    </label>
-                `).join('');
+                printContainer.innerHTML = printList.map(p => `<label class="flex items-center gap-4 p-5 bg-gray-50 rounded-[24px] cursor-pointer hover:bg-gray-100 transition-all text-black"><input type="checkbox" id="${p.id}" checked class="w-5 h-5 accent-black text-black"><span class="text-[10px] font-black uppercase text-gray-600 text-black">${p.t}</span></label>`).join('');
             }
         }
 
         async function setupFirestoreListener() {
             if (!auth.currentUser) return;
-            const col = db.collection('artifacts').doc(currentAppId).collection('public').doc('data').collection('records');
+            const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
             col.onSnapshot((snap) => {
                 if (snap.empty) { seedInitialData(col); return; }
                 currentData = snap.docs.map(d => d.data());
@@ -502,44 +500,60 @@
             return batch.commit();
         }
 
-        async function forceSyncCodeData() {
+        async function forceSyncYear(year) {
             if (!auth.currentUser) return;
-            const btn = document.getElementById('btnSyncCode');
-            if(!confirm("Carregar dados de 2023, 2024 e 2025 agora?")) return;
-            
+            if(!confirm(`Deseja sincronizar todos os dados de ${year}? Isso substituirá o que está no site.`)) return;
+            const btn = event.target;
             const originalText = btn.innerText;
-            btn.innerText = "Sincronizando...";
+            btn.innerText = "SINC...";
             btn.disabled = true;
-            
             try {
-                const col = db.collection('artifacts').doc(currentAppId).collection('public').doc('data').collection('records');
-                await seedInitialData(col);
-                showFeedback("Concluído", "Todos os dados foram sincronizados.");
+                const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
+                const batch = db.batch();
+                ALL_CHURCHES.forEach(church => {
+                    for (let m = 0; m < 12; m++) {
+                        let inc = 0, exp = 0;
+                        if(REAL_DATA[year] && REAL_DATA[year][church] && REAL_DATA[year][church][m]) {
+                            inc = REAL_DATA[year][church][m][0]; exp = REAL_DATA[year][church][m][1];
+                        }
+                        batch.set(col.doc(`${church}_${year}_${m}`), { 
+                            church, year: parseInt(year), month: MONTHS[m], income: inc, expense: exp, status: inc > 0 ? "Real" : "Vazio" 
+                        }, { merge: true });
+                    }
+                });
+                await batch.commit();
+                showFeedback("Sucesso", `Ano de ${year} sincronizado com o Firebase.`);
             } catch (e) {
-                showFeedback("Erro", "Erro ao gravar no Firebase.");
+                showFeedback("Erro", "Falha ao gravar dados.");
             } finally {
                 btn.innerText = originalText;
                 btn.disabled = false;
             }
         }
 
+        async function resetRegionalData() {
+            if(!confirm("Zerar? Todos os dados de todos os anos no site serão apagados.")) return;
+            const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
+            const snap = await col.get();
+            const batch = db.batch();
+            snap.docs.forEach(d => batch.update(d.ref, { income: 0, expense: 0, status: "Vazio" }));
+            await batch.commit();
+            showFeedback("Base Zerada", "Lançamentos limpos no Firebase.");
+        }
+
         function updateDashboard() {
             const year = parseInt(document.getElementById('yearFilter').value);
             const sector = document.getElementById('sectorFilter').value;
             const church = document.getElementById('churchFilter').value;
-            
             let filtered = currentData.filter(d => d.year === year);
             if (sector !== "Todos") filtered = filtered.filter(d => SECTORS[sector].includes(d.church));
             if (church !== "Todas") filtered = filtered.filter(d => d.church === church);
-            
             const totalInc = filtered.reduce((a, b) => a + b.income, 0);
             const totalExp = filtered.reduce((a, b) => a + b.expense, 0);
-            
-            document.getElementById('kpi-income').innerText = `R$ ${totalInc.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
-            document.getElementById('kpi-expense').innerText = `R$ ${totalExp.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
-            document.getElementById('kpi-balance').innerText = `R$ ${(totalInc - totalExp).toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
+            document.getElementById('kpi-income').innerText = `R$ ${totalInc.toLocaleString('pt-BR', {minFractionDigits:2})}`;
+            document.getElementById('kpi-expense').innerText = `R$ ${totalExp.toLocaleString('pt-BR', {minFractionDigits:2})}`;
+            document.getElementById('kpi-balance').innerText = `R$ ${(totalInc - totalExp).toLocaleString('pt-BR', {minFractionDigits:2})}`;
             document.getElementById('kpi-active').innerText = `${[...new Set(filtered.filter(d => d.income > 0 || d.expense > 0).map(d => d.church))].length} Unid. Ativas`;
-
             renderCharts(filtered);
             renderTable(filtered);
         }
@@ -549,72 +563,24 @@
         function renderCharts(data) {
             const incs = MONTHS.map(m => data.filter(d => d.month === m).reduce((a,b) => a+b.income, 0));
             const exps = MONTHS.map(m => data.filter(d => d.month === m).reduce((a,b) => a+b.expense, 0));
-
             const pMain = COLOR_PALETTES[document.getElementById('colorMain').value];
             const pDefault = COLOR_PALETTES['default'];
-
             const showM = document.getElementById('showLabelsMain').checked;
             const showP = document.getElementById('showLabelsPie').checked;
             const showR = document.getElementById('showLabelsRanking').checked;
-
-            const labelConfig = (visible) => ({
-                display: visible, color: '#000', font: { weight: 'bold', size: 9 },
-                formatter: (v) => v > 0 ? currencyFormatter(v) : '', anchor: 'end', align: 'top', offset: 4
-            });
+            const labelConfig = (visible) => ({ display: visible, color: '#000', font: { weight: 'bold', size: 9 }, formatter: (v) => v > 0 ? currencyFormatter(v) : '', anchor: 'end', align: 'top', offset: 4 });
 
             if (mainChart) mainChart.destroy();
-            mainChart = new Chart(document.getElementById('mainChart'), {
-                type: 'bar', 
-                data: {
-                    labels: MONTHS,
-                    datasets: [
-                        { label: 'Entradas', data: incs, backgroundColor: pMain.pos, borderRadius: 6, datalabels: labelConfig(showM) },
-                        { label: 'Saídas', data: exps, backgroundColor: pMain.neg, borderRadius: 6, datalabels: labelConfig(showM) }
-                    ]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' }, datalabels: labelConfig(showM) } }
-            });
-
+            mainChart = new Chart(document.getElementById('mainChart'), { type: 'bar', data: { labels: MONTHS, datasets: [{ label: 'Entradas', data: incs, backgroundColor: pMain.pos, borderRadius: 6, datalabels: labelConfig(showM) }, { label: 'Saídas', data: exps, backgroundColor: pMain.neg, borderRadius: 6, datalabels: labelConfig(showM) }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' }, datalabels: labelConfig(showM) } } });
             if (pieChart) pieChart.destroy();
-            pieChart = new Chart(document.getElementById('pieChart'), {
-                type: 'doughnut',
-                data: {
-                    labels: ['Entradas', 'Saídas'],
-                    datasets: [{ data: [total(incs) || 1, total(exps) || 0], backgroundColor: [pDefault.pos, pDefault.neg], borderWidth: 0 }]
-                },
-                options: { 
-                    responsive: true, maintainAspectRatio: false, 
-                    plugins: { 
-                        legend: { position: 'bottom' }, 
-                        datalabels: { 
-                            display: showP, color: '#fff', font: { weight: 'bold' }, 
-                            formatter: (v, ctx) => { let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0); return (v * 100 / sum).toFixed(1) + "%"; } 
-                        } 
-                    } 
-                }
-            });
-
-            const balances = ALL_CHURCHES.map(name => {
-                const d = data.filter(i => i.church === name);
-                return { n: name, b: d.reduce((a,c)=>a+c.income, 0) - d.reduce((a,c)=>a+c.expense, 0) };
-            }).sort((a,b) => b.b - a.b);
-
+            pieChart = new Chart(document.getElementById('pieChart'), { type: 'doughnut', data: { labels: ['Entradas', 'Saídas'], datasets: [{ data: [total(incs) || 1, total(exps) || 0], backgroundColor: [pDefault.pos, pDefault.neg], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, datalabels: { display: showP, color: '#fff', font: { weight: 'bold' }, formatter: (v, ctx) => { let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0); return (v * 100 / sum).toFixed(1) + "%"; } } } } });
+            const balances = ALL_CHURCHES.map(name => { const d = data.filter(i => i.church === name); return { n: name, b: d.reduce((a,c)=>a+c.income, 0) - d.reduce((a,c)=>a+c.expense, 0) }; }).sort((a,b) => b.b - a.b);
             if (rankingChart) rankingChart.destroy();
-            rankingChart = new Chart(document.getElementById('rankingChart'), {
-                type: 'bar',
-                data: {
-                    labels: balances.map(x => x.n),
-                    datasets: [{ data: balances.map(x => x.b), backgroundColor: balances.map(x => x.b >= 0 ? pDefault.pos : pDefault.neg), borderRadius: 8 }]
-                },
-                options: { 
-                    indexAxis: 'y', responsive: true, maintainAspectRatio: false, 
-                    plugins: { legend: { display: false }, datalabels: { ...labelConfig(showR), align: 'right', anchor: 'end', formatter: (v) => currencyFormatter(v) } } 
-                }
-            });
+            rankingChart = new Chart(document.getElementById('rankingChart'), { type: 'bar', data: { labels: balances.map(x => x.n), datasets: [{ data: balances.map(x => x.b), backgroundColor: balances.map(x => x.b >= 0 ? pDefault.pos : pDefault.neg), borderRadius: 8 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { ...labelConfig(showR), align: 'right', anchor: 'end', formatter: (v) => currencyFormatter(v) } } } });
         }
 
         function requestAdminAccess() { document.getElementById('adminPasswordInput').value = ''; showModal('passwordModal'); }
-        function checkAdminPassword() { if (document.getElementById('adminPasswordInput').value === "1234") { closeModal('passwordModal'); openAdminModal(); } else { showFeedback("Erro", "Senha incorreta."); } }
+        function checkAdminPassword() { if (document.getElementById('adminPasswordInput').value === "1234") { closeModal('passwordModal'); openAdminModal(); } else { showFeedback("Erro", "Senha regional incorreta."); } }
         function exitAdmin() { closeModal('adminModal'); showFeedback("Fim", "Sessão administrativa encerrada."); }
         function openAdminModal() { 
             document.getElementById('adminChurch').innerHTML = ALL_CHURCHES.sort().map(c => `<option value="${c}">${c}</option>`).join('');
@@ -629,43 +595,18 @@
         }
 
         async function saveAdminData() {
-            const ch = document.getElementById('adminChurch').value;
-            const yr = parseInt(document.getElementById('adminYear').value);
-            const mt = document.getElementById('adminMonth').value;
-            const inc = parseFloat(document.getElementById('adminIncome').value) || 0;
-            const exp = parseFloat(document.getElementById('adminExpense').value) || 0;
+            const ch = document.getElementById('adminChurch').value; const yr = parseInt(document.getElementById('adminYear').value); const mt = document.getElementById('adminMonth').value; const inc = parseFloat(document.getElementById('adminIncome').value) || 0; const exp = parseFloat(document.getElementById('adminExpense').value) || 0;
             const mIdx = MONTHS.indexOf(mt);
-            await db.collection('artifacts').doc(currentAppId).collection('public').doc('data').collection('records')
-                .doc(`${ch}_${yr}_${mIdx}`).set({ church: ch, year: yr, month: mt, income: inc, expense: exp, status: "Real" }, { merge: true });
-            closeModal('adminModal');
-            showFeedback("Salvo", "Registro individual atualizado.");
+            await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records').doc(`${ch}_${yr}_${mIdx}`).set({ church: ch, year: yr, month: mt, income: inc, expense: exp, status: "Real" }, { merge: true });
+            closeModal('adminModal'); showFeedback("Salvo", "Registro individual atualizado.");
         }
 
-        async function resetRegionalData() {
-            if(!confirm("Zerar todos os dados?")) return;
-            const col = db.collection('artifacts').doc(currentAppId).collection('public').doc('data').collection('records');
-            const snap = await col.get();
-            const batch = db.batch();
-            snap.docs.forEach(d => batch.update(d.ref, { income: 0, expense: 0, status: "Vazio" }));
-            await batch.commit();
-            showFeedback("Base Zerada", "Lançamentos limpos.");
-        }
-
-        function toggleTableVisibility() {
-            isTableVisible = !isTableVisible;
-            document.getElementById('tableSection').classList.toggle('hidden', !isTableVisible);
-            document.getElementById('toggleText').innerText = isTableVisible ? "Ocultar Detalhes" : "Ver Listagem Completa";
-        }
+        function toggleTableVisibility() { isTableVisible = !isTableVisible; document.getElementById('tableSection').classList.toggle('hidden', !isTableVisible); document.getElementById('toggleText').innerText = isTableVisible ? "Ocultar Detalhes" : "Ver Listagem Completa"; }
 
         function renderTable(dataInput) {
             const body = document.getElementById('dataTableBody'); body.innerHTML = "";
             const rows = (dataInput || currentData).sort((a,b) => b.income - a.income);
-            rows.forEach(r => {
-                if(r.income === 0 && r.expense === 0) return;
-                const tr = document.createElement('tr');
-                tr.innerHTML = `<td class="px-8 py-5 font-bold text-black text-black">${r.church}</td><td class="px-6 py-5 text-center text-gray-400 font-bold text-black">${r.month}/${r.year}</td><td class="px-6 py-5 text-right text-blue-600 font-black">R$ ${r.income.toLocaleString('pt-BR')}</td><td class="px-6 py-5 text-right text-rose-600 font-black text-black">R$ ${r.expense.toLocaleString('pt-BR')}</td><td class="px-8 py-5 text-right font-black text-black">R$ ${(r.income - r.expense).toLocaleString('pt-BR')}</td>`;
-                body.appendChild(tr);
-            });
+            rows.forEach(r => { if(r.income === 0 && r.expense === 0) return; const tr = document.createElement('tr'); tr.innerHTML = `<td class="px-8 py-5 font-bold text-black text-black">${r.church}</td><td class="px-6 py-5 text-center text-gray-400 font-bold text-black">${r.month}/${r.year}</td><td class="px-6 py-5 text-right text-blue-600 font-black">R$ ${r.income.toLocaleString('pt-BR')}</td><td class="px-6 py-5 text-right text-rose-600 font-black text-black">R$ ${r.expense.toLocaleString('pt-BR')}</td><td class="px-8 py-5 text-right font-black text-black">R$ ${(r.income - r.expense).toLocaleString('pt-BR')}</td>`; body.appendChild(tr); });
         }
 
         function showPrintSelection() { showModal('printSelectionModal'); }
@@ -674,44 +615,22 @@
             const orientation = document.querySelector('input[name="printOrient"]:checked').value;
             document.body.classList.remove('print-landscape', 'print-portrait');
             document.body.classList.add(orientation === 'landscape' ? 'print-landscape' : 'print-portrait');
-
             const opts = [{id:'printMain',t:'Fluxo Mensal',c:'mainChart'},{id:'printPie',t:'Saúde Financeira',c:'pieChart'},{id:'printRanking',t:'Ranking Regional',c:'rankingChart'}];
-            opts.forEach(o => {
-                if (document.getElementById(o.id).checked) {
-                    const p = document.createElement('div'); p.className = 'print-page';
-                    p.innerHTML = `<div style="text-align:center; border-bottom:3px solid #000; padding-bottom:10px; width:100%; margin-bottom:40px;"><h1 style="font-size:24px; font-weight:900; color:black;">AD.PERUS - REGIONAL SANTA MARIA</h1><p style="font-size:14px; font-weight:700; color:black;">${o.t.toUpperCase()} | ANO: ${document.getElementById('yearFilter').value}</p></div><img src="${document.getElementById(o.c).toDataURL()}" style="width:100%; max-height:80%; object-fit:contain;"><div style="margin-top:40px; font-size:10px; color:#999; text-align:right; width:100%;">Gerado em: ${new Date().toLocaleString()}</div>`;
-                    cont.appendChild(p);
-                }
-            });
+            opts.forEach(o => { if (document.getElementById(o.id).checked) { const p = document.createElement('div'); p.className = 'print-page'; p.innerHTML = `<div style="text-align:center; border-bottom:3px solid #000; padding-bottom:10px; width:100%; margin-bottom:40px;"><h1 style="font-size:24px; font-weight:900; color:black;">AD.PERUS - REGIONAL SANTA MARIA</h1><p style="font-size:14px; font-weight:700; color:black;">${o.t.toUpperCase()} | ANO: ${document.getElementById('yearFilter').value}</p></div><img src="${document.getElementById(o.c).toDataURL()}" style="width:100%; max-height:80%; object-fit:contain;"><div style="margin-top:40px; font-size:10px; color:#999; text-align:right; width:100%;">Gerado em: ${new Date().toLocaleString()}</div>`; cont.appendChild(p); } });
             if (!cont.innerHTML) return;
             closeModal('printSelectionModal'); setTimeout(() => window.print(), 500);
+        }
+
+        async function processBulkPaste() {
+            const text = document.getElementById('bulkDataInput').value; const year = parseInt(document.getElementById('bulkYear').value); const lines = text.split('\n'); const batch = db.batch(); const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records'); let count = 0;
+            lines.forEach(line => { if (!line.trim()) return; const regex = /^(.*?)\s+(Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez)\s+R\$\s*([\d.,]+)\s+R\$\s*([\d.,]+)/i; const match = line.match(regex); if (match) { const church = ALL_CHURCHES.find(c => c.toLowerCase().includes(match[1].trim().toLowerCase())) || match[1].trim(); const mIdx = MONTHS.indexOf(match[2].charAt(0).toUpperCase() + match[2].slice(1).toLowerCase()); const incVal = parseFloat(match[3].replace(/\./g, '').replace(',', '.')); const expVal = parseFloat(match[4].replace(/\./g, '').replace(',', '.')); if (mIdx !== -1 && ALL_CHURCHES.includes(church)) { batch.set(col.doc(`${church}_${year}_${mIdx}`), { church, year, month: MONTHS[mIdx], income: incVal, expense: expVal, status: "Real" }, { merge: true }); count++; } } });
+            if (count > 0) { await batch.commit(); closeModal('adminModal'); showFeedback("Sucesso", `${count} registros.`); } else { showFeedback("Aviso", "Formato inválido."); }
         }
 
         function showFeedback(title, text) { document.getElementById('feedbackTitle').innerText = title; document.getElementById('feedbackText').innerText = text; showModal('feedbackModal'); }
         function showModal(id) { document.getElementById(id).classList.remove('hidden'); document.getElementById(id).classList.add('flex'); }
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
         const total = arr => arr.reduce((a, b) => a + b, 0);
-
-        async function processBulkPaste() {
-            const text = document.getElementById('bulkDataInput').value;
-            const year = parseInt(document.getElementById('bulkYear').value);
-            const lines = text.split('\n'); const batch = db.batch();
-            const col = db.collection('artifacts').doc(currentAppId).collection('public').doc('data').collection('records');
-            let count = 0;
-            lines.forEach(line => {
-                if (!line.trim()) return;
-                const regex = /^(.*?)\s+(Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez)\s+R\$\s*([\d.,]+)\s+R\$\s*([\d.,]+)/i;
-                const match = line.match(regex);
-                if (match) {
-                    const church = ALL_CHURCHES.find(c => c.toLowerCase().includes(match[1].trim().toLowerCase())) || match[1].trim();
-                    const mIdx = MONTHS.indexOf(match[2].charAt(0).toUpperCase() + match[2].slice(1).toLowerCase());
-                    const incVal = parseFloat(match[3].replace(/\./g, '').replace(',', '.'));
-                    const expVal = parseFloat(match[4].replace(/\./g, '').replace(',', '.'));
-                    if (mIdx !== -1 && ALL_CHURCHES.includes(church)) { batch.set(col.doc(`${church}_${year}_${mIdx}`), { church, year, month: MONTHS[mIdx], income: incVal, expense: expVal, status: "Real" }, { merge: true }); count++; }
-                }
-            });
-            if (count > 0) { await batch.commit(); closeModal('adminModal'); showFeedback("Sucesso", `${count} registros.`); } else { showFeedback("Erro", "Formato inválido."); }
-        }
     </script>
 </body>
 </html>
