@@ -18,44 +18,55 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        body { font-family: 'Inter', sans-serif; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #ffffff; /* Fundo Branco solicitado */
+            color: #000000; /* Letras Pretas solicitadas */
+        }
 
         @media print {
             @page { size: landscape; margin: 10mm; }
             .print-hidden { display: none !important; }
             .print-full { width: 100% !important; margin: 0 !important; padding: 0 !important; }
             .bg-slate-50 { background-color: white !important; }
-            .shadow-sm { box-shadow: none !important; border: 1px solid #e2e8f0 !important; }
+            .shadow-sm { box-shadow: none !important; border: 1px solid #000 !important; }
         }
 
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e2e8f0; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #000000; border-radius: 10px; }
         
-        .dark { background-color: #0f172a; color: #f8fafc; }
-        .dark nav { background-color: #1e293b; border-color: #334155; }
-        .dark .bg-white { background-color: #1e293b; color: white; }
+        /* Ajustes para garantir o tema branco e preto */
+        .card-clean {
+            background-color: #ffffff;
+            border: 1px solid #e5e7eb;
+            color: #000000;
+        }
+
+        /* Botão Sair no Modal */
+        .btn-exit {
+            background-color: #ef4444;
+            color: white;
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 transition-colors duration-300">
+<body class="transition-colors duration-300">
 
     <!-- NAVBAR -->
-    <nav class="fixed top-0 left-0 right-0 h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 z-50 px-6 flex items-center justify-between shadow-sm print-hidden">
+    <nav class="fixed top-0 left-0 right-0 h-16 bg-white border-b border-black/10 z-50 px-6 flex items-center justify-between shadow-sm print-hidden">
         <div class="flex items-center gap-3">
-            <div class="bg-emerald-500 p-2 rounded-lg text-white">
+            <div class="bg-black p-2 rounded-lg text-white">
                 <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
             </div>
             <div>
-                <h1 class="text-lg font-bold uppercase leading-none tracking-tight text-slate-800 dark:text-white">AD.PERUS</h1>
-                <p class="text-[10px] font-medium text-emerald-500 tracking-widest uppercase">Regional 2 - Santa Maria</p>
+                <h1 class="text-lg font-bold uppercase leading-none tracking-tight text-black">AD.PERUS</h1>
+                <p class="text-[10px] font-medium text-black/60 tracking-widest uppercase">Regional 2 - Santa Maria</p>
             </div>
         </div>
         <div class="flex items-center gap-4">
-            <div id="sync-status" class="flex items-center gap-2 px-3 py-1 bg-slate-100 rounded-full text-[10px] font-bold uppercase tracking-tighter text-slate-500 dark:bg-slate-800">
-                <span class="w-2 h-2 bg-slate-300 rounded-full"></span> Conectando...
+            <div id="sync-status" class="flex items-center gap-2 px-3 py-1 bg-black/5 rounded-full text-[10px] font-bold uppercase tracking-tighter text-black">
+                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Sincronizado
             </div>
-            <button onclick="document.documentElement.classList.toggle('dark')" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-600 dark:text-slate-400">
-                <i data-lucide="moon" class="w-5 h-5"></i>
-            </button>
         </div>
     </nav>
 
@@ -65,26 +76,26 @@
         <!-- CABEÇALHO -->
         <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-6 mb-10">
             <div class="print-full print:text-center">
-                <h2 class="text-3xl font-bold tracking-tight text-slate-800 dark:text-white">Gestão Regional por Setores</h2>
-                <p class="text-slate-500 font-medium mt-1">Dados reais de 2023 a 2025 | Regional Santa Maria.</p>
+                <h2 class="text-3xl font-black tracking-tight text-black uppercase">Dashboard Regional</h2>
+                <p class="text-black/50 font-medium mt-1">Gestão de Dados Reais | Regional Santa Maria.</p>
             </div>
             
             <div class="flex flex-wrap items-center gap-3 print-hidden">
-                <button onclick="openAdminModal()" class="flex items-center gap-2 bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase shadow-sm hover:bg-indigo-700 transition-colors">
-                    <i data-lucide="user-cog" class="w-4 h-4"></i> Painel Adm
+                <button onclick="requestAdminAccess()" class="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase shadow-sm hover:bg-gray-800 transition-colors">
+                    <i data-lucide="lock" class="w-4 h-4"></i> Acesso Restrito
                 </button>
-                <button onclick="window.print()" class="flex items-center gap-2 bg-slate-800 text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase shadow-sm active:scale-95 transition-transform">
-                    <i data-lucide="printer" class="w-4 h-4"></i> PDF Paisagem
+                <button onclick="window.print()" class="flex items-center gap-2 border border-black text-black px-5 py-2.5 rounded-xl text-xs font-bold uppercase hover:bg-gray-50 active:scale-95 transition-transform">
+                    <i data-lucide="printer" class="w-4 h-4"></i> PDF
                 </button>
 
-                <div class="flex flex-wrap items-center bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-1 shadow-sm">
-                    <select id="yearFilter" class="bg-transparent pl-3 pr-8 py-2 text-[10px] font-bold uppercase outline-none border-r dark:border-slate-700" onchange="updateDashboard()">
-                        <option value="2025">Ano: 2025</option>
-                        <option value="2024">Ano: 2024</option>
-                        <option value="2023">Ano: 2023</option>
+                <div class="flex flex-wrap items-center bg-white border border-black/20 rounded-xl p-1 shadow-sm">
+                    <select id="yearFilter" class="bg-transparent pl-3 pr-8 py-2 text-[10px] font-bold uppercase outline-none border-r border-black/10" onchange="updateDashboard()">
+                        <option value="2025">2025</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
                     </select>
                     
-                    <select id="sectorFilter" class="bg-transparent pl-3 pr-8 py-2 text-[10px] font-bold uppercase outline-none border-r dark:border-slate-700" onchange="onSectorChange()">
+                    <select id="sectorFilter" class="bg-transparent pl-3 pr-8 py-2 text-[10px] font-bold uppercase outline-none border-r border-black/10" onchange="onSectorChange()">
                         <option value="Todos">Todos Setores</option>
                         <option value="JARDIM ALMANARA">Setor Jardim Almanara</option>
                         <option value="VILA ACRE">Setor Vila Acre</option>
@@ -99,56 +110,56 @@
             </div>
         </div>
 
-        <!-- KPIs INDICADORES -->
+        <!-- INDICADORES -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 print:grid-cols-4">
-            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
-                <p class="text-[10px] font-bold uppercase text-slate-400 mb-2">Entradas No Período</p>
-                <p id="kpi-income" class="text-2xl font-bold text-emerald-500">R$ 0,00</p>
+            <div class="card-clean p-6 rounded-2xl shadow-sm">
+                <p class="text-[10px] font-bold uppercase text-black/40 mb-2">Entradas</p>
+                <p id="kpi-income" class="text-2xl font-black text-emerald-600">R$ 0,00</p>
             </div>
-            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
-                <p class="text-[10px] font-bold uppercase text-slate-400 mb-2">Saídas No Período</p>
-                <p id="kpi-expense" class="text-2xl font-bold text-rose-500">R$ 0,00</p>
+            <div class="card-clean p-6 rounded-2xl shadow-sm">
+                <p class="text-[10px] font-bold uppercase text-black/40 mb-2">Saídas</p>
+                <p id="kpi-expense" class="text-2xl font-black text-rose-600">R$ 0,00</p>
             </div>
-            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
-                <p class="text-[10px] font-bold uppercase text-slate-400 mb-2">Saldo Consolidado</p>
-                <p id="kpi-balance" class="text-2xl font-bold text-blue-500">R$ 0,00</p>
+            <div class="card-clean p-6 rounded-2xl shadow-sm">
+                <p class="text-[10px] font-bold uppercase text-black/40 mb-2">Saldo</p>
+                <p id="kpi-balance" class="text-2xl font-black text-blue-600">R$ 0,00</p>
             </div>
-            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
-                <p class="text-[10px] font-bold uppercase text-slate-400 mb-2">Unidades Exibidas</p>
-                <p id="kpi-active" class="text-2xl font-bold text-indigo-500">0 / 0</p>
+            <div class="card-clean p-6 rounded-2xl shadow-sm">
+                <p class="text-[10px] font-bold uppercase text-black/40 mb-2">Unidades</p>
+                <p id="kpi-active" class="text-2xl font-black text-orange-500">0 / 0</p>
             </div>
         </div>
 
         <!-- GRÁFICOS -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8 print-full">
-            <div class="lg:col-span-8 bg-white dark:bg-slate-800 p-8 rounded-[40px] shadow-sm border border-slate-100 dark:border-slate-700">
-                <h3 class="font-bold text-lg uppercase mb-6 flex items-center gap-3 text-slate-800 dark:text-white">
-                    <span class="w-1 h-5 bg-emerald-500 rounded-full"></span> Comparativo Mensal de Fluxo
+            <div class="lg:col-span-8 bg-white p-8 rounded-[32px] border border-black/10 shadow-sm">
+                <h3 class="font-bold text-lg uppercase mb-6 flex items-center gap-3 text-black">
+                    <span class="w-1 h-5 bg-black rounded-full"></span> Comparativo Mensal (Barras)
                 </h3>
                 <div class="h-[400px]"><canvas id="mainChart"></canvas></div>
             </div>
-            <div class="lg:col-span-4 bg-white dark:bg-slate-800 p-8 rounded-[40px] shadow-sm border border-slate-100 dark:border-slate-700">
-                <h3 class="font-bold text-lg uppercase mb-6 flex items-center gap-3 text-slate-800 dark:text-white">
-                    <span class="w-1 h-5 bg-indigo-500 rounded-full"></span> Composição Financeira
+            <div class="lg:col-span-4 bg-white p-8 rounded-[32px] border border-black/10 shadow-sm">
+                <h3 class="font-bold text-lg uppercase mb-6 flex items-center gap-3 text-black">
+                    <span class="w-1 h-5 bg-black rounded-full"></span> Participação
                 </h3>
                 <div class="h-[400px]"><canvas id="pieChart"></canvas></div>
             </div>
         </div>
 
         <!-- TABELA -->
-        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden print-full">
-            <div class="p-6 border-b border-slate-100 dark:border-slate-700 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <h3 class="font-bold text-xl tracking-tight text-slate-800 dark:text-white">Relatório Detalhado de Lançamentos</h3>
+        <div class="bg-white border border-black/10 rounded-3xl overflow-hidden print-full">
+            <div class="p-6 border-b border-black/10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <h3 class="font-bold text-xl tracking-tight text-black">Registros de Competência</h3>
                 <div class="relative w-full md:w-80 print-hidden">
-                    <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300"></i>
-                    <input type="text" id="tableSearch" placeholder="Pesquisar igreja..." class="w-full pl-12 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm font-medium outline-none border-none focus:ring-1 ring-emerald-500" onkeyup="renderTable()">
+                    <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+                    <input type="text" id="tableSearch" placeholder="Pesquisar..." class="w-full pl-12 pr-4 py-2.5 bg-gray-50 rounded-xl text-sm outline-none border border-gray-200 focus:border-black" onkeyup="renderTable()">
                 </div>
             </div>
             <div class="overflow-x-auto custom-scrollbar">
                 <table class="w-full text-left text-sm">
                     <thead>
-                        <tr class="bg-slate-50 dark:bg-slate-900 text-slate-400 font-bold text-[10px] uppercase border-b border-slate-100 dark:border-slate-800 tracking-widest">
-                            <th class="px-6 py-4 text-left">Igreja</th>
+                        <tr class="bg-gray-50 text-black/60 font-bold text-[10px] uppercase border-b border-black/5 tracking-widest">
+                            <th class="px-6 py-4">Igreja</th>
                             <th class="px-6 py-4">Ano</th>
                             <th class="px-6 py-4 text-center">Mês</th>
                             <th class="px-6 py-4 text-right">Entradas</th>
@@ -156,25 +167,42 @@
                             <th class="px-6 py-4 text-right">Saldo</th>
                         </tr>
                     </thead>
-                    <tbody id="dataTableBody" class="divide-y divide-slate-50 dark:divide-slate-700"></tbody>
+                    <tbody id="dataTableBody" class="divide-y divide-gray-100"></tbody>
                 </table>
             </div>
         </div>
     </main>
 
+    <!-- MODAL DE SENHA -->
+    <div id="passwordModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[110] hidden items-center justify-center p-4">
+        <div class="bg-white rounded-[32px] p-10 max-w-sm w-full text-center shadow-2xl">
+            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i data-lucide="shield-check" class="w-8 h-8 text-black"></i>
+            </div>
+            <h4 class="font-black text-xl text-black mb-2 uppercase">Acesso Restrito</h4>
+            <p class="text-sm text-gray-500 mb-6">Digite a senha para gerenciar os dados.</p>
+            <input type="password" id="adminPasswordInput" placeholder="••••" class="w-full text-center p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-black mb-4 text-2xl tracking-[1em]">
+            <button onclick="checkAdminPassword()" class="w-full py-4 bg-black text-white rounded-2xl text-xs font-bold uppercase hover:bg-gray-800 transition-all">Acessar Painel</button>
+            <button onclick="closeModal('passwordModal')" class="mt-4 text-xs font-bold text-gray-400 uppercase">Cancelar</button>
+        </div>
+    </div>
+
     <!-- MODAL ADMINISTRATIVO -->
     <div id="adminModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-800 w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
-            <div class="p-6 bg-slate-50 dark:bg-slate-900 border-b dark:border-slate-700 flex items-center justify-between">
+        <div class="bg-white w-full max-w-2xl rounded-[40px] shadow-2xl overflow-hidden">
+            <div class="p-6 bg-gray-50 border-b border-black/5 flex items-center justify-between">
                 <div class="flex items-center gap-3">
-                    <div class="bg-indigo-600 p-2 rounded-lg text-white">
-                        <i data-lucide="pencil-line" class="w-4 h-4"></i>
+                    <div class="bg-black p-2 rounded-lg text-white">
+                        <i data-lucide="edit-3" class="w-4 h-4"></i>
                     </div>
-                    <h3 class="font-bold uppercase text-slate-800 dark:text-white">Painel Administrativo</h3>
+                    <h3 class="font-black uppercase text-black">Painel Administrativo</h3>
                 </div>
                 <div class="flex gap-2">
-                    <button id="tabManualBtn" onclick="switchAdminTab('manual')" class="px-4 py-1.5 rounded-lg text-[10px] font-black uppercase bg-indigo-100 text-indigo-600 dark:bg-indigo-900/40">Manual</button>
-                    <button id="tabBulkBtn" onclick="switchAdminTab('bulk')" class="px-4 py-1.5 rounded-lg text-[10px] font-black uppercase bg-slate-100 text-slate-500 dark:bg-slate-800">Colagem Massa</button>
+                    <button id="tabManualBtn" onclick="switchAdminTab('manual')" class="px-4 py-2 rounded-xl text-[10px] font-black uppercase bg-black text-white">Manual</button>
+                    <button id="tabBulkBtn" onclick="switchAdminTab('bulk')" class="px-4 py-2 rounded-xl text-[10px] font-black uppercase bg-gray-100 text-gray-500">Massa</button>
+                    <button onclick="exitAdmin()" class="btn-exit px-4 py-2 rounded-xl text-[10px] font-black uppercase flex items-center gap-2">
+                        <i data-lucide="log-out" class="w-3 h-3"></i> Sair
+                    </button>
                 </div>
             </div>
             
@@ -182,21 +210,19 @@
             <div id="tabManual" class="p-8 space-y-5">
                 <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="text-[10px] font-bold uppercase text-slate-400">Ano</label>
-                        <select id="adminYear" class="w-full p-3 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:ring-1 ring-indigo-500">
+                        <label class="text-[10px] font-bold uppercase text-gray-400">Ano</label>
+                        <select id="adminYear" class="w-full p-3 bg-gray-50 rounded-xl text-sm border border-gray-100">
                             <option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
                         </select>
                     </div>
                     <div class="space-y-1">
-                        <label class="text-[10px] font-bold uppercase text-slate-400">Mês</label>
-                        <select id="adminMonth" class="w-full p-3 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:ring-1 ring-indigo-500">
-                            {MONTHS_GEN}
-                        </select>
+                        <label class="text-[10px] font-bold uppercase text-gray-400">Mês</label>
+                        <select id="adminMonth" class="w-full p-3 bg-gray-50 rounded-xl text-sm border border-gray-100"></select>
                     </div>
                 </div>
                 <div class="space-y-1">
-                    <label class="text-[10px] font-bold uppercase text-slate-400">Setor</label>
-                    <select id="adminSector" onchange="onAdminSectorChange()" class="w-full p-3 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:ring-1 ring-indigo-500">
+                    <label class="text-[10px] font-bold uppercase text-gray-400">Setor Regional</label>
+                    <select id="adminSector" onchange="onAdminSectorChange()" class="w-full p-3 bg-gray-50 rounded-xl text-sm border border-gray-100">
                         <option value="JARDIM ALMANARA">Setor Jardim Almanara</option>
                         <option value="VILA ACRE">Setor Vila Acre</option>
                         <option value="CASA VERDE ALTA">Setor Casa Verde Alta</option>
@@ -204,57 +230,46 @@
                     </select>
                 </div>
                 <div class="space-y-1">
-                    <label class="text-[10px] font-bold uppercase text-slate-400">Congregação</label>
-                    <select id="adminChurch" class="w-full p-3 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:ring-1 ring-indigo-500"></select>
+                    <label class="text-[10px] font-bold uppercase text-gray-400">Igreja</label>
+                    <select id="adminChurch" class="w-full p-3 bg-gray-50 rounded-xl text-sm border border-gray-100"></select>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div class="space-y-1">
-                        <label class="text-[10px] font-bold uppercase text-emerald-600">Entradas (R$)</label>
-                        <input type="number" id="adminIncome" placeholder="0,00" step="0.01" class="w-full p-3 bg-slate-50 dark:bg-slate-900 rounded-xl font-bold focus:ring-1 ring-emerald-500 outline-none">
+                        <label class="text-[10px] font-bold uppercase text-emerald-600">Entradas</label>
+                        <input type="number" id="adminIncome" placeholder="0,00" step="0.01" class="w-full p-3 bg-gray-50 rounded-xl font-bold border border-gray-100 focus:border-emerald-500">
                     </div>
                     <div class="space-y-1">
-                        <label class="text-[10px] font-bold uppercase text-rose-600">Saídas (R$)</label>
-                        <input type="number" id="adminExpense" placeholder="0,00" step="0.01" class="w-full p-3 bg-slate-50 dark:bg-slate-900 rounded-xl font-bold focus:ring-1 ring-rose-500 outline-none">
+                        <label class="text-[10px] font-bold uppercase text-rose-600">Saídas</label>
+                        <input type="number" id="adminExpense" placeholder="0,00" step="0.01" class="w-full p-3 bg-gray-50 rounded-xl font-bold border border-gray-100 focus:border-rose-500">
                     </div>
                 </div>
-                <button onclick="saveAdminData()" class="w-full py-4 bg-indigo-600 text-white rounded-xl text-xs font-bold uppercase shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2">
-                    <i data-lucide="save" class="w-4 h-4"></i> Salvar Registro Único
+                <button onclick="saveAdminData()" class="w-full py-4 bg-black text-white rounded-2xl text-xs font-black uppercase shadow-xl flex items-center justify-center gap-2 hover:bg-gray-800">
+                    <i data-lucide="check" class="w-4 h-4"></i> Salvar Lançamento
                 </button>
             </div>
 
-            <!-- ABA BULK PASTE -->
+            <!-- ABA BULK -->
             <div id="tabBulk" class="p-8 space-y-4 hidden">
-                <div class="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-xl border border-indigo-100 dark:border-indigo-800">
-                    <p class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-2">Instruções de Formato</p>
-                    <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed italic">
-                        Copie e cole os dados exatamente como no Excel: <br>
-                        <b>Igreja [Espaço] Mês [Espaço] Entradas [Espaço] Saídas</b><br>
-                        Ex: Casa Verde Alta Jan R$ 10.273,43 R$ 3.806,81
-                    </p>
-                </div>
-                <div class="space-y-1">
-                    <label class="text-[10px] font-bold uppercase text-slate-400">Ano Alvo do Lote</label>
-                    <select id="bulkYear" class="w-full p-3 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:ring-1 ring-indigo-500">
-                        <option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
+                <textarea id="bulkDataInput" rows="10" placeholder="Cole os dados aqui (Formato Excel)..." class="w-full p-5 bg-gray-50 rounded-[32px] text-xs font-mono border-none outline-none focus:ring-1 ring-black custom-scrollbar"></textarea>
+                <div class="grid grid-cols-2 gap-4">
+                    <select id="bulkYear" class="w-full p-3 bg-gray-50 rounded-xl text-sm border border-gray-100">
+                        <option value="2025">Processar em 2025</option>
+                        <option value="2024">Processar em 2024</option>
+                        <option value="2023">Processar em 2023</option>
                     </select>
+                    <button onclick="processBulkPaste()" class="py-3 bg-emerald-600 text-white rounded-xl text-xs font-black uppercase shadow-lg shadow-emerald-500/20">Processar Massa</button>
                 </div>
-                <textarea id="bulkDataInput" rows="8" placeholder="Cole aqui seu texto..." class="w-full p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl text-xs font-mono border-none focus:ring-1 ring-indigo-500 outline-none custom-scrollbar"></textarea>
-                <button onclick="processBulkPaste()" class="w-full py-4 bg-emerald-600 text-white rounded-xl text-xs font-bold uppercase shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2">
-                    <i data-lucide="zap" class="w-4 h-4"></i> Processar e Salvar Tudo
-                </button>
             </div>
         </div>
     </div>
 
-    <!-- FEEDBACK MESSAGE -->
-    <div id="feedbackModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[110] hidden items-center justify-center p-4">
-        <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 max-w-xs w-full text-center shadow-2xl">
-            <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i data-lucide="check-circle" class="w-8 h-8"></i>
-            </div>
-            <h4 id="feedbackTitle" class="font-bold text-slate-800 dark:text-white mb-1">Sucesso!</h4>
-            <p id="feedbackText" class="text-sm text-slate-500 mb-6">Operação concluída.</p>
-            <button onclick="closeModal('feedbackModal')" class="w-full py-3 bg-slate-900 dark:bg-emerald-600 text-white rounded-xl text-xs font-bold uppercase">Fechar</button>
+    <!-- FEEDBACK -->
+    <div id="feedbackModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[120] hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl p-8 max-w-xs w-full text-center shadow-2xl border border-black/10">
+            <i data-lucide="info" class="w-12 h-12 text-black mx-auto mb-4"></i>
+            <h4 id="feedbackTitle" class="font-bold text-black mb-1">Aviso</h4>
+            <p id="feedbackText" class="text-sm text-gray-500 mb-6"></p>
+            <button onclick="closeModal('feedbackModal')" class="w-full py-3 bg-black text-white rounded-xl text-xs font-bold uppercase">OK</button>
         </div>
     </div>
 
@@ -272,7 +287,7 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         const auth = firebase.auth();
-        const appId = 'regional-santa-maria-setores-final-v3';
+        const appId = 'regional-santa-maria-clean-ui-v1';
 
         const SECTORS = {
             "JARDIM ALMANARA": ["Jardim Almanara", "Parque Pedroso", "Vila Penteado", "Jardim dos Francos"],
@@ -295,7 +310,9 @@
             try {
                 await auth.signInAnonymously();
                 setupFirestoreListener();
-            } catch (e) { console.error(e); }
+            } catch (e) { 
+                console.error(e);
+            }
         };
 
         function generateMonthSelects() {
@@ -330,7 +347,6 @@
                 if (snap.empty) { seedInitialData(col); return; }
                 currentData = snap.docs.map(d => d.data());
                 updateDashboard();
-                updateSyncStatus('connected', 'Sincronizado');
             });
         }
 
@@ -348,6 +364,27 @@
             await batch.commit();
         }
 
+        // --- SISTEMA DE SENHA ---
+        function requestAdminAccess() {
+            document.getElementById('adminPasswordInput').value = '';
+            showModal('passwordModal');
+        }
+
+        function checkAdminPassword() {
+            const pass = document.getElementById('adminPasswordInput').value;
+            if (pass === "1234") {
+                closeModal('passwordModal');
+                openAdminModal();
+            } else {
+                showFeedback("Erro", "Senha incorreta. Tente novamente.");
+            }
+        }
+
+        function exitAdmin() {
+            closeModal('adminModal');
+            showFeedback("Sessão Encerrada", "Você saiu do modo de edição.");
+        }
+
         // --- PAINEL ADM ---
         function switchAdminTab(tab) {
             const manual = document.getElementById('tabManual');
@@ -357,12 +394,12 @@
 
             if(tab === 'manual') {
                 manual.classList.remove('hidden'); bulk.classList.add('hidden');
-                mBtn.className = "px-4 py-1.5 rounded-lg text-[10px] font-black uppercase bg-indigo-100 text-indigo-600 dark:bg-indigo-900/40";
-                bBtn.className = "px-4 py-1.5 rounded-lg text-[10px] font-black uppercase bg-slate-100 text-slate-500 dark:bg-slate-800";
+                mBtn.className = "px-4 py-2 rounded-xl text-[10px] font-black uppercase bg-black text-white";
+                bBtn.className = "px-4 py-2 rounded-xl text-[10px] font-black uppercase bg-gray-100 text-gray-500";
             } else {
                 manual.classList.add('hidden'); bulk.classList.remove('hidden');
-                bBtn.className = "px-4 py-1.5 rounded-lg text-[10px] font-black uppercase bg-indigo-100 text-indigo-600 dark:bg-indigo-900/40";
-                mBtn.className = "px-4 py-1.5 rounded-lg text-[10px] font-black uppercase bg-slate-100 text-slate-500 dark:bg-slate-800";
+                bBtn.className = "px-4 py-2 rounded-xl text-[10px] font-black uppercase bg-black text-white";
+                mBtn.className = "px-4 py-2 rounded-xl text-[10px] font-black uppercase bg-gray-100 text-gray-500";
             }
         }
 
@@ -377,7 +414,6 @@
             churchSelect.innerHTML = SECTORS[sector].map(c => `<option value="${c}">${c}</option>`).join('');
         }
 
-        // PROCESSAMENTO DE COLAGEM EM MASSA
         async function processBulkPaste() {
             const text = document.getElementById('bulkDataInput').value;
             const year = parseInt(document.getElementById('bulkYear').value);
@@ -388,30 +424,20 @@
 
             lines.forEach(line => {
                 if (!line.trim()) return;
-                // Regex para capturar: [Igreja] [Mês] [Entrada] [Saída]
-                // Suporta: Casa Verde Alta Jan R$ 10.273,43 R$ 3.806,81
                 const regex = /^(.*?)\s+(Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez)\s+R\$\s*([\d.,]+)\s+R\$\s*([\d.,]+)$/i;
                 const match = line.match(regex);
-
                 if (match) {
                     const churchRaw = match[1].trim();
                     const monthStr = match[2];
                     const incomeStr = match[3];
                     const expenseStr = match[4];
-
-                    // Converter valores BR para Number
                     const income = parseFloat(incomeStr.replace(/\./g, '').replace(',', '.'));
                     const expense = parseFloat(expenseStr.replace(/\./g, '').replace(',', '.'));
-
-                    // Encontrar nome correto da igreja (fuzzy match simples)
                     const church = ALL_CHURCHES.find(c => c.toLowerCase().includes(churchRaw.toLowerCase())) || churchRaw;
                     const monthIdx = MONTHS.indexOf(monthStr.charAt(0).toUpperCase() + monthStr.slice(1).toLowerCase());
-
                     if (monthIdx !== -1) {
                         const docId = `${church}_${year}_${monthIdx}`;
-                        batch.set(col.doc(docId), {
-                            church, year, month: MONTHS[monthIdx], income, expense, status: "Real"
-                        }, { merge: true });
+                        batch.set(col.doc(docId), { church, year, month: MONTHS[monthIdx], income, expense, status: "Real" }, { merge: true });
                         count++;
                     }
                 }
@@ -421,11 +447,10 @@
                 try {
                     await batch.commit();
                     closeModal('adminModal');
-                    document.getElementById('bulkDataInput').value = '';
-                    showFeedback("Importação Concluída", `${count} registros foram atualizados com sucesso.`);
-                } catch (e) { alert("Erro ao salvar lote."); }
+                    showFeedback("Sucesso", `${count} registros importados.`);
+                } catch (e) { showFeedback("Erro", "Falha ao salvar lote."); }
             } else {
-                alert("Nenhum dado válido identificado no formato esperado.");
+                showFeedback("Aviso", "Formato não reconhecido.");
             }
         }
 
@@ -435,24 +460,21 @@
             const month = document.getElementById('adminMonth').value;
             const income = parseFloat(document.getElementById('adminIncome').value) || 0;
             const expense = parseFloat(document.getElementById('adminExpense').value) || 0;
-            
             const monthIdx = MONTHS.indexOf(month);
             const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
 
             try {
-                await col.doc(`${church}_${year}_${monthIdx}`).set({
-                    church, year, month, income, expense, status: "Real"
-                }, { merge: true });
+                await col.doc(`${church}_${year}_${monthIdx}`).set({ church, year, month, income, expense, status: "Real" }, { merge: true });
                 closeModal('adminModal');
-                showFeedback("Lançamento Salvo", `Dados de ${month}/${year} para ${church} atualizados.`);
-            } catch (error) { alert("Erro ao salvar."); }
+                showFeedback("Lançamento Salvo", `Registro para ${church} em ${month}/${year} atualizado.`);
+            } catch (error) { showFeedback("Erro", "Erro ao salvar."); }
         }
 
+        // --- DASHBOARD ---
         function updateDashboard() {
             const year = parseInt(document.getElementById('yearFilter').value);
             const sector = document.getElementById('sectorFilter').value;
             const church = document.getElementById('churchFilter').value;
-            
             let filtered = currentData.filter(d => d.year === year);
             if (sector !== "Todos") filtered = filtered.filter(d => SECTORS[sector].includes(d.church));
             if (church !== "Todas") filtered = filtered.filter(d => d.church === church);
@@ -474,25 +496,35 @@
             const incs = MONTHS.map(m => data.filter(d => d.month === m).reduce((a,b) => a+b.income, 0));
             const exps = MONTHS.map(m => data.filter(d => d.month === m).reduce((a,b) => a+b.expense, 0));
 
+            // Gráfico de Barras com Cores Vivas (COLORIDO)
             if (mainChart) mainChart.destroy();
             mainChart = new Chart(document.getElementById('mainChart'), {
                 type: 'bar', 
                 data: {
                     labels: MONTHS,
                     datasets: [
-                        { label: 'Entradas', data: incs, backgroundColor: '#10b981', borderRadius: 6 },
-                        { label: 'Saídas', data: exps, backgroundColor: '#ef4444', borderRadius: 6 }
+                        { label: 'Créditos', data: incs, backgroundColor: '#10b981', borderRadius: 8 },
+                        { label: 'Débitos', data: exps, backgroundColor: '#f43f5e', borderRadius: 8 }
                     ]
                 },
-                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { 
+                        y: { beginAtZero: true, grid: { color: '#f3f4f6' } }, 
+                        x: { grid: { display: false } } 
+                    },
+                    plugins: { legend: { position: 'top' } }
+                }
             });
 
+            // Gráfico de Rosca
             if (pieChart) pieChart.destroy();
             pieChart = new Chart(document.getElementById('pieChart'), {
                 type: 'doughnut',
                 data: {
                     labels: ['Entradas', 'Saídas'],
-                    datasets: [{ data: [total(incs) || 1, total(exps) || 0], backgroundColor: ['#10b981', '#ef4444'], borderWidth: 0 }]
+                    datasets: [{ data: [total(incs) || 1, total(exps) || 0], backgroundColor: ['#0ea5e9', '#f97316'], borderWidth: 0 }]
                 },
                 options: { responsive: true, maintainAspectRatio: false }
             });
@@ -504,30 +536,22 @@
             body.innerHTML = "";
             const rows = data.filter(d => d.church.toLowerCase().includes(search)).sort((a,b) => b.income - a.income);
             if (rows.length === 0) {
-                body.innerHTML = '<tr><td colspan="6" class="p-10 text-center text-slate-400">Sem dados.</td></tr>';
+                body.innerHTML = '<tr><td colspan="6" class="p-10 text-center text-gray-400">Nenhum dado ativo.</td></tr>';
                 return;
             }
             rows.forEach(r => {
                 const tr = document.createElement('tr');
-                tr.className = `hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors ${r.income === 0 ? 'opacity-30' : ''}`;
+                tr.className = `hover:bg-gray-50 transition-colors ${r.income === 0 ? 'opacity-30' : ''}`;
                 tr.innerHTML = `
-                    <td class="px-6 py-4 font-bold text-slate-700 dark:text-slate-200">${r.church}</td>
-                    <td class="px-6 py-4 text-slate-500">${r.year}</td>
-                    <td class="px-6 py-4 text-center text-slate-500">${r.month}</td>
-                    <td class="px-6 py-4 text-right text-emerald-500 font-bold">R$ ${r.income.toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
+                    <td class="px-6 py-4 font-bold text-black">${r.church}</td>
+                    <td class="px-6 py-4 text-gray-500">${r.year}</td>
+                    <td class="px-6 py-4 text-center text-gray-500">${r.month}</td>
+                    <td class="px-6 py-4 text-right text-emerald-600 font-bold">R$ ${r.income.toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
                     <td class="px-6 py-4 text-right text-rose-500 font-bold">R$ ${r.expense.toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
-                    <td class="px-6 py-4 text-right font-bold">R$ ${(r.income - r.expense).toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
+                    <td class="px-6 py-4 text-right font-black">R$ ${(r.income - r.expense).toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
                 `;
                 body.appendChild(tr);
             });
-        }
-
-        function updateSyncStatus(type, text) {
-            const el = document.getElementById('sync-status');
-            const dot = el.querySelector('span');
-            el.className = `flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter ${type === 'connected' ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20' : 'bg-red-50 text-red-600'}`;
-            dot.className = `w-2 h-2 rounded-full ${type === 'connected' ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`;
-            dot.nextSibling.textContent = ` ${text}`;
         }
 
         function showFeedback(title, text) {
