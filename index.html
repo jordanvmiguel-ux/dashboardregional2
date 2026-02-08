@@ -84,7 +84,7 @@
             
             <div class="flex flex-wrap items-center gap-3">
                 <button onclick="requestAdminAccess()" class="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase shadow-sm hover:bg-gray-800 transition-colors">
-                    <i data-lucide="lock" class="w-4 h-4"></i> Admin
+                    <i data-lucide="lock" class="w-4 h-4 text-white"></i> Admin
                 </button>
                 <button onclick="showPrintSelection()" class="flex items-center gap-2 border border-black text-black px-5 py-2.5 rounded-xl text-xs font-bold uppercase hover:bg-gray-50 transition-all">
                     <i data-lucide="printer" class="w-4 h-4"></i> Imprimir
@@ -132,7 +132,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8 text-black">
             <!-- Gráfico Mensal -->
             <div class="lg:col-span-8 bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm relative">
-                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4 text-black">
                     <h3 class="font-black text-lg uppercase flex items-center gap-3">
                         <span class="w-1.5 h-6 bg-black rounded-full"></span> Fluxo Mensal
                     </h3>
@@ -170,23 +170,23 @@
             </div>
 
             <!-- Gráfico Ranking -->
-            <div class="lg:col-span-12 bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm relative">
-                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+            <div class="lg:col-span-12 bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm relative text-black">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4 text-black">
                     <h3 class="font-black text-lg uppercase flex items-center gap-3">
                         <span class="w-1.5 h-6 bg-black rounded-full"></span> Ranking Regional de Saldo
                     </h3>
-                    <div class="flex items-center gap-4 chart-controls">
+                    <div class="flex items-center gap-4 chart-controls text-black">
                         <label class="flex items-center gap-2 cursor-pointer">
                             <input type="checkbox" id="showLabelsRanking" onchange="updateDashboard()" checked class="w-4 h-4 accent-black">
                             <span class="text-[10px] font-black uppercase text-gray-400">Valores</span>
                         </label>
                     </div>
                 </div>
-                <div class="h-[500px]"><canvas id="rankingChart"></canvas></div>
+                <div class="h-[500px] text-black"><canvas id="rankingChart"></canvas></div>
             </div>
         </div>
 
-        <!-- TABELA OCULTA -->
+        <!-- TABELA -->
         <div id="tableSection" class="bg-white border border-gray-100 rounded-[40px] overflow-hidden hidden transition-all duration-500 text-black">
             <div class="p-8 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <h3 class="font-black text-xl tracking-tight uppercase">Listagem Regional</h3>
@@ -233,16 +233,16 @@
     <div id="adminModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 text-black">
         <div class="bg-white w-full max-w-3xl rounded-[40px] shadow-2xl overflow-hidden animate-in zoom-in duration-200">
             <div class="p-8 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
-                <h3 class="font-black uppercase text-xl text-black tracking-tighter">Gestão Financeira</h3>
+                <h3 class="font-black uppercase text-xl text-black tracking-tighter">Gestão Regional</h3>
                 <div class="flex gap-2">
-                    <button id="tabManualBtn" onclick="switchAdminTab('manual')" class="px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-black text-white transition-all">Individual</button>
-                    <button id="tabBulkBtn" onclick="switchAdminTab('bulk')" class="px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-gray-100 text-gray-400">Massa</button>
+                    <button id="tabManualBtn" onclick="switchAdminTab('manual')" class="px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-black text-white transition-all">Lançar</button>
+                    <button id="tabBulkBtn" onclick="switchAdminTab('bulk')" class="px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-gray-100 text-gray-400">Importar</button>
                     <button onclick="exitAdmin()" class="btn-exit px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase flex items-center gap-2">Sair</button>
                 </div>
             </div>
             
             <div id="tabManual" class="p-10 space-y-6">
-                <div class="grid grid-cols-2 gap-6">
+                <div class="grid grid-cols-2 gap-6 text-black">
                     <select id="adminYear" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-black font-bold text-black">
                         <option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
                     </select>
@@ -263,7 +263,12 @@
 
             <div id="tabBulk" class="p-10 space-y-6 hidden text-black">
                 <textarea id="bulkDataInput" rows="8" placeholder="Igreja Mês Crédito Débito..." class="w-full p-6 bg-gray-50 rounded-[24px] text-[11px] font-mono border-none outline-none focus:ring-1 ring-black text-black"></textarea>
-                <button onclick="processBulkPaste()" class="w-full py-4 bg-blue-600 text-white rounded-2xl text-[10px] font-black uppercase shadow-lg">Processar Massa</button>
+                <div class="grid grid-cols-2 gap-4">
+                    <select id="bulkYear" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-1 ring-black font-bold text-black">
+                        <option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
+                    </select>
+                    <button onclick="processBulkPaste()" class="py-4 bg-blue-600 text-white rounded-2xl text-[10px] font-black uppercase shadow-lg">Processar Massa</button>
+                </div>
             </div>
         </div>
     </div>
@@ -278,7 +283,7 @@
     </div>
 
     <div id="printSelectionModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[150] hidden items-center justify-center p-4 text-black">
-        <div class="bg-white rounded-[40px] p-10 max-w-md w-full text-center shadow-2xl">
+        <div class="bg-white rounded-[40px] p-10 max-w-md w-full text-center shadow-2xl text-black">
             <h4 class="font-black text-xl uppercase mb-8 text-black">Impressão Regional</h4>
             <div id="printOptsContainer" class="space-y-4 mb-10 text-left"></div>
             <div class="flex gap-4">
@@ -300,25 +305,18 @@
             ocean: { pos: '#06b6d4', neg: '#ec4899' }, mono: { pos: '#000000', neg: '#94a3b8' }
         };
 
-        const fbConfigRaw = typeof __firebase_config !== 'undefined' ? __firebase_config : '{}';
-        const firebaseConfig = JSON.parse(fbConfigRaw);
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-        const auth = firebase.auth();
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'regional-santa-maria-clean-final-v14';
-
+        // --- ESTRUTURA E CONFIGURAÇÃO ---
         const SECTORS = {
             "JARDIM ALMANARA": ["Jardim Almanara", "Parque Pedroso", "Vila Penteado", "Jardim dos Francos"],
             "VILA ACRE": ["Vila Acre", "Jardim das Graças", "Trivelato"],
             "CASA VERDE ALTA": ["Casa Verde Alta", "Casa Verde 2", "Vila Santista"],
             "VILA SANTA MARIA": ["Vila Santa Maria"]
         };
-
         const ALL_CHURCHES = Object.values(SECTORS).flat();
         const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
         const FULL_MONTHS = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
-        // DADOS REAIS COMPLETOS
+        // --- DADOS REAIS INTEGRAIS ---
         const REAL_DATA = {
             "2023": {
                 "Casa Verde Alta": [[10273.43, 3806.81], [7346.39, 3915.18], [10929.20, 3790.03], [10507.32, 3467.90], [7005.42, 4609.99], [8268.53, 5354.84], [7327.75, 4290.12], [5684.70, 4296.93], [6247.38, 4010.16], [5648.37, 4768.46], [7768.66, 4285.82], [6779.92, 3393.23]],
@@ -359,43 +357,73 @@
             }
         };
 
+        // --- INICIALIZAÇÃO FIREBASE ---
+        let db, auth, appId;
         let currentData = [];
         let mainChart, pieChart, rankingChart;
         let isTableVisible = false;
 
         window.onload = async () => {
+            // Regra 1: Inicializar variáveis de ambiente
+            const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "" };
+            appId = typeof __app_id !== 'undefined' ? __app_id : 'regional-santa-maria-clean-final-v14';
+            
+            const app = firebase.initializeApp(firebaseConfig);
+            db = firebase.firestore();
+            auth = firebase.auth();
+
             lucide.createIcons();
             initChurchOptions();
             generateSelectors();
+
             try {
-                const initAuth = async () => {
-                  if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                // Regra 3: Auth ANTES de queries
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await auth.signInWithCustomToken(__initial_auth_token);
-                  } else { await auth.signInAnonymously(); }
-                };
-                auth.onAuthStateChanged((user) => { if (user) setupFirestoreListener(); });
-                await initAuth();
-            } catch (e) { console.error(e); }
+                } else {
+                    await auth.signInAnonymously();
+                }
+
+                auth.onAuthStateChanged((user) => {
+                    if (user) {
+                        updateSyncStatus('connected', 'Sincronizado');
+                        setupFirestoreListener();
+                    } else {
+                        updateSyncStatus('error', 'Erro de Sessão');
+                    }
+                });
+            } catch (e) {
+                console.error("Erro no carregamento:", e);
+                updateSyncStatus('error', 'Falha na Inicialização');
+            }
         };
 
+        // --- FUNÇÕES DE INTERFACE ---
         function generateSelectors() {
-            document.getElementById('adminMonth').innerHTML = MONTHS.map((m, i) => `<option value="${m}">${FULL_MONTHS[i]}</option>`).join('');
-            const printList = [{id:'printMain',t:'Fluxo Regional'},{id:'printPie',t:'Saúde Financeira'},{id:'printRanking',t:'Ranking de Saldo'}];
-            document.getElementById('printOptsContainer').innerHTML = printList.map(p => `
-                <label class="flex items-center gap-4 p-5 bg-gray-50 rounded-[24px] cursor-pointer hover:bg-gray-100 transition-all text-black">
-                    <input type="checkbox" id="${p.id}" checked class="w-5 h-5 accent-black">
-                    <span class="text-[10px] font-black uppercase text-gray-600">${p.t}</span>
-                </label>
-            `).join('');
+            const adminMonth = document.getElementById('adminMonth');
+            if(adminMonth) adminMonth.innerHTML = MONTHS.map((m, i) => `<option value="${m}">${FULL_MONTHS[i]}</option>`).join('');
+            
+            const printContainer = document.getElementById('printOptsContainer');
+            if(printContainer) {
+                const printList = [{id:'printMain',t:'Fluxo Regional'},{id:'printPie',t:'Saúde Financeira'},{id:'printRanking',t:'Ranking de Saldo'}];
+                printContainer.innerHTML = printList.map(p => `
+                    <label class="flex items-center gap-4 p-5 bg-gray-50 rounded-[24px] cursor-pointer hover:bg-gray-100 transition-all text-black">
+                        <input type="checkbox" id="${p.id}" checked class="w-5 h-5 accent-black">
+                        <span class="text-[10px] font-black uppercase text-gray-600">${p.t}</span>
+                    </label>
+                `).join('');
+            }
         }
 
         function initChurchOptions() {
             const filter = document.getElementById('churchFilter');
-            filter.innerHTML = '<option value="Todas">Todas Igrejas</option>';
-            ALL_CHURCHES.sort().forEach(n => {
-                const o = document.createElement('option');
-                o.value = n; o.textContent = n; filter.appendChild(o);
-            });
+            if(filter) {
+                filter.innerHTML = '<option value="Todas">Todas Igrejas</option>';
+                ALL_CHURCHES.sort().forEach(n => {
+                    const o = document.createElement('option');
+                    o.value = n; o.textContent = n; filter.appendChild(o);
+                });
+            }
         }
 
         function onSectorChange() {
@@ -410,6 +438,16 @@
             updateDashboard();
         }
 
+        function updateSyncStatus(type, text) {
+            const dot = document.getElementById('sync-dot');
+            const txt = document.getElementById('sync-text');
+            if (dot && txt) {
+                dot.className = `w-2 h-2 rounded-full ${type === 'connected' ? 'bg-green-500 animate-pulse' : (type === 'error' ? 'bg-red-500' : 'bg-gray-300')}`;
+                txt.innerText = text;
+            }
+        }
+
+        // --- FIRESTORE ---
         async function setupFirestoreListener() {
             if (!auth.currentUser) return;
             const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
@@ -417,8 +455,10 @@
                 if (snap.empty) { seedInitialData(col); return; }
                 currentData = snap.docs.map(d => d.data());
                 updateDashboard();
-                updateSyncStatus('connected', 'Sincronizado');
-            }, (error) => { updateSyncStatus('error', 'Sem Permissão'); });
+            }, (error) => {
+                console.error("Firestore Error:", error);
+                updateSyncStatus('error', 'Sem Permissão');
+            });
         }
 
         async function seedInitialData(col) {
@@ -442,54 +482,39 @@
             if(!confirm("Deseja forçar a entrada de todos os números do código agora? Isso sobrescreverá valores atuais.")) return;
             const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
             await seedInitialData(col);
-            showFeedback("Sincronizado", "A base de dados foi atualizada com os números do código.");
+            showFeedback("Sincronizado", "Base de dados regional atualizada.");
         }
 
-        function requestAdminAccess() { document.getElementById('adminPasswordInput').value = ''; showModal('passwordModal'); }
-        function checkAdminPassword() { if (document.getElementById('adminPasswordInput').value === "1234") { closeModal('passwordModal'); openAdminModal(); } else { showFeedback("Erro", "Senha regional inválida."); } }
-        function exitAdmin() { closeModal('adminModal'); showFeedback("Fim", "Sessão encerrada."); }
-        function openAdminModal() { 
-            onAdminSectorChange(); 
-            showModal('adminModal'); 
-        }
-        function onAdminSectorChange() {
-            document.getElementById('adminChurch').innerHTML = ALL_CHURCHES.sort().map(c => `<option value="${c}">${c}</option>`).join('');
-        }
-        function switchAdminTab(tab) {
-            const isM = tab === 'manual';
-            document.getElementById('tabManual').classList.toggle('hidden', !isM);
-            document.getElementById('tabBulk').classList.toggle('hidden', isM);
-            document.getElementById('tabManualBtn').className = isM ? "px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-black text-white" : "px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-gray-100 text-gray-400";
-            document.getElementById('tabBulkBtn').className = !isM ? "px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-black text-white" : "px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-gray-100 text-gray-400";
-        }
-
-        const currencyFormatter = (val) => 'R$ ' + Math.round(val).toLocaleString('pt-BR');
-
+        // --- DASHBOARD LOGIC ---
         function updateDashboard() {
             const year = parseInt(document.getElementById('yearFilter').value);
             const sector = document.getElementById('sectorFilter').value;
             const church = document.getElementById('churchFilter').value;
+            
             let filtered = currentData.filter(d => d.year === year);
             if (sector !== "Todos") filtered = filtered.filter(d => SECTORS[sector].includes(d.church));
             if (church !== "Todas") filtered = filtered.filter(d => d.church === church);
             
             const totalInc = filtered.reduce((a, b) => a + b.income, 0);
             const totalExp = filtered.reduce((a, b) => a + b.expense, 0);
-            document.getElementById('kpi-income').innerText = `R$ ${totalInc.toLocaleString('pt-BR', {minFractionDigits:2})}`;
-            document.getElementById('kpi-expense').innerText = `R$ ${totalExp.toLocaleString('pt-BR', {minFractionDigits:2})}`;
-            document.getElementById('kpi-balance').innerText = `R$ ${(totalInc - totalExp).toLocaleString('pt-BR', {minFractionDigits:2})}`;
-            document.getElementById('kpi-active').innerText = `${[...new Set(filtered.filter(d => d.income > 0 || d.expense > 0).map(d => d.church))].length} Unid. Ativas`;
+            
+            document.getElementById('kpi-income').innerText = `R$ ${totalInc.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
+            document.getElementById('kpi-expense').innerText = `R$ ${totalExp.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
+            document.getElementById('kpi-balance').innerText = `R$ ${(totalInc - totalExp).toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
+            document.getElementById('kpi-active').innerText = `${[...new Set(filtered.filter(d => d.income > 0 || d.expense > 0).map(d => d.church))].length} Unidades Ativas`;
 
             renderCharts(filtered);
             renderTable(filtered);
         }
+
+        const currencyFormatter = (val) => 'R$ ' + Math.round(val).toLocaleString('pt-BR');
 
         function renderCharts(data) {
             const incs = MONTHS.map(m => data.filter(d => d.month === m).reduce((a,b) => a+b.income, 0));
             const exps = MONTHS.map(m => data.filter(d => d.month === m).reduce((a,b) => a+b.expense, 0));
 
             const pMain = COLOR_PALETTES[document.getElementById('colorMain').value];
-            const pPie = COLOR_PALETTES['default']; // Fixo para o exemplo, pode ser dinâmico
+            const pDefault = COLOR_PALETTES['default'];
 
             const showM = document.getElementById('showLabelsMain').checked;
             const showP = document.getElementById('showLabelsPie').checked;
@@ -518,7 +543,7 @@
                 type: 'doughnut',
                 data: {
                     labels: ['Entradas', 'Saídas'],
-                    datasets: [{ data: [total(incs) || 1, total(exps) || 0], backgroundColor: [pPie.pos, pPie.neg], borderWidth: 0 }]
+                    datasets: [{ data: [incs.reduce((a,b)=>a+b,0) || 1, exps.reduce((a,b)=>a+b,0) || 0], backgroundColor: [pDefault.pos, pDefault.neg], borderWidth: 0 }]
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, datalabels: { display: showP, color: '#fff', font: { weight: 'bold' }, formatter: (v, ctx) => { let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0); return (v * 100 / sum).toFixed(1) + "%"; } } } }
             });
@@ -533,10 +558,53 @@
                 type: 'bar',
                 data: {
                     labels: balances.map(x => x.n),
-                    datasets: [{ data: balances.map(x => x.b), backgroundColor: balances.map(x => x.b >= 0 ? pPie.pos : pPie.neg), borderRadius: 8 }]
+                    datasets: [{ data: balances.map(x => x.b), backgroundColor: balances.map(x => x.b >= 0 ? pDefault.pos : pDefault.neg), borderRadius: 8 }]
                 },
                 options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { ...labelConfig(showR), align: 'right', anchor: 'end', formatter: (v) => currencyFormatter(v) } } }
             });
+        }
+
+        // --- ADMIN & MODAIS ---
+        function requestAdminAccess() { document.getElementById('adminPasswordInput').value = ''; showModal('passwordModal'); }
+        function checkAdminPassword() {
+            if (document.getElementById('adminPasswordInput').value === "1234") {
+                closeModal('passwordModal'); openAdminModal();
+            } else { showFeedback("Erro", "Senha regional incorreta."); }
+        }
+        function exitAdmin() { closeModal('adminModal'); showFeedback("Modo Visualização", "Sessão administrativa encerrada."); }
+        function openAdminModal() { 
+            document.getElementById('adminChurch').innerHTML = ALL_CHURCHES.sort().map(c => `<option value="${c}">${c}</option>`).join('');
+            showModal('adminModal'); 
+        }
+        function switchAdminTab(tab) {
+            const isM = tab === 'manual';
+            document.getElementById('tabManual').classList.toggle('hidden', !isM);
+            document.getElementById('tabBulk').classList.toggle('hidden', isM);
+            document.getElementById('tabManualBtn').className = isM ? "px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-black text-white" : "px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-gray-100 text-gray-400";
+            document.getElementById('tabBulkBtn').className = !isM ? "px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-black text-white" : "px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-gray-100 text-gray-400";
+        }
+
+        async function saveAdminData() {
+            const ch = document.getElementById('adminChurch').value;
+            const yr = parseInt(document.getElementById('adminYear').value);
+            const mt = document.getElementById('adminMonth').value;
+            const inc = parseFloat(document.getElementById('adminIncome').value) || 0;
+            const exp = parseFloat(document.getElementById('adminExpense').value) || 0;
+            const mIdx = MONTHS.indexOf(mt);
+            await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records')
+                .doc(`${ch}_${yr}_${mIdx}`).set({ church: ch, year: yr, month: mt, income: inc, expense: exp, status: "Real" }, { merge: true });
+            closeModal('adminModal');
+            showFeedback("Salvo", "Lançamento individual atualizado.");
+        }
+
+        async function resetRegionalData() {
+            if(!confirm("Zerar? Todos os dados de todos os anos serão apagados.")) return;
+            const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
+            const snap = await col.get();
+            const batch = db.batch();
+            snap.docs.forEach(d => batch.update(d.ref, { income: 0, expense: 0, status: "Vazio" }));
+            await batch.commit();
+            showFeedback("Base Zerada", "Lançamentos limpos.");
         }
 
         function toggleTableVisibility() {
@@ -546,31 +614,24 @@
         }
 
         function renderTable(dataInput) {
-            const search = document.getElementById('tableSearch').value.toLowerCase();
             const body = document.getElementById('dataTableBody'); body.innerHTML = "";
-            const rows = (dataInput || currentData).filter(d => d.church.toLowerCase().includes(search)).sort((a,b) => b.income - a.income);
-            const finalRows = (document.getElementById('churchFilter').value === "Todas" && !search) ? rows.filter(r => r.income > 0 || r.expense > 0) : rows;
-            if (finalRows.length === 0) { body.innerHTML = '<tr><td colspan="5" class="p-10 text-center text-gray-300 font-bold uppercase">Vazio</td></tr>'; return; }
-            finalRows.forEach(r => {
+            const rows = (dataInput || currentData).sort((a,b) => b.income - a.income);
+            rows.forEach(r => {
+                if(r.income === 0 && r.expense === 0) return;
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td class="px-8 py-5 font-bold text-black">${r.church}</td><td class="px-6 py-5 text-center text-gray-400 font-bold">${r.month}/${r.year}</td><td class="px-6 py-5 text-right text-blue-600 font-black">R$ ${r.income.toLocaleString('pt-BR')}</td><td class="px-6 py-5 text-right text-rose-600 font-black">R$ ${r.expense.toLocaleString('pt-BR')}</td><td class="px-8 py-5 text-right font-black text-black">R$ ${(r.income - r.expense).toLocaleString('pt-BR')}</td>`;
+                tr.innerHTML = `<td class="px-8 py-5 font-bold text-black">${r.church}</td><td class="px-6 py-5 text-center text-gray-400 font-bold">${r.month}/${r.year}</td><td class="px-6 py-5 text-right text-blue-600 font-black">R$ ${r.income.toLocaleString('pt-BR')}</td><td class="px-6 py-5 text-right text-rose-600 font-black">R$ ${r.expense.toLocaleString('pt-BR')}</td><td class="px-8 py-5 text-right font-black">R$ ${(r.income - r.expense).toLocaleString('pt-BR')}</td>`;
                 body.appendChild(tr);
             });
-        }
-
-        function updateSyncStatus(type, text) {
-            const dot = document.getElementById('sync-dot'); const txt = document.getElementById('sync-text');
-            if (dot && txt) { dot.className = `w-2 h-2 rounded-full ${type === 'connected' ? 'bg-green-500 animate-pulse' : (type === 'error' ? 'bg-red-500' : 'bg-gray-300')}`; txt.innerText = text; }
         }
 
         function showPrintSelection() { showModal('printSelectionModal'); }
         function executePrint() {
             const cont = document.getElementById('printContainer'); cont.innerHTML = '';
-            const opts = [{id:'printMain',t:'Fluxo Mensal',c:'mainChart'},{id:'printPie',t:'Saúde Financeira',c:'pieChart'},{id:'printRanking',t:'Ranking Regional',c:'rankingChart'}];
+            const opts = [{id:'printMain',t:'Fluxo Regional',c:'mainChart'},{id:'printPie',t:'Saúde Financeira',c:'pieChart'},{id:'printRanking',t:'Ranking Regional',c:'rankingChart'}];
             opts.forEach(o => {
                 if (document.getElementById(o.id).checked) {
                     const p = document.createElement('div'); p.className = 'print-page';
-                    p.innerHTML = `<div style="text-align:center; border-bottom:3px solid #000; padding-bottom:10px; width:100%; margin-bottom:40px;"><h1 style="font-size:24px; font-weight:900;">AD.PERUS - REGIONAL SANTA MARIA</h1><p style="font-size:14px; font-weight:700;">${o.t.toUpperCase()} | ANO: ${document.getElementById('yearFilter').value}</p></div><img src="${document.getElementById(o.c).toDataURL()}" style="width:100%; max-height:70%; object-fit:contain;"><div style="margin-top:40px; font-size:10px; color:#999; text-align:right; width:100%;">Emitido em: ${new Date().toLocaleString()}</div>`;
+                    p.innerHTML = `<div style="text-align:center; border-bottom:3px solid #000; padding-bottom:10px; width:100%; margin-bottom:40px;"><h1 style="font-size:24px; font-weight:900;">AD.PERUS - REGIONAL SANTA MARIA</h1><p style="font-size:14px; font-weight:700;">${o.t.toUpperCase()} | ANO: ${document.getElementById('yearFilter').value}</p></div><img src="${document.getElementById(o.c).toDataURL()}" style="width:100%; max-height:70%; object-fit:contain;"><div style="margin-top:40px; font-size:10px; color:#999; text-align:right; width:100%;">Gerado em: ${new Date().toLocaleString()}</div>`;
                     cont.appendChild(p);
                 }
             });
@@ -578,48 +639,9 @@
             closeModal('printSelectionModal'); setTimeout(() => window.print(), 500);
         }
 
-        async function processBulkPaste() {
-            const text = document.getElementById('bulkDataInput').value;
-            const year = parseInt(document.getElementById('bulkYear').value);
-            const lines = text.split('\n'); const batch = db.batch();
-            const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
-            let count = 0;
-            lines.forEach(line => {
-                if (!line.trim()) return;
-                const regex = /^(.*?)\s+(Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez)\s+R\$\s*([\d.,]+)\s+R\$\s*([\d.,]+)/i;
-                const match = line.match(regex);
-                if (match) {
-                    const church = ALL_CHURCHES.find(c => c.toLowerCase().includes(match[1].trim().toLowerCase())) || match[1].trim();
-                    const mIdx = MONTHS.indexOf(match[2].charAt(0).toUpperCase() + match[2].slice(1).toLowerCase());
-                    const incVal = parseFloat(match[3].replace(/\./g, '').replace(',', '.'));
-                    const expVal = parseFloat(match[4].replace(/\./g, '').replace(',', '.'));
-                    if (mIdx !== -1 && ALL_CHURCHES.includes(church)) { batch.set(col.doc(`${church}_${year}_${mIdx}`), { church, year, month: MONTHS[mIdx], income: incVal, expense: expVal, status: "Real" }, { merge: true }); count++; }
-                }
-            });
-            if (count > 0) { await batch.commit(); closeModal('adminModal'); showFeedback("Sucesso", `${count} registros.`); } else { showFeedback("Aviso", "Formato inválido."); }
-        }
-
-        async function saveAdminData() {
-            const ch = document.getElementById('adminChurch').value; const yr = parseInt(document.getElementById('adminYear').value);
-            const mt = document.getElementById('adminMonth').value; const inc = parseFloat(document.getElementById('adminIncome').value) || 0;
-            const exp = parseFloat(document.getElementById('adminExpense').value) || 0;
-            await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records').doc(`${ch}_${yr}_${MONTHS.indexOf(mt)}`).set({ church: ch, year: yr, month: mt, income: inc, expense: exp, status: "Real" }, { merge: true });
-            closeModal('adminModal'); showFeedback("Salvo", "Sucesso.");
-        }
-
-        async function resetRegionalData() {
-            if (!auth.currentUser) return;
-            if(!confirm("Zerar?")) return;
-            const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
-            const snap = await col.get(); const batch = db.batch();
-            snap.docs.forEach(d => batch.update(d.ref, { income: 0, expense: 0, status: "Vazio" }));
-            await batch.commit(); showFeedback("Reset", "OK.");
-        }
-
         function showFeedback(title, text) { document.getElementById('feedbackTitle').innerText = title; document.getElementById('feedbackText').innerText = text; showModal('feedbackModal'); }
         function showModal(id) { document.getElementById(id).classList.remove('hidden'); document.getElementById(id).classList.add('flex'); }
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
-        const total = arr => arr.reduce((a, b) => a + b, 0);
     </script>
 </body>
 </html>
