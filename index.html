@@ -8,10 +8,8 @@
     <!-- Scripts Externos -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Plugin para exibir números nos gráficos -->
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
@@ -40,7 +38,7 @@
                 align-items: center; 
                 padding: 40px; 
             }
-            .chart-controls { display: none !important; }
+            .chart-controls, .color-selector { display: none !important; }
         }
 
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
@@ -143,13 +141,12 @@
                             <input type="checkbox" id="showLabelsMain" onchange="updateDashboard()" checked class="w-4 h-4 accent-black">
                             <span class="text-[10px] font-black uppercase text-gray-400">Exibir Valores</span>
                         </label>
-                        <select id="colorMain" onchange="updateDashboard()" class="text-[10px] font-black uppercase bg-gray-50 border-none rounded-lg px-3 py-1.5 outline-none focus:ring-1 ring-black text-black">
+                        <select id="colorMain" onchange="updateDashboard()" class="text-[10px] font-black uppercase bg-gray-50 border-none rounded-lg px-3 py-1.5 outline-none focus:ring-1 ring-black">
                             <option value="default">Azul/Vermelho</option>
                             <option value="emerald">Verde/Rosa</option>
                             <option value="modern">Índigo/Laranja</option>
                             <option value="vibrant">Roxo/Amarelo</option>
-                            <option value="ocean">Ciano/Pink</option>
-                            <option value="mono">Preto/Cinza</option>
+                            <option value="ocean">Oceano/Pink</option>
                         </select>
                     </div>
                 </div>
@@ -157,57 +154,41 @@
             </div>
 
             <!-- Gráfico Saúde -->
-            <div class="lg:col-span-4 bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm relative">
-                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-                    <h3 class="font-black text-lg uppercase flex items-center gap-3 text-black">
+            <div class="lg:col-span-4 bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm relative text-black">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4 text-black">
+                    <h3 class="font-black text-lg uppercase flex items-center gap-3">
                         <span class="w-1.5 h-6 bg-black rounded-full"></span> Saúde
                     </h3>
                     <div class="flex items-center gap-3 chart-controls">
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" id="showLabelsPie" onchange="updateDashboard()" checked class="w-4 h-4 accent-black text-black">
+                            <input type="checkbox" id="showLabelsPie" onchange="updateDashboard()" checked class="w-4 h-4 accent-black">
                             <span class="text-[10px] font-black uppercase text-gray-400">Valores</span>
                         </label>
-                        <select id="colorPie" onchange="updateDashboard()" class="text-[10px] font-black uppercase bg-gray-50 border-none rounded-lg px-3 py-1.5 outline-none focus:ring-1 ring-black text-black">
-                            <option value="default">Padrão</option>
-                            <option value="emerald">Esmeralda</option>
-                            <option value="modern">Índigo</option>
-                            <option value="vibrant">Vibrante</option>
-                            <option value="ocean">Oceano</option>
-                            <option value="mono">Sóbrio</option>
-                        </select>
                     </div>
                 </div>
-                <div class="h-[400px]"><canvas id="pieChart"></canvas></div>
+                <div class="h-[400px] text-black"><canvas id="pieChart"></canvas></div>
             </div>
 
             <!-- Gráfico Ranking -->
             <div class="lg:col-span-12 bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm relative">
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                     <h3 class="font-black text-lg uppercase flex items-center gap-3">
-                        <span class="w-1.5 h-6 bg-black rounded-full"></span> Ranking de Saldo
+                        <span class="w-1.5 h-6 bg-black rounded-full"></span> Ranking Regional de Saldo
                     </h3>
                     <div class="flex items-center gap-4 chart-controls">
                         <label class="flex items-center gap-2 cursor-pointer">
                             <input type="checkbox" id="showLabelsRanking" onchange="updateDashboard()" checked class="w-4 h-4 accent-black">
-                            <span class="text-[10px] font-black uppercase text-gray-400 text-black">Exibir Valores</span>
+                            <span class="text-[10px] font-black uppercase text-gray-400">Valores</span>
                         </label>
-                        <select id="colorRanking" onchange="updateDashboard()" class="text-[10px] font-black uppercase bg-gray-50 border-none rounded-lg px-3 py-1.5 outline-none focus:ring-1 ring-black text-black">
-                            <option value="default">Padrão</option>
-                            <option value="emerald">Esmeralda</option>
-                            <option value="modern">Moderno</option>
-                            <option value="vibrant">Vibrante</option>
-                            <option value="ocean">Oceano</option>
-                            <option value="mono">Sóbrio</option>
-                        </select>
                     </div>
                 </div>
                 <div class="h-[500px]"><canvas id="rankingChart"></canvas></div>
             </div>
         </div>
 
-        <!-- TABELA -->
+        <!-- TABELA OCULTA -->
         <div id="tableSection" class="bg-white border border-gray-100 rounded-[40px] overflow-hidden hidden transition-all duration-500 text-black">
-            <div class="p-8 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-6 text-black">
+            <div class="p-8 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <h3 class="font-black text-xl tracking-tight uppercase">Listagem Regional</h3>
                 <div class="relative w-full md:w-80">
                     <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300"></i>
@@ -215,9 +196,9 @@
                 </div>
             </div>
             <div class="overflow-x-auto custom-scrollbar">
-                <table class="w-full text-left text-sm">
+                <table class="w-full text-left text-sm text-black">
                     <thead>
-                        <tr class="bg-gray-50/50 text-gray-400 font-black text-[10px] uppercase border-b border-gray-50 tracking-widest text-black">
+                        <tr class="bg-gray-50/50 text-gray-400 font-black text-[10px] uppercase border-b border-gray-50 tracking-widest">
                             <th class="px-8 py-5">Igreja</th>
                             <th class="px-6 py-5 text-center">Mês/Ano</th>
                             <th class="px-6 py-5 text-right">Créditos</th>
@@ -225,64 +206,64 @@
                             <th class="px-8 py-5 text-right">Saldo</th>
                         </tr>
                     </thead>
-                    <tbody id="dataTableBody" class="divide-y divide-gray-50"></tbody>
+                    <tbody id="dataTableBody" class="divide-y divide-gray-50 text-black"></tbody>
                 </table>
             </div>
         </div>
         
         <div id="tableToggleContainer" class="flex justify-center mt-10">
             <button onclick="toggleTableVisibility()" class="flex items-center gap-2 px-8 py-3 bg-gray-100 hover:bg-gray-200 text-gray-500 rounded-2xl text-[10px] font-black uppercase transition-all">
-                <i data-lucide="list" class="w-4 h-4"></i> <span id="toggleText">Ver Listagem Completa</span>
+                <i data-lucide="list" class="w-4 h-4 text-black"></i> <span id="toggleText">Ver Listagem Completa</span>
             </button>
         </div>
     </main>
 
-    <!-- MODAIS -->
+    <!-- MODAL SENHA -->
     <div id="passwordModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[150] hidden items-center justify-center p-4 text-black">
         <div class="bg-white rounded-[40px] p-12 max-w-sm w-full text-center shadow-2xl">
             <i data-lucide="shield-check" class="w-12 h-12 mx-auto mb-8 text-black"></i>
-            <h4 class="font-black text-2xl mb-2 uppercase tracking-tighter text-black">Regional Santa Maria</h4>
-            <input type="password" id="adminPasswordInput" placeholder="••••" class="w-full text-center p-5 bg-gray-50 rounded-3xl border-none outline-none focus:ring-2 ring-black mb-6 text-3xl tracking-[0.8em]">
+            <h4 class="font-black text-2xl mb-2 uppercase text-black">Acesso Administrativo</h4>
+            <input type="password" id="adminPasswordInput" placeholder="••••" class="w-full text-center p-5 bg-gray-50 rounded-3xl border-none outline-none focus:ring-2 ring-black mb-6 text-3xl tracking-[0.8em] text-black">
             <button onclick="checkAdminPassword()" class="w-full py-5 bg-black text-white rounded-3xl text-xs font-black uppercase shadow-xl">Entrar</button>
             <button onclick="closeModal('passwordModal')" class="mt-6 text-[10px] font-black text-gray-300 uppercase hover:text-gray-500">Voltar</button>
         </div>
     </div>
 
+    <!-- MODAL ADMIN -->
     <div id="adminModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 text-black">
         <div class="bg-white w-full max-w-3xl rounded-[40px] shadow-2xl overflow-hidden animate-in zoom-in duration-200">
             <div class="p-8 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
                 <h3 class="font-black uppercase text-xl text-black tracking-tighter">Gestão Financeira</h3>
                 <div class="flex gap-2">
-                    <button id="tabManualBtn" onclick="switchAdminTab('manual')" class="px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-black text-white transition-all">Lançar</button>
-                    <button id="tabBulkBtn" onclick="switchAdminTab('bulk')" class="px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-gray-100 text-gray-400">Importar</button>
+                    <button id="tabManualBtn" onclick="switchAdminTab('manual')" class="px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-black text-white transition-all">Individual</button>
+                    <button id="tabBulkBtn" onclick="switchAdminTab('bulk')" class="px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-gray-100 text-gray-400">Massa</button>
                     <button onclick="exitAdmin()" class="btn-exit px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase flex items-center gap-2">Sair</button>
                 </div>
             </div>
             
             <div id="tabManual" class="p-10 space-y-6">
-                <div class="grid grid-cols-2 gap-6 text-black">
-                    <select id="adminYear" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-black font-bold">
+                <div class="grid grid-cols-2 gap-6">
+                    <select id="adminYear" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-black font-bold text-black">
                         <option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
                     </select>
                     <select id="adminMonth" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-black font-bold text-black"></select>
                 </div>
                 <select id="adminChurch" class="w-full p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-black font-bold text-black"></select>
                 <div class="grid grid-cols-2 gap-6">
-                    <input type="number" id="adminIncome" placeholder="Créditos" step="0.01" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-blue-500 font-black">
-                    <input type="number" id="adminExpense" placeholder="Débitos" step="0.01" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-rose-500 font-black">
+                    <input type="number" id="adminIncome" placeholder="Créditos" step="0.01" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-blue-500 font-black text-black">
+                    <input type="number" id="adminExpense" placeholder="Débitos" step="0.01" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-rose-500 font-black text-black">
                 </div>
-                <button onclick="saveAdminData()" class="w-full py-5 bg-black text-white rounded-3xl text-xs font-black uppercase shadow-xl">Confirmar Lançamento</button>
+                <button onclick="saveAdminData()" class="w-full py-5 bg-black text-white rounded-3xl text-xs font-black uppercase shadow-xl">Salvar Registro</button>
+                
+                <div class="pt-6 border-t border-gray-100 flex flex-col gap-3">
+                    <button onclick="forceSyncCodeData()" class="w-full py-4 text-[10px] font-black text-blue-600 uppercase border border-blue-100 rounded-2xl hover:bg-blue-50">Sincronizar Números do Código (2023-2025)</button>
+                    <button onclick="resetRegionalData()" class="w-full py-4 text-[10px] font-black text-rose-500 uppercase border border-rose-100 rounded-2xl hover:bg-rose-50">Zerar Toda a Base (Limpar Tudo)</button>
+                </div>
             </div>
 
-            <div id="tabBulk" class="p-10 space-y-6 hidden">
-                <textarea id="bulkDataInput" rows="8" placeholder="Cole aqui..." class="w-full p-6 bg-gray-50 rounded-[24px] text-[11px] font-mono border-none outline-none focus:ring-1 ring-black text-black text-black"></textarea>
-                <div class="grid grid-cols-2 gap-4">
-                    <select id="bulkYear" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-1 ring-black font-bold text-black">
-                        <option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
-                    </select>
-                    <button onclick="processBulkPaste()" class="py-4 bg-blue-600 text-white rounded-2xl text-[10px] font-black uppercase shadow-lg">Processar Lote</button>
-                </div>
-                <button onclick="resetRegionalData()" class="w-full py-4 text-[10px] font-black text-rose-500 uppercase border border-rose-50 rounded-2xl">Limpar Regional</button>
+            <div id="tabBulk" class="p-10 space-y-6 hidden text-black">
+                <textarea id="bulkDataInput" rows="8" placeholder="Igreja Mês Crédito Débito..." class="w-full p-6 bg-gray-50 rounded-[24px] text-[11px] font-mono border-none outline-none focus:ring-1 ring-black text-black"></textarea>
+                <button onclick="processBulkPaste()" class="w-full py-4 bg-blue-600 text-white rounded-2xl text-[10px] font-black uppercase shadow-lg">Processar Massa</button>
             </div>
         </div>
     </div>
@@ -296,9 +277,9 @@
         </div>
     </div>
 
-    <div id="printSelectionModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[150] hidden items-center justify-center p-4 text-black text-black">
+    <div id="printSelectionModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[150] hidden items-center justify-center p-4 text-black">
         <div class="bg-white rounded-[40px] p-10 max-w-md w-full text-center shadow-2xl">
-            <h4 class="font-black text-xl uppercase mb-8">Impressão em A4 Paisagem</h4>
+            <h4 class="font-black text-xl uppercase mb-8 text-black">Impressão Regional</h4>
             <div id="printOptsContainer" class="space-y-4 mb-10 text-left"></div>
             <div class="flex gap-4">
                 <button onclick="closeModal('printSelectionModal')" class="flex-1 py-4 text-[10px] font-black text-gray-300 uppercase">Cancelar</button>
@@ -310,7 +291,7 @@
     <div id="printContainer" class="hidden"></div>
 
     <script>
-        // Plugin de labels estáticas
+        // Registrar Labels
         Chart.register(ChartDataLabels);
 
         const COLOR_PALETTES = {
@@ -324,7 +305,7 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
         const auth = firebase.auth();
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'regional-santa-maria-clean-final-v13';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'regional-santa-maria-clean-final-v14';
 
         const SECTORS = {
             "JARDIM ALMANARA": ["Jardim Almanara", "Parque Pedroso", "Vila Penteado", "Jardim dos Francos"],
@@ -337,7 +318,7 @@
         const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
         const FULL_MONTHS = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
-        // DADOS REAIS INTEGRAIS RESTAURADOS
+        // DADOS REAIS COMPLETOS
         const REAL_DATA = {
             "2023": {
                 "Casa Verde Alta": [[10273.43, 3806.81], [7346.39, 3915.18], [10929.20, 3790.03], [10507.32, 3467.90], [7005.42, 4609.99], [8268.53, 5354.84], [7327.75, 4290.12], [5684.70, 4296.93], [6247.38, 4010.16], [5648.37, 4768.46], [7768.66, 4285.82], [6779.92, 3393.23]],
@@ -456,11 +437,24 @@
             await batch.commit();
         }
 
+        async function forceSyncCodeData() {
+            if (!auth.currentUser) return;
+            if(!confirm("Deseja forçar a entrada de todos os números do código agora? Isso sobrescreverá valores atuais.")) return;
+            const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
+            await seedInitialData(col);
+            showFeedback("Sincronizado", "A base de dados foi atualizada com os números do código.");
+        }
+
         function requestAdminAccess() { document.getElementById('adminPasswordInput').value = ''; showModal('passwordModal'); }
-        function checkAdminPassword() { if (document.getElementById('adminPasswordInput').value === "1234") { closeModal('passwordModal'); openAdminModal(); } else { showFeedback("Erro", "Incorreta."); } }
+        function checkAdminPassword() { if (document.getElementById('adminPasswordInput').value === "1234") { closeModal('passwordModal'); openAdminModal(); } else { showFeedback("Erro", "Senha regional inválida."); } }
         function exitAdmin() { closeModal('adminModal'); showFeedback("Fim", "Sessão encerrada."); }
-        function openAdminModal() { onAdminSectorChange(); showModal('adminModal'); }
-        function onAdminSectorChange() { document.getElementById('adminChurch').innerHTML = ALL_CHURCHES.sort().map(c => `<option value="${c}">${c}</option>`).join(''); }
+        function openAdminModal() { 
+            onAdminSectorChange(); 
+            showModal('adminModal'); 
+        }
+        function onAdminSectorChange() {
+            document.getElementById('adminChurch').innerHTML = ALL_CHURCHES.sort().map(c => `<option value="${c}">${c}</option>`).join('');
+        }
         function switchAdminTab(tab) {
             const isM = tab === 'manual';
             document.getElementById('tabManual').classList.toggle('hidden', !isM);
@@ -484,7 +478,7 @@
             document.getElementById('kpi-income').innerText = `R$ ${totalInc.toLocaleString('pt-BR', {minFractionDigits:2})}`;
             document.getElementById('kpi-expense').innerText = `R$ ${totalExp.toLocaleString('pt-BR', {minFractionDigits:2})}`;
             document.getElementById('kpi-balance').innerText = `R$ ${(totalInc - totalExp).toLocaleString('pt-BR', {minFractionDigits:2})}`;
-            document.getElementById('kpi-active').innerText = `${[...new Set(filtered.filter(d => d.income > 0 || d.expense > 0).map(d => d.church))].length} Unidades`;
+            document.getElementById('kpi-active').innerText = `${[...new Set(filtered.filter(d => d.income > 0 || d.expense > 0).map(d => d.church))].length} Unid. Ativas`;
 
             renderCharts(filtered);
             renderTable(filtered);
@@ -495,8 +489,7 @@
             const exps = MONTHS.map(m => data.filter(d => d.month === m).reduce((a,b) => a+b.expense, 0));
 
             const pMain = COLOR_PALETTES[document.getElementById('colorMain').value];
-            const pPie = COLOR_PALETTES[document.getElementById('colorPie').value];
-            const pRanking = COLOR_PALETTES[document.getElementById('colorRanking').value];
+            const pPie = COLOR_PALETTES['default']; // Fixo para o exemplo, pode ser dinâmico
 
             const showM = document.getElementById('showLabelsMain').checked;
             const showP = document.getElementById('showLabelsPie').checked;
@@ -517,7 +510,7 @@
                         { label: 'Saídas', data: exps, backgroundColor: pMain.neg, borderRadius: 6, datalabels: labelConfig(showM) }
                     ]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' }, datalabels: labelConfig(showM) }, scales: { y: { beginAtZero: true, grid: { color: '#f9fafb' } } } }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' }, datalabels: labelConfig(showM) } }
             });
 
             if (pieChart) pieChart.destroy();
@@ -540,7 +533,7 @@
                 type: 'bar',
                 data: {
                     labels: balances.map(x => x.n),
-                    datasets: [{ data: balances.map(x => x.b), backgroundColor: balances.map(x => x.b >= 0 ? pRanking.pos : pRanking.neg), borderRadius: 8 }]
+                    datasets: [{ data: balances.map(x => x.b), backgroundColor: balances.map(x => x.b >= 0 ? pPie.pos : pPie.neg), borderRadius: 8 }]
                 },
                 options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { ...labelConfig(showR), align: 'right', anchor: 'end', formatter: (v) => currencyFormatter(v) } } }
             });
@@ -560,7 +553,7 @@
             if (finalRows.length === 0) { body.innerHTML = '<tr><td colspan="5" class="p-10 text-center text-gray-300 font-bold uppercase">Vazio</td></tr>'; return; }
             finalRows.forEach(r => {
                 const tr = document.createElement('tr');
-                tr.innerHTML = `<td class="px-8 py-5 font-bold text-black text-black">${r.church}</td><td class="px-6 py-5 text-center text-gray-400 font-bold text-black">${r.month}/${r.year}</td><td class="px-6 py-5 text-right text-blue-600 font-black">R$ ${r.income.toLocaleString('pt-BR')}</td><td class="px-6 py-5 text-right text-rose-600 font-black text-black">R$ ${r.expense.toLocaleString('pt-BR')}</td><td class="px-8 py-5 text-right font-black text-black text-black text-black">R$ ${(r.income - r.expense).toLocaleString('pt-BR')}</td>`;
+                tr.innerHTML = `<td class="px-8 py-5 font-bold text-black">${r.church}</td><td class="px-6 py-5 text-center text-gray-400 font-bold">${r.month}/${r.year}</td><td class="px-6 py-5 text-right text-blue-600 font-black">R$ ${r.income.toLocaleString('pt-BR')}</td><td class="px-6 py-5 text-right text-rose-600 font-black">R$ ${r.expense.toLocaleString('pt-BR')}</td><td class="px-8 py-5 text-right font-black text-black">R$ ${(r.income - r.expense).toLocaleString('pt-BR')}</td>`;
                 body.appendChild(tr);
             });
         }
@@ -577,7 +570,7 @@
             opts.forEach(o => {
                 if (document.getElementById(o.id).checked) {
                     const p = document.createElement('div'); p.className = 'print-page';
-                    p.innerHTML = `<div style="text-align:center; border-bottom:3px solid #000; padding-bottom:10px; width:100%; margin-bottom:40px;"><h1 style="font-size:24px; font-weight:900;">AD.PERUS - REGIONAL SANTA MARIA</h1><p style="font-size:14px; font-weight:700;">${o.t.toUpperCase()} | ANO: ${document.getElementById('yearFilter').value}</p></div><img src="${document.getElementById(o.c).toDataURL()}" style="width:100%; max-height:70%; object-fit:contain;"><div style="margin-top:40px; font-size:10px; color:#999; text-align:right; width:100%;">Gerado em: ${new Date().toLocaleString()}</div>`;
+                    p.innerHTML = `<div style="text-align:center; border-bottom:3px solid #000; padding-bottom:10px; width:100%; margin-bottom:40px;"><h1 style="font-size:24px; font-weight:900;">AD.PERUS - REGIONAL SANTA MARIA</h1><p style="font-size:14px; font-weight:700;">${o.t.toUpperCase()} | ANO: ${document.getElementById('yearFilter').value}</p></div><img src="${document.getElementById(o.c).toDataURL()}" style="width:100%; max-height:70%; object-fit:contain;"><div style="margin-top:40px; font-size:10px; color:#999; text-align:right; width:100%;">Emitido em: ${new Date().toLocaleString()}</div>`;
                     cont.appendChild(p);
                 }
             });
@@ -603,7 +596,7 @@
                     if (mIdx !== -1 && ALL_CHURCHES.includes(church)) { batch.set(col.doc(`${church}_${year}_${mIdx}`), { church, year, month: MONTHS[mIdx], income: incVal, expense: expVal, status: "Real" }, { merge: true }); count++; }
                 }
             });
-            if (count > 0) { await batch.commit(); closeModal('adminModal'); showFeedback("Sucesso", `${count} registros.`); } else { showFeedback("Aviso", "Incorreto."); }
+            if (count > 0) { await batch.commit(); closeModal('adminModal'); showFeedback("Sucesso", `${count} registros.`); } else { showFeedback("Aviso", "Formato inválido."); }
         }
 
         async function saveAdminData() {
@@ -611,7 +604,7 @@
             const mt = document.getElementById('adminMonth').value; const inc = parseFloat(document.getElementById('adminIncome').value) || 0;
             const exp = parseFloat(document.getElementById('adminExpense').value) || 0;
             await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records').doc(`${ch}_${yr}_${MONTHS.indexOf(mt)}`).set({ church: ch, year: yr, month: mt, income: inc, expense: exp, status: "Real" }, { merge: true });
-            closeModal('adminModal'); showFeedback("Salvo", "OK.");
+            closeModal('adminModal'); showFeedback("Salvo", "Sucesso.");
         }
 
         async function resetRegionalData() {
