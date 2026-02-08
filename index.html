@@ -39,7 +39,7 @@
 <body class="bg-slate-50 text-slate-900 transition-colors duration-300">
 
     <!-- NAVBAR -->
-    <nav class="fixed top-0 left-0 right-0 h-16 bg-white border-b border-slate-200 z-50 px-6 flex items-center justify-between shadow-sm print-hidden">
+    <nav class="fixed top-0 left-0 right-0 h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 z-50 px-6 flex items-center justify-between shadow-sm print-hidden">
         <div class="flex items-center gap-3">
             <div class="bg-emerald-500 p-2 rounded-lg text-white">
                 <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
@@ -53,7 +53,7 @@
             <div id="sync-status" class="flex items-center gap-2 px-3 py-1 bg-slate-100 rounded-full text-[10px] font-bold uppercase tracking-tighter text-slate-500 dark:bg-slate-800">
                 <span class="w-2 h-2 bg-slate-300 rounded-full"></span> Conectando...
             </div>
-            <button onclick="document.documentElement.classList.toggle('dark')" class="p-2 hover:bg-slate-100 rounded-full text-slate-600 dark:text-slate-400">
+            <button onclick="document.documentElement.classList.toggle('dark')" class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full text-slate-600 dark:text-slate-400">
                 <i data-lucide="moon" class="w-5 h-5"></i>
             </button>
         </div>
@@ -70,6 +70,9 @@
             </div>
             
             <div class="flex flex-wrap items-center gap-3 print-hidden">
+                <button onclick="openAdminModal()" class="flex items-center gap-2 bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase shadow-sm hover:bg-indigo-700 transition-colors">
+                    <i data-lucide="user-cog" class="w-4 h-4"></i> Painel Adm
+                </button>
                 <button onclick="window.print()" class="flex items-center gap-2 bg-slate-800 text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase shadow-sm active:scale-95 transition-transform">
                     <i data-lucide="printer" class="w-4 h-4"></i> PDF Paisagem
                 </button>
@@ -159,6 +162,102 @@
         </div>
     </main>
 
+    <!-- MODAL ADMINISTRATIVO -->
+    <div id="adminModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 w-full max-w-2xl rounded-3xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
+            <div class="p-6 bg-slate-50 dark:bg-slate-900 border-b dark:border-slate-700 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="bg-indigo-600 p-2 rounded-lg text-white">
+                        <i data-lucide="pencil-line" class="w-4 h-4"></i>
+                    </div>
+                    <h3 class="font-bold uppercase text-slate-800 dark:text-white">Painel Administrativo</h3>
+                </div>
+                <div class="flex gap-2">
+                    <button id="tabManualBtn" onclick="switchAdminTab('manual')" class="px-4 py-1.5 rounded-lg text-[10px] font-black uppercase bg-indigo-100 text-indigo-600 dark:bg-indigo-900/40">Manual</button>
+                    <button id="tabBulkBtn" onclick="switchAdminTab('bulk')" class="px-4 py-1.5 rounded-lg text-[10px] font-black uppercase bg-slate-100 text-slate-500 dark:bg-slate-800">Colagem Massa</button>
+                </div>
+            </div>
+            
+            <!-- ABA MANUAL -->
+            <div id="tabManual" class="p-8 space-y-5">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-bold uppercase text-slate-400">Ano</label>
+                        <select id="adminYear" class="w-full p-3 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:ring-1 ring-indigo-500">
+                            <option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-bold uppercase text-slate-400">Mês</label>
+                        <select id="adminMonth" class="w-full p-3 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:ring-1 ring-indigo-500">
+                            {MONTHS_GEN}
+                        </select>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-bold uppercase text-slate-400">Setor</label>
+                    <select id="adminSector" onchange="onAdminSectorChange()" class="w-full p-3 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:ring-1 ring-indigo-500">
+                        <option value="JARDIM ALMANARA">Setor Jardim Almanara</option>
+                        <option value="VILA ACRE">Setor Vila Acre</option>
+                        <option value="CASA VERDE ALTA">Setor Casa Verde Alta</option>
+                        <option value="VILA SANTA MARIA">Setor Vila Santa Maria</option>
+                    </select>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-bold uppercase text-slate-400">Congregação</label>
+                    <select id="adminChurch" class="w-full p-3 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:ring-1 ring-indigo-500"></select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-bold uppercase text-emerald-600">Entradas (R$)</label>
+                        <input type="number" id="adminIncome" placeholder="0,00" step="0.01" class="w-full p-3 bg-slate-50 dark:bg-slate-900 rounded-xl font-bold focus:ring-1 ring-emerald-500 outline-none">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-bold uppercase text-rose-600">Saídas (R$)</label>
+                        <input type="number" id="adminExpense" placeholder="0,00" step="0.01" class="w-full p-3 bg-slate-50 dark:bg-slate-900 rounded-xl font-bold focus:ring-1 ring-rose-500 outline-none">
+                    </div>
+                </div>
+                <button onclick="saveAdminData()" class="w-full py-4 bg-indigo-600 text-white rounded-xl text-xs font-bold uppercase shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2">
+                    <i data-lucide="save" class="w-4 h-4"></i> Salvar Registro Único
+                </button>
+            </div>
+
+            <!-- ABA BULK PASTE -->
+            <div id="tabBulk" class="p-8 space-y-4 hidden">
+                <div class="bg-indigo-50 dark:bg-indigo-900/20 p-4 rounded-xl border border-indigo-100 dark:border-indigo-800">
+                    <p class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase mb-2">Instruções de Formato</p>
+                    <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed italic">
+                        Copie e cole os dados exatamente como no Excel: <br>
+                        <b>Igreja [Espaço] Mês [Espaço] Entradas [Espaço] Saídas</b><br>
+                        Ex: Casa Verde Alta Jan R$ 10.273,43 R$ 3.806,81
+                    </p>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-bold uppercase text-slate-400">Ano Alvo do Lote</label>
+                    <select id="bulkYear" class="w-full p-3 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm outline-none focus:ring-1 ring-indigo-500">
+                        <option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
+                    </select>
+                </div>
+                <textarea id="bulkDataInput" rows="8" placeholder="Cole aqui seu texto..." class="w-full p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl text-xs font-mono border-none focus:ring-1 ring-indigo-500 outline-none custom-scrollbar"></textarea>
+                <button onclick="processBulkPaste()" class="w-full py-4 bg-emerald-600 text-white rounded-xl text-xs font-bold uppercase shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-2">
+                    <i data-lucide="zap" class="w-4 h-4"></i> Processar e Salvar Tudo
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FEEDBACK MESSAGE -->
+    <div id="feedbackModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[110] hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 max-w-xs w-full text-center shadow-2xl">
+            <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i data-lucide="check-circle" class="w-8 h-8"></i>
+            </div>
+            <h4 id="feedbackTitle" class="font-bold text-slate-800 dark:text-white mb-1">Sucesso!</h4>
+            <p id="feedbackText" class="text-sm text-slate-500 mb-6">Operação concluída.</p>
+            <button onclick="closeModal('feedbackModal')" class="w-full py-3 bg-slate-900 dark:bg-emerald-600 text-white rounded-xl text-xs font-bold uppercase">Fechar</button>
+        </div>
+    </div>
+
     <script>
         // --- CONFIGURAÇÃO FIREBASE ---
         const firebaseConfig = {
@@ -175,7 +274,6 @@
         const auth = firebase.auth();
         const appId = 'regional-santa-maria-setores-final-v3';
 
-        // ESTRUTURA DOS SETORES
         const SECTORS = {
             "JARDIM ALMANARA": ["Jardim Almanara", "Parque Pedroso", "Vila Penteado", "Jardim dos Francos"],
             "VILA ACRE": ["Vila Acre", "Jardim das Graças", "Trivelato"],
@@ -185,6 +283,7 @@
 
         const ALL_CHURCHES = Object.values(SECTORS).flat();
         const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+        const FULL_MONTHS = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
         let currentData = [];
         let mainChart, pieChart;
@@ -192,14 +291,17 @@
         window.onload = async () => {
             lucide.createIcons();
             initChurchOptions();
+            generateMonthSelects();
             try {
                 await auth.signInAnonymously();
                 setupFirestoreListener();
-            } catch (e) { 
-                console.error("Erro Auth:", e);
-                updateSyncStatus('error', 'Erro de Conexão');
-            }
+            } catch (e) { console.error(e); }
         };
+
+        function generateMonthSelects() {
+            const select = document.getElementById('adminMonth');
+            select.innerHTML = MONTHS.map((m, i) => `<option value="${m}">${FULL_MONTHS[i]}</option>`).join('');
+        }
 
         function initChurchOptions() {
             const filter = document.getElementById('churchFilter');
@@ -214,18 +316,11 @@
             const sector = document.getElementById('sectorFilter').value;
             const churchFilter = document.getElementById('churchFilter');
             churchFilter.innerHTML = '<option value="Todas">Todas Igrejas</option>';
-
-            if (sector === "Todos") {
-                ALL_CHURCHES.sort().forEach(n => {
-                    const o = document.createElement('option');
-                    o.value = n; o.textContent = n; churchFilter.appendChild(o);
-                });
-            } else {
-                SECTORS[sector].sort().forEach(n => {
-                    const o = document.createElement('option');
-                    o.value = n; o.textContent = n; churchFilter.appendChild(o);
-                });
-            }
+            const list = sector === "Todos" ? ALL_CHURCHES : SECTORS[sector];
+            list.sort().forEach(n => {
+                const o = document.createElement('option');
+                o.value = n; o.textContent = n; churchFilter.appendChild(o);
+            });
             updateDashboard();
         }
 
@@ -253,30 +348,123 @@
             await batch.commit();
         }
 
+        // --- PAINEL ADM ---
+        function switchAdminTab(tab) {
+            const manual = document.getElementById('tabManual');
+            const bulk = document.getElementById('tabBulk');
+            const mBtn = document.getElementById('tabManualBtn');
+            const bBtn = document.getElementById('tabBulkBtn');
+
+            if(tab === 'manual') {
+                manual.classList.remove('hidden'); bulk.classList.add('hidden');
+                mBtn.className = "px-4 py-1.5 rounded-lg text-[10px] font-black uppercase bg-indigo-100 text-indigo-600 dark:bg-indigo-900/40";
+                bBtn.className = "px-4 py-1.5 rounded-lg text-[10px] font-black uppercase bg-slate-100 text-slate-500 dark:bg-slate-800";
+            } else {
+                manual.classList.add('hidden'); bulk.classList.remove('hidden');
+                bBtn.className = "px-4 py-1.5 rounded-lg text-[10px] font-black uppercase bg-indigo-100 text-indigo-600 dark:bg-indigo-900/40";
+                mBtn.className = "px-4 py-1.5 rounded-lg text-[10px] font-black uppercase bg-slate-100 text-slate-500 dark:bg-slate-800";
+            }
+        }
+
+        function openAdminModal() {
+            onAdminSectorChange();
+            showModal('adminModal');
+        }
+
+        function onAdminSectorChange() {
+            const sector = document.getElementById('adminSector').value;
+            const churchSelect = document.getElementById('adminChurch');
+            churchSelect.innerHTML = SECTORS[sector].map(c => `<option value="${c}">${c}</option>`).join('');
+        }
+
+        // PROCESSAMENTO DE COLAGEM EM MASSA
+        async function processBulkPaste() {
+            const text = document.getElementById('bulkDataInput').value;
+            const year = parseInt(document.getElementById('bulkYear').value);
+            const lines = text.split('\n');
+            const batch = db.batch();
+            const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
+            let count = 0;
+
+            lines.forEach(line => {
+                if (!line.trim()) return;
+                // Regex para capturar: [Igreja] [Mês] [Entrada] [Saída]
+                // Suporta: Casa Verde Alta Jan R$ 10.273,43 R$ 3.806,81
+                const regex = /^(.*?)\s+(Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez)\s+R\$\s*([\d.,]+)\s+R\$\s*([\d.,]+)$/i;
+                const match = line.match(regex);
+
+                if (match) {
+                    const churchRaw = match[1].trim();
+                    const monthStr = match[2];
+                    const incomeStr = match[3];
+                    const expenseStr = match[4];
+
+                    // Converter valores BR para Number
+                    const income = parseFloat(incomeStr.replace(/\./g, '').replace(',', '.'));
+                    const expense = parseFloat(expenseStr.replace(/\./g, '').replace(',', '.'));
+
+                    // Encontrar nome correto da igreja (fuzzy match simples)
+                    const church = ALL_CHURCHES.find(c => c.toLowerCase().includes(churchRaw.toLowerCase())) || churchRaw;
+                    const monthIdx = MONTHS.indexOf(monthStr.charAt(0).toUpperCase() + monthStr.slice(1).toLowerCase());
+
+                    if (monthIdx !== -1) {
+                        const docId = `${church}_${year}_${monthIdx}`;
+                        batch.set(col.doc(docId), {
+                            church, year, month: MONTHS[monthIdx], income, expense, status: "Real"
+                        }, { merge: true });
+                        count++;
+                    }
+                }
+            });
+
+            if (count > 0) {
+                try {
+                    await batch.commit();
+                    closeModal('adminModal');
+                    document.getElementById('bulkDataInput').value = '';
+                    showFeedback("Importação Concluída", `${count} registros foram atualizados com sucesso.`);
+                } catch (e) { alert("Erro ao salvar lote."); }
+            } else {
+                alert("Nenhum dado válido identificado no formato esperado.");
+            }
+        }
+
+        async function saveAdminData() {
+            const church = document.getElementById('adminChurch').value;
+            const year = parseInt(document.getElementById('adminYear').value);
+            const month = document.getElementById('adminMonth').value;
+            const income = parseFloat(document.getElementById('adminIncome').value) || 0;
+            const expense = parseFloat(document.getElementById('adminExpense').value) || 0;
+            
+            const monthIdx = MONTHS.indexOf(month);
+            const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
+
+            try {
+                await col.doc(`${church}_${year}_${monthIdx}`).set({
+                    church, year, month, income, expense, status: "Real"
+                }, { merge: true });
+                closeModal('adminModal');
+                showFeedback("Lançamento Salvo", `Dados de ${month}/${year} para ${church} atualizados.`);
+            } catch (error) { alert("Erro ao salvar."); }
+        }
+
         function updateDashboard() {
             const year = parseInt(document.getElementById('yearFilter').value);
             const sector = document.getElementById('sectorFilter').value;
             const church = document.getElementById('churchFilter').value;
             
             let filtered = currentData.filter(d => d.year === year);
-
-            if (sector !== "Todos") {
-                const churchesInSector = SECTORS[sector];
-                filtered = filtered.filter(d => churchesInSector.includes(d.church));
-            }
-
-            if (church !== "Todas") {
-                filtered = filtered.filter(d => d.church === church);
-            }
+            if (sector !== "Todos") filtered = filtered.filter(d => SECTORS[sector].includes(d.church));
+            if (church !== "Todas") filtered = filtered.filter(d => d.church === church);
             
             const totalInc = filtered.reduce((a, b) => a + b.income, 0);
             const totalExp = filtered.reduce((a, b) => a + b.expense, 0);
-            const currentUnits = [...new Set(filtered.map(d => d.church))].length;
+            const unitsCount = [...new Set(filtered.map(d => d.church))].length;
 
             document.getElementById('kpi-income').innerText = `R$ ${totalInc.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
             document.getElementById('kpi-expense').innerText = `R$ ${totalExp.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
             document.getElementById('kpi-balance').innerText = `R$ ${(totalInc - totalExp).toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
-            document.getElementById('kpi-active').innerText = `${currentUnits} Unidades`;
+            document.getElementById('kpi-active').innerText = `${unitsCount} Unidades`;
 
             renderCharts(filtered);
             renderTable(filtered);
@@ -286,40 +474,17 @@
             const incs = MONTHS.map(m => data.filter(d => d.month === m).reduce((a,b) => a+b.income, 0));
             const exps = MONTHS.map(m => data.filter(d => d.month === m).reduce((a,b) => a+b.expense, 0));
 
-            // GRÁFICO PRINCIPAL ATUALIZADO PARA BARRAS (BAR)
             if (mainChart) mainChart.destroy();
             mainChart = new Chart(document.getElementById('mainChart'), {
                 type: 'bar', 
                 data: {
                     labels: MONTHS,
                     datasets: [
-                        { 
-                            label: 'Entradas', 
-                            data: incs, 
-                            backgroundColor: '#10b981', 
-                            borderRadius: 6,
-                            borderWidth: 0
-                        },
-                        { 
-                            label: 'Saídas', 
-                            data: exps, 
-                            backgroundColor: '#ef4444', 
-                            borderRadius: 6,
-                            borderWidth: 0
-                        }
+                        { label: 'Entradas', data: incs, backgroundColor: '#10b981', borderRadius: 6 },
+                        { label: 'Saídas', data: exps, backgroundColor: '#ef4444', borderRadius: 6 }
                     ]
                 },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    scales: { 
-                        y: { beginAtZero: true, grid: { borderDash: [5, 5] } }, 
-                        x: { grid: { display: false } } 
-                    },
-                    plugins: {
-                        legend: { position: 'top', align: 'end', labels: { usePointStyle: true, boxWidth: 10 } }
-                    }
-                }
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } }
             });
 
             if (pieChart) pieChart.destroy();
@@ -329,7 +494,7 @@
                     labels: ['Entradas', 'Saídas'],
                     datasets: [{ data: [total(incs) || 1, total(exps) || 0], backgroundColor: ['#10b981', '#ef4444'], borderWidth: 0 }]
                 },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
+                options: { responsive: true, maintainAspectRatio: false }
             });
         }
 
@@ -337,16 +502,12 @@
             const search = document.getElementById('tableSearch').value.toLowerCase();
             const body = document.getElementById('dataTableBody');
             body.innerHTML = "";
-            
-            const tableRows = data.filter(d => d.church.toLowerCase().includes(search))
-                                 .sort((a,b) => b.income - a.income);
-
-            if (tableRows.length === 0) {
-                body.innerHTML = '<tr><td colspan="6" class="p-10 text-center text-slate-400">Nenhum registro encontrado.</td></tr>';
+            const rows = data.filter(d => d.church.toLowerCase().includes(search)).sort((a,b) => b.income - a.income);
+            if (rows.length === 0) {
+                body.innerHTML = '<tr><td colspan="6" class="p-10 text-center text-slate-400">Sem dados.</td></tr>';
                 return;
             }
-
-            tableRows.forEach(r => {
+            rows.forEach(r => {
                 const tr = document.createElement('tr');
                 tr.className = `hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors ${r.income === 0 ? 'opacity-30' : ''}`;
                 tr.innerHTML = `
@@ -355,7 +516,7 @@
                     <td class="px-6 py-4 text-center text-slate-500">${r.month}</td>
                     <td class="px-6 py-4 text-right text-emerald-500 font-bold">R$ ${r.income.toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
                     <td class="px-6 py-4 text-right text-rose-500 font-bold">R$ ${r.expense.toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
-                    <td class="px-6 py-4 text-right font-bold text-slate-800 dark:text-slate-100">R$ ${(r.income - r.expense).toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
+                    <td class="px-6 py-4 text-right font-bold">R$ ${(r.income - r.expense).toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
                 `;
                 body.appendChild(tr);
             });
@@ -369,6 +530,14 @@
             dot.nextSibling.textContent = ` ${text}`;
         }
 
+        function showFeedback(title, text) {
+            document.getElementById('feedbackTitle').innerText = title;
+            document.getElementById('feedbackText').innerText = text;
+            showModal('feedbackModal');
+        }
+
+        function showModal(id) { document.getElementById(id).classList.remove('hidden'); document.getElementById(id).classList.add('flex'); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
         const total = arr => arr.reduce((a, b) => a + b, 0);
     </script>
 </body>
