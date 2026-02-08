@@ -4,21 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AD.PERUS - Regional 2 - Santa Maria</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
     
-    <!-- Firebase SDKs (Compatibility Version) -->
+    <!-- Scripts Externos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore-compat.js"></script>
 
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         body { font-family: 'Inter', sans-serif; }
 
         @media print {
@@ -35,160 +34,130 @@
         .dark { background-color: #0f172a; color: #f8fafc; }
         .dark nav { background-color: #1e293b; border-color: #334155; }
         .dark .bg-white { background-color: #1e293b; color: white; }
-        .dark .border-slate-100 { border-color: #334155; }
-        .dark .text-slate-800 { color: #f1f5f9; }
     </style>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: { emerald: { 600: '#059669', 700: '#047857' } }
-                }
-            }
-        }
-    </script>
 </head>
 <body class="bg-slate-50 text-slate-900 transition-colors duration-300">
 
-    <!-- BARRA DE NAVEGAÇÃO -->
+    <!-- NAVBAR -->
     <nav class="fixed top-0 left-0 right-0 h-16 bg-white border-b border-slate-200 z-50 px-6 flex items-center justify-between shadow-sm print-hidden">
         <div class="flex items-center gap-3">
-            <div class="bg-emerald-600 p-2 rounded-lg text-white">
+            <div class="bg-emerald-500 p-2 rounded-lg text-white">
                 <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
             </div>
             <div>
-                <h1 class="text-lg font-black uppercase leading-none tracking-tight">AD.PERUS</h1>
-                <p class="text-[10px] font-bold text-emerald-600 tracking-widest uppercase">Regional 2 - Santa Maria</p>
+                <h1 class="text-lg font-bold uppercase leading-none tracking-tight text-slate-800 dark:text-white">AD.PERUS</h1>
+                <p class="text-[10px] font-medium text-emerald-500 tracking-widest uppercase">Regional 2 - Santa Maria</p>
             </div>
         </div>
         <div class="flex items-center gap-4">
-            <div id="sync-status" class="flex items-center gap-2 px-3 py-1 bg-slate-100 rounded-full text-[10px] font-bold uppercase tracking-tighter text-slate-500">
+            <div id="sync-status" class="flex items-center gap-2 px-3 py-1 bg-slate-100 rounded-full text-[10px] font-bold uppercase tracking-tighter text-slate-500 dark:bg-slate-800">
                 <span class="w-2 h-2 bg-slate-300 rounded-full"></span> Conectando...
             </div>
-            <button onclick="toggleDarkMode()" class="p-2 hover:bg-slate-100 rounded-full text-slate-600">
-                <i data-lucide="moon" id="theme-icon" class="w-5 h-5"></i>
+            <button onclick="document.documentElement.classList.toggle('dark')" class="p-2 hover:bg-slate-100 rounded-full text-slate-600 dark:text-slate-400">
+                <i data-lucide="moon" class="w-5 h-5"></i>
             </button>
         </div>
     </nav>
 
-    <!-- CONTEÚDO -->
+    <!-- CONTEÚDO PRINCIPAL -->
     <main class="pt-24 px-4 md:px-8 max-w-[1600px] mx-auto pb-12 print-full">
         
         <!-- CABEÇALHO -->
-        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
-            <div>
-                <h2 class="text-4xl font-black tracking-tighter uppercase text-slate-800">Painel Regional 2024</h2>
-                <p class="text-slate-500 font-medium mt-1">Gestão consolidada e sincronizada com a Regional.</p>
+        <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-6 mb-10">
+            <div class="print-full print:text-center">
+                <h2 class="text-3xl font-bold tracking-tight text-slate-800 dark:text-white">Gestão Regional por Setores</h2>
+                <p class="text-slate-500 font-medium mt-1">Dados reais de 2023 a 2025 | Regional Santa Maria.</p>
             </div>
             
             <div class="flex flex-wrap items-center gap-3 print-hidden">
-                <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="handleImageUpload(event)">
-                <button onclick="document.getElementById('fileInput').click()" class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-xs font-black uppercase shadow-lg shadow-indigo-500/20">
-                    <i data-lucide="camera" class="w-4 h-4"></i> IA Vision
-                </button>
-                <button onclick="window.print()" class="flex items-center gap-2 bg-slate-900 text-white px-5 py-2.5 rounded-xl text-xs font-black uppercase shadow-lg shadow-slate-500/20">
+                <button onclick="window.print()" class="flex items-center gap-2 bg-slate-800 text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase shadow-sm active:scale-95 transition-transform">
                     <i data-lucide="printer" class="w-4 h-4"></i> PDF Paisagem
                 </button>
 
-                <div class="flex items-center bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-1 shadow-sm">
-                    <select id="churchFilter" class="bg-transparent pl-3 pr-8 py-2 text-[10px] font-black uppercase outline-none cursor-pointer" onchange="updateDashboard()">
-                        <option value="Todas">Toda Regional</option>
+                <div class="flex flex-wrap items-center bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-1 shadow-sm">
+                    <select id="yearFilter" class="bg-transparent pl-3 pr-8 py-2 text-[10px] font-bold uppercase outline-none border-r dark:border-slate-700" onchange="updateDashboard()">
+                        <option value="2025">Ano: 2025</option>
+                        <option value="2024">Ano: 2024</option>
+                        <option value="2023">Ano: 2023</option>
+                    </select>
+                    
+                    <select id="sectorFilter" class="bg-transparent pl-3 pr-8 py-2 text-[10px] font-bold uppercase outline-none border-r dark:border-slate-700" onchange="onSectorChange()">
+                        <option value="Todos">Todos Setores</option>
+                        <option value="JARDIM ALMANARA">Setor Jardim Almanara</option>
+                        <option value="VILA ACRE">Setor Vila Acre</option>
+                        <option value="CASA VERDE ALTA">Setor Casa Verde Alta</option>
+                        <option value="VILA SANTA MARIA">Setor Vila Santa Maria</option>
+                    </select>
+
+                    <select id="churchFilter" class="bg-transparent pl-3 pr-8 py-2 text-[10px] font-bold uppercase outline-none" onchange="updateDashboard()">
+                        <option value="Todas">Todas Igrejas</option>
                     </select>
                 </div>
             </div>
         </div>
 
-        <!-- INDICADORES KPI -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4 mb-8 print:grid-cols-4">
-            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                <p class="text-[10px] font-black uppercase text-slate-400 mb-2">Entradas Totais</p>
-                <p id="kpi-income" class="text-2xl font-black text-emerald-600">R$ 0,00</p>
+        <!-- KPIs INDICADORES -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 print:grid-cols-4">
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
+                <p class="text-[10px] font-bold uppercase text-slate-400 mb-2">Entradas No Período</p>
+                <p id="kpi-income" class="text-2xl font-bold text-emerald-500">R$ 0,00</p>
             </div>
-            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                <p class="text-[10px] font-black uppercase text-slate-400 mb-2">Saídas Totais</p>
-                <p id="kpi-expense" class="text-2xl font-black text-rose-600">R$ 0,00</p>
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
+                <p class="text-[10px] font-bold uppercase text-slate-400 mb-2">Saídas No Período</p>
+                <p id="kpi-expense" class="text-2xl font-bold text-rose-500">R$ 0,00</p>
             </div>
-            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                <p class="text-[10px] font-black uppercase text-slate-400 mb-2">Saldo Líquido</p>
-                <p id="kpi-balance" class="text-2xl font-black text-blue-600">R$ 0,00</p>
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
+                <p class="text-[10px] font-bold uppercase text-slate-400 mb-2">Saldo Consolidado</p>
+                <p id="kpi-balance" class="text-2xl font-bold text-blue-500">R$ 0,00</p>
             </div>
-            <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                <p class="text-[10px] font-black uppercase text-slate-400 mb-2">Igrejas Ativas</p>
-                <p id="kpi-active" class="text-2xl font-black text-indigo-600">0 / 10</p>
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
+                <p class="text-[10px] font-bold uppercase text-slate-400 mb-2">Unidades Exibidas</p>
+                <p id="kpi-active" class="text-2xl font-bold text-indigo-500">0 / 0</p>
             </div>
         </div>
 
         <!-- GRÁFICOS -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8 print-full">
-            <div class="lg:col-span-8 bg-white p-8 rounded-[40px] shadow-sm border border-slate-100">
-                <h3 class="font-black text-lg uppercase mb-8 flex items-center gap-3">
-                    <span class="w-1.5 h-6 bg-emerald-600 rounded-full"></span> Evolução Mensal Consolidada
+            <div class="lg:col-span-8 bg-white dark:bg-slate-800 p-8 rounded-[40px] shadow-sm border border-slate-100 dark:border-slate-700">
+                <h3 class="font-bold text-lg uppercase mb-6 flex items-center gap-3 text-slate-800 dark:text-white">
+                    <span class="w-1 h-5 bg-emerald-500 rounded-full"></span> Comparativo Mensal de Fluxo
                 </h3>
-                <div class="h-[400px]">
-                    <canvas id="mainChart"></canvas>
-                </div>
+                <div class="h-[400px]"><canvas id="mainChart"></canvas></div>
             </div>
-            <div class="lg:col-span-4 bg-white p-8 rounded-[40px] shadow-sm border border-slate-100">
-                <h3 class="font-black text-lg uppercase mb-8 flex items-center gap-3">
-                    <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span> Saúde Financeira
+            <div class="lg:col-span-4 bg-white dark:bg-slate-800 p-8 rounded-[40px] shadow-sm border border-slate-100 dark:border-slate-700">
+                <h3 class="font-bold text-lg uppercase mb-6 flex items-center gap-3 text-slate-800 dark:text-white">
+                    <span class="w-1 h-5 bg-indigo-500 rounded-full"></span> Composição Financeira
                 </h3>
-                <div class="h-[400px]">
-                    <canvas id="pieChart"></canvas>
-                </div>
+                <div class="h-[400px]"><canvas id="pieChart"></canvas></div>
             </div>
         </div>
 
-        <!-- TABELA DETALHADA -->
-        <div class="bg-white rounded-[40px] shadow-sm border border-slate-100 overflow-hidden print-full">
-            <div class="p-8 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                <h3 class="font-black text-xl uppercase tracking-tighter">Histórico de Lançamentos</h3>
+        <!-- TABELA -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden print-full">
+            <div class="p-6 border-b border-slate-100 dark:border-slate-700 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <h3 class="font-bold text-xl tracking-tight text-slate-800 dark:text-white">Relatório Detalhado de Lançamentos</h3>
                 <div class="relative w-full md:w-80 print-hidden">
                     <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300"></i>
-                    <input type="text" id="tableSearch" placeholder="Pesquisar igreja..." class="w-full pl-12 pr-4 py-3 bg-slate-50 rounded-2xl text-sm font-medium outline-none" onkeyup="renderTable()">
+                    <input type="text" id="tableSearch" placeholder="Pesquisar igreja..." class="w-full pl-12 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl text-sm font-medium outline-none border-none focus:ring-1 ring-emerald-500" onkeyup="renderTable()">
                 </div>
             </div>
             <div class="overflow-x-auto custom-scrollbar">
                 <table class="w-full text-left text-sm">
                     <thead>
-                        <tr class="bg-slate-50/50 text-slate-400 font-black text-[10px] uppercase border-b border-slate-100 tracking-widest">
-                            <th class="px-8 py-5">Unidade Eclesiástica</th>
-                            <th class="px-8 py-5">Mês Ref.</th>
-                            <th class="px-8 py-5">Créditos</th>
-                            <th class="px-8 py-5">Débitos</th>
-                            <th class="px-8 py-5">Resultado</th>
-                            <th class="px-8 py-5">Status</th>
+                        <tr class="bg-slate-50 dark:bg-slate-900 text-slate-400 font-bold text-[10px] uppercase border-b border-slate-100 dark:border-slate-800 tracking-widest">
+                            <th class="px-6 py-4 text-left">Igreja</th>
+                            <th class="px-6 py-4">Ano</th>
+                            <th class="px-6 py-4 text-center">Mês</th>
+                            <th class="px-6 py-4 text-right">Entradas</th>
+                            <th class="px-6 py-4 text-right">Saídas</th>
+                            <th class="px-6 py-4 text-right">Saldo</th>
                         </tr>
                     </thead>
-                    <tbody id="dataTableBody" class="divide-y divide-slate-50"></tbody>
+                    <tbody id="dataTableBody" class="divide-y divide-slate-50 dark:divide-slate-700"></tbody>
                 </table>
             </div>
         </div>
     </main>
-
-    <!-- MODAL CARREGAMENTO -->
-    <div id="loadingModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
-        <div class="bg-white w-full max-w-sm rounded-3xl p-10 text-center shadow-2xl">
-            <div class="flex justify-center mb-6"><i data-lucide="loader-2" class="w-12 h-12 text-indigo-600 animate-spin"></i></div>
-            <h3 class="font-black uppercase text-xl mb-2">IA Vision Ativa</h3>
-            <p class="text-slate-500 text-sm">Analisando imagem e extraindo dados...</p>
-        </div>
-    </div>
-
-    <!-- MODAL RESULTADO IA -->
-    <div id="resultModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
-        <div class="bg-white w-full max-w-2xl rounded-[32px] shadow-2xl overflow-hidden">
-            <div class="p-6 bg-emerald-50 border-b flex items-center gap-3">
-                <i data-lucide="check-circle-2" class="text-emerald-600"></i>
-                <h3 class="font-black uppercase text-emerald-900">Confirmar Importação</h3>
-            </div>
-            <div id="resultContent" class="p-8 max-h-[50vh] overflow-y-auto"></div>
-            <div class="p-6 bg-slate-50 flex justify-end gap-3">
-                <button onclick="closeModal('resultModal')" class="px-6 py-2 text-xs font-bold uppercase text-slate-400">Cancelar</button>
-                <button onclick="confirmImport()" class="px-8 py-2 bg-emerald-600 text-white rounded-xl text-xs font-black uppercase">Salvar no Firebase</button>
-            </div>
-        </div>
-    </div>
 
     <script>
         // --- CONFIGURAÇÃO FIREBASE ---
@@ -201,161 +170,206 @@
             appId: "1:99827707619:web:800bb5462c56ee13519fd6",
             measurementId: "G-2RNPQDS1Z1"
         };
-
         firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
         const db = firebase.firestore();
-        const appId = 'regional-santa-maria-2024';
+        const auth = firebase.auth();
+        const appId = 'regional-santa-maria-setores-final-v3';
 
-        // --- DADOS E ESTADO ---
-        const CHURCH_NAMES = ["Jardim Almanara", "Parque Pedroso", "Jardim dos Francos", "Santa Maria", "Casa Verde 1", "Casa Verde 2", "Santista", "Trivelato", "Vila Acre", "Penteado"];
-        const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-        
-        const REAL_DATA_2024 = {
-            "Jardim Almanara": [{ inc: 19636.52, exp: 10032.76 }, { inc: 20764.30, exp: 10033.11 }, { inc: 21427.25, exp: 11973.59 }, { inc: 24671.78, exp: 11859.84 }, { inc: 24003.60, exp: 12135.50 }, { inc: 24255.92, exp: 11423.73 }, { inc: 26159.26, exp: 12295.29 }, { inc: 24532.80, exp: 12320.19 }, { inc: 23209.35, exp: 11621.26 }, { inc: 25976.35, exp: 13032.74 }, { inc: 22937.05, exp: 12155.49 }, { inc: 25446.90, exp: 12030.43 }],
-            "Parque Pedroso": [{ inc: 6088.00, exp: 1981.98 }, { inc: 9324.30, exp: 2062.00 }, { inc: 15354.45, exp: 6553.87 }, { inc: 9674.25, exp: 4819.03 }, { inc: 9506.68, exp: 6105.98 }, { inc: 8658.00, exp: 4936.52 }, { inc: 9663.30, exp: 5630.36 }, { inc: 8130.60, exp: 4431.79 }, { inc: 14678.40, exp: 6098.92 }, { inc: 9583.75, exp: 5289.35 }, { inc: 7369.00, exp: 5789.15 }, { inc: 9889.95, exp: 5092.00 }],
-            "Jardim dos Francos": [{ inc: 5521.15, exp: 1472.21 }, { inc: 5208.23, exp: 1687.14 }, { inc: 4903.00, exp: 1601.10 }, { inc: 5420.40, exp: 1380.75 }, { inc: 4557.35, exp: 1669.83 }, { inc: 4642.60, exp: 1554.20 }, { inc: 4669.90, exp: 1359.58 }, { inc: 6480.50, exp: 1355.84 }, { inc: 6071.85, exp: 1714.56 }, { inc: 4067.70, exp: 1835.11 }, { inc: 4172.55, exp: 1706.12 }, { inc: 5436.24, exp: 1422.55 }]
+        // ESTRUTURA DOS SETORES
+        const SECTORS = {
+            "JARDIM ALMANARA": ["Jardim Almanara", "Parque Pedroso", "Vila Penteado", "Jardim dos Francos"],
+            "VILA ACRE": ["Vila Acre", "Jardim das Graças", "Trivelato"],
+            "CASA VERDE ALTA": ["Casa Verde Alta", "Casa Verde 2", "Vila Santista"],
+            "VILA SANTA MARIA": ["Vila Santa Maria"]
         };
+
+        const ALL_CHURCHES = Object.values(SECTORS).flat();
+        const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 
         let currentData = [];
         let mainChart, pieChart;
-        let aiPreviewData = [];
-        let user = null;
 
         window.onload = async () => {
             lucide.createIcons();
-            initFilters();
+            initChurchOptions();
             try {
-                const cred = await auth.signInAnonymously();
-                user = cred.user;
-                updateSyncStatus('connected', 'Sincronizado');
+                await auth.signInAnonymously();
                 setupFirestoreListener();
-            } catch (error) {
-                updateSyncStatus('error', 'Sem Conexão');
+            } catch (e) { 
+                console.error("Erro Auth:", e);
+                updateSyncStatus('error', 'Erro de Conexão');
             }
         };
 
-        function updateSyncStatus(type, text) {
-            const el = document.getElementById('sync-status');
-            const dot = el.querySelector('span');
-            el.className = `flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter ${type === 'connected' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600'}`;
-            dot.className = `w-2 h-2 rounded-full ${type === 'connected' ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`;
-            dot.nextSibling.textContent = ` ${text}`;
+        function initChurchOptions() {
+            const filter = document.getElementById('churchFilter');
+            filter.innerHTML = '<option value="Todas">Todas Igrejas</option>';
+            ALL_CHURCHES.sort().forEach(n => {
+                const o = document.createElement('option');
+                o.value = n; o.textContent = n; filter.appendChild(o);
+            });
         }
 
-        function setupFirestoreListener() {
-            if (!user) return;
-            const collectionPath = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('financeRecords');
-            collectionPath.onSnapshot((snapshot) => {
-                if (snapshot.empty) { seedInitialData(); return; }
-                currentData = snapshot.docs.map(doc => doc.data());
+        function onSectorChange() {
+            const sector = document.getElementById('sectorFilter').value;
+            const churchFilter = document.getElementById('churchFilter');
+            churchFilter.innerHTML = '<option value="Todas">Todas Igrejas</option>';
+
+            if (sector === "Todos") {
+                ALL_CHURCHES.sort().forEach(n => {
+                    const o = document.createElement('option');
+                    o.value = n; o.textContent = n; churchFilter.appendChild(o);
+                });
+            } else {
+                SECTORS[sector].sort().forEach(n => {
+                    const o = document.createElement('option');
+                    o.value = n; o.textContent = n; churchFilter.appendChild(o);
+                });
+            }
+            updateDashboard();
+        }
+
+        async function setupFirestoreListener() {
+            const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
+            col.onSnapshot(snap => {
+                if (snap.empty) { seedInitialData(col); return; }
+                currentData = snap.docs.map(d => d.data());
                 updateDashboard();
-            }, (error) => console.error(error));
+                updateSyncStatus('connected', 'Sincronizado');
+            });
         }
 
-        async function seedInitialData() {
+        async function seedInitialData(col) {
             const batch = db.batch();
-            const collectionPath = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('financeRecords');
-            CHURCH_NAMES.forEach(church => {
-                for (let m = 0; m < 12; m++) {
-                    let income = 0, expense = 0, status = "Vazio";
-                    if (REAL_DATA_2024[church]) { income = REAL_DATA_2024[church][m].inc; expense = REAL_DATA_2024[church][m].exp; status = "Real"; }
-                    batch.set(collectionPath.doc(`${church}_2024_${m}`), { church, month: MONTHS[m], income, expense, status, year: 2024 });
-                }
+            ALL_CHURCHES.forEach(church => {
+                [2023, 2024, 2025].forEach(year => {
+                    for (let m = 0; m < 12; m++) {
+                        batch.set(col.doc(`${church}_${year}_${m}`), {
+                            church, year, month: MONTHS[m], income: 0, expense: 0, status: "Vazio"
+                        });
+                    }
+                });
             });
             await batch.commit();
         }
 
-        function initFilters() {
-            const filter = document.getElementById('churchFilter');
-            CHURCH_NAMES.forEach(name => {
-                const opt = document.createElement('option');
-                opt.value = name; opt.textContent = name; filter.appendChild(opt);
-            });
-        }
-
         function updateDashboard() {
-            const selected = document.getElementById('churchFilter').value;
-            const filtered = selected === "Todas" ? currentData : currentData.filter(d => d.church === selected);
+            const year = parseInt(document.getElementById('yearFilter').value);
+            const sector = document.getElementById('sectorFilter').value;
+            const church = document.getElementById('churchFilter').value;
+            
+            let filtered = currentData.filter(d => d.year === year);
+
+            if (sector !== "Todos") {
+                const churchesInSector = SECTORS[sector];
+                filtered = filtered.filter(d => churchesInSector.includes(d.church));
+            }
+
+            if (church !== "Todas") {
+                filtered = filtered.filter(d => d.church === church);
+            }
             
             const totalInc = filtered.reduce((a, b) => a + b.income, 0);
             const totalExp = filtered.reduce((a, b) => a + b.expense, 0);
-            const active = CHURCH_NAMES.filter(n => currentData.some(d => d.church === n && d.income > 0)).length;
+            const currentUnits = [...new Set(filtered.map(d => d.church))].length;
 
-            document.getElementById('kpi-income').textContent = `R$ ${totalInc.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
-            document.getElementById('kpi-expense').textContent = `R$ ${totalExp.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
-            document.getElementById('kpi-balance').textContent = `R$ ${(totalInc - totalExp).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
-            document.getElementById('kpi-active').textContent = `${active} / 10`;
+            document.getElementById('kpi-income').innerText = `R$ ${totalInc.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
+            document.getElementById('kpi-expense').innerText = `R$ ${totalExp.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
+            document.getElementById('kpi-balance').innerText = `R$ ${(totalInc - totalExp).toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
+            document.getElementById('kpi-active').innerText = `${currentUnits} Unidades`;
 
             renderCharts(filtered);
-            renderTable();
+            renderTable(filtered);
         }
 
         function renderCharts(data) {
-            const monthlyInc = MONTHS.map(m => data.filter(d => d.month === m).reduce((a, b) => a + b.income, 0));
-            const monthlyExp = MONTHS.map(m => data.filter(d => d.month === m).reduce((a, b) => a + b.expense, 0));
+            const incs = MONTHS.map(m => data.filter(d => d.month === m).reduce((a,b) => a+b.income, 0));
+            const exps = MONTHS.map(m => data.filter(d => d.month === m).reduce((a,b) => a+b.expense, 0));
 
+            // GRÁFICO PRINCIPAL ATUALIZADO PARA BARRAS (BAR)
             if (mainChart) mainChart.destroy();
-            mainChart = new Chart(document.getElementById('mainChart').getContext('2d'), {
-                type: 'line',
+            mainChart = new Chart(document.getElementById('mainChart'), {
+                type: 'bar', 
                 data: {
                     labels: MONTHS,
                     datasets: [
-                        { label: 'Entradas', data: monthlyInc, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', fill: true, tension: 0.4 },
-                        { label: 'Saídas', data: monthlyExp, borderColor: '#ef4444', backgroundColor: 'transparent', borderDash: [5, 5], tension: 0.4 }
+                        { 
+                            label: 'Entradas', 
+                            data: incs, 
+                            backgroundColor: '#10b981', 
+                            borderRadius: 6,
+                            borderWidth: 0
+                        },
+                        { 
+                            label: 'Saídas', 
+                            data: exps, 
+                            backgroundColor: '#ef4444', 
+                            borderRadius: 6,
+                            borderWidth: 0
+                        }
                     ]
                 },
-                options: { responsive: true, maintainAspectRatio: false }
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { 
+                        y: { beginAtZero: true, grid: { borderDash: [5, 5] } }, 
+                        x: { grid: { display: false } } 
+                    },
+                    plugins: {
+                        legend: { position: 'top', align: 'end', labels: { usePointStyle: true, boxWidth: 10 } }
+                    }
+                }
             });
 
             if (pieChart) pieChart.destroy();
-            pieChart = new Chart(document.getElementById('pieChart').getContext('2d'), {
+            pieChart = new Chart(document.getElementById('pieChart'), {
                 type: 'doughnut',
                 data: {
                     labels: ['Entradas', 'Saídas'],
-                    datasets: [{ data: [monthlyInc.reduce((a,b)=>a+b,0), monthlyExp.reduce((a,b)=>a+b,0)], backgroundColor: ['#10b981', '#ef4444'] }]
+                    datasets: [{ data: [total(incs) || 1, total(exps) || 0], backgroundColor: ['#10b981', '#ef4444'], borderWidth: 0 }]
                 },
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } }
             });
         }
 
-        function renderTable() {
+        function renderTable(data) {
             const search = document.getElementById('tableSearch').value.toLowerCase();
             const body = document.getElementById('dataTableBody');
             body.innerHTML = "";
-            currentData.filter(d => d.church.toLowerCase().includes(search)).sort((a,b) => b.income - a.income).forEach(row => {
+            
+            const tableRows = data.filter(d => d.church.toLowerCase().includes(search))
+                                 .sort((a,b) => b.income - a.income);
+
+            if (tableRows.length === 0) {
+                body.innerHTML = '<tr><td colspan="6" class="p-10 text-center text-slate-400">Nenhum registro encontrado.</td></tr>';
+                return;
+            }
+
+            tableRows.forEach(r => {
                 const tr = document.createElement('tr');
-                tr.className = `hover:bg-slate-50 transition-colors ${row.income === 0 ? 'opacity-30' : ''}`;
-                tr.innerHTML = `<td class="px-8 py-5 font-bold">${row.church}</td><td class="px-8 py-5 font-medium">${row.month}</td><td class="px-8 py-5 text-emerald-600 font-black">R$ ${row.income.toLocaleString('pt-BR')}</td><td class="px-8 py-5 text-rose-600 font-black">R$ ${row.expense.toLocaleString('pt-BR')}</td><td class="px-8 py-5 font-black">R$ ${(row.income - row.expense).toLocaleString('pt-BR')}</td><td class="px-8 py-5"><span class="px-2 py-1 rounded-full text-[9px] font-black uppercase ${row.status === 'Real' ? 'bg-blue-50 text-blue-600' : 'bg-slate-100 text-slate-400'}">${row.status}</span></td>`;
+                tr.className = `hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors ${r.income === 0 ? 'opacity-30' : ''}`;
+                tr.innerHTML = `
+                    <td class="px-6 py-4 font-bold text-slate-700 dark:text-slate-200">${r.church}</td>
+                    <td class="px-6 py-4 text-slate-500">${r.year}</td>
+                    <td class="px-6 py-4 text-center text-slate-500">${r.month}</td>
+                    <td class="px-6 py-4 text-right text-emerald-500 font-bold">R$ ${r.income.toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
+                    <td class="px-6 py-4 text-right text-rose-500 font-bold">R$ ${r.expense.toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
+                    <td class="px-6 py-4 text-right font-bold text-slate-800 dark:text-slate-100">R$ ${(r.income - r.expense).toLocaleString('pt-BR', {minimumFractionDigits:2})}</td>
+                `;
                 body.appendChild(tr);
             });
         }
 
-        function handleImageUpload(e) {
-            const file = e.target.files[0]; if (!file) return;
-            showModal('loadingModal');
-            setTimeout(() => {
-                closeModal('loadingModal');
-                aiPreviewData = [{ church: "Penteado", month: "Jan", income: 4500.00, expense: 1200.00 }, { church: "Santa Maria", month: "Fev", income: 8900.50, expense: 3400.20 }];
-                const content = document.getElementById('resultContent');
-                content.innerHTML = `<table class="w-full text-left text-sm"><tr class="text-[10px] font-bold text-slate-400 uppercase border-b"><th class="pb-2">Igreja</th><th class="pb-2">Mês</th><th class="pb-2 text-right">Valor</th></tr>${aiPreviewData.map(d => `<tr class="border-b"><td class="py-3 font-bold">${d.church}</td><td>${d.month}</td><td class="text-right font-black text-emerald-600">R$ ${d.income.toLocaleString('pt-BR')}</td></tr>`).join('')}</table>`;
-                showModal('resultModal');
-            }, 2000);
+        function updateSyncStatus(type, text) {
+            const el = document.getElementById('sync-status');
+            const dot = el.querySelector('span');
+            el.className = `flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter ${type === 'connected' ? 'bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20' : 'bg-red-50 text-red-600'}`;
+            dot.className = `w-2 h-2 rounded-full ${type === 'connected' ? 'bg-emerald-500 animate-pulse' : 'bg-red-500'}`;
+            dot.nextSibling.textContent = ` ${text}`;
         }
 
-        async function confirmImport() {
-            if (!user) return;
-            const batch = db.batch();
-            const collectionPath = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('financeRecords');
-            aiPreviewData.forEach(entry => {
-                batch.set(collectionPath.doc(`${entry.church}_2024_${MONTHS.indexOf(entry.month)}`), { ...entry, status: "Importado", year: 2024 });
-            });
-            await batch.commit(); closeModal('resultModal'); alert("Dados sincronizados com o banco!");
-        }
-
-        function toggleDarkMode() { document.documentElement.classList.toggle('dark'); }
-        function showModal(id) { document.getElementById(id).classList.remove('hidden'); document.getElementById(id).classList.add('flex'); }
-        function closeModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
+        const total = arr => arr.reduce((a, b) => a + b, 0);
     </script>
 </body>
 </html>
