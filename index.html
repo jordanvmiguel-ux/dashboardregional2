@@ -59,7 +59,7 @@
 <body class="transition-colors duration-300 antialiased text-black">
 
     <!-- NAVBAR -->
-    <nav class="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-100 z-50 px-6 flex items-center justify-between print-hidden shadow-sm">
+    <nav class="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-100 z-50 px-6 flex items-center justify-between print-hidden shadow-sm text-black">
         <div class="flex items-center gap-3">
             <div class="bg-black p-2 rounded-xl text-white">
                 <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
@@ -82,7 +82,7 @@
         <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-6 mb-10 text-black">
             <div>
                 <h2 class="text-3xl font-black tracking-tight uppercase">Consolidado Regional</h2>
-                <p class="text-gray-400 font-medium mt-1 uppercase text-[10px] tracking-widest font-bold">Base de Dados Real 2023 - 2025</p>
+                <p class="text-gray-400 font-medium mt-1 uppercase text-[10px] tracking-widest font-bold">Gestão Financeira Regional</p>
             </div>
             
             <div class="flex flex-wrap items-center gap-3">
@@ -93,7 +93,7 @@
                     <i data-lucide="printer" class="w-4 h-4"></i> Gerar PDF
                 </button>
 
-                <div class="flex flex-wrap items-center bg-gray-50 border border-gray-100 rounded-xl p-1">
+                <div class="flex flex-wrap items-center bg-gray-50 border border-gray-100 rounded-xl p-1 text-black">
                     <select id="yearFilter" class="bg-transparent pl-3 pr-8 py-2 text-[10px] font-black uppercase outline-none border-r border-gray-200" onchange="updateDashboard()">
                         <option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
                     </select>
@@ -122,25 +122,25 @@
                 <p id="kpi-expense" class="text-2xl font-black text-rose-600">R$ 0,00</p>
             </div>
             <div class="card-clean p-6 rounded-3xl text-black border-black/10">
-                <p class="text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">Saldo Líquido</p>
+                <p class="text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">Saldo Regional</p>
                 <p id="kpi-balance" class="text-2xl font-black text-indigo-600">R$ 0,00</p>
             </div>
             <div class="card-clean p-6 rounded-3xl text-black border-black/10">
-                <p class="text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">Atividade</p>
-                <p id="kpi-active" class="text-2xl font-black text-black">0 Unidades</p>
+                <p class="text-[10px] font-black uppercase text-gray-400 mb-2 tracking-widest">Unidades</p>
+                <p id="kpi-active" class="text-2xl font-black text-black">0 Unid.</p>
             </div>
         </div>
 
         <!-- GRÁFICOS -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8 text-black">
-            <div class="lg:col-span-8 bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm relative">
+            <div class="lg:col-span-8 bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm relative text-black">
                 <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                     <h3 class="font-black text-lg uppercase flex items-center gap-3">
-                        <span class="w-1.5 h-6 bg-black rounded-full"></span> Evolução Mensal
+                        <span class="w-1.5 h-6 bg-black rounded-full text-black"></span> Fluxo Mensal
                     </h3>
-                    <div class="flex items-center gap-4 chart-controls text-black">
+                    <div class="flex items-center gap-4 chart-controls">
                         <label class="flex items-center gap-2 cursor-pointer">
-                            <input type="checkbox" id="showLabelsMain" onchange="updateDashboard()" checked class="w-4 h-4 accent-black">
+                            <input type="checkbox" id="showLabelsMain" onchange="updateDashboard()" checked class="w-4 h-4 accent-black text-black">
                             <span class="text-[10px] font-black uppercase text-gray-400">Exibir Valores</span>
                         </label>
                         <select id="colorMain" onchange="updateDashboard()" class="text-[10px] font-black uppercase bg-gray-50 border-none rounded-lg px-3 py-1.5 outline-none focus:ring-1 ring-black text-black">
@@ -148,7 +148,6 @@
                             <option value="emerald">Verde/Rosa</option>
                             <option value="modern">Índigo/Laranja</option>
                             <option value="vibrant">Roxo/Amarelo</option>
-                            <option value="ocean">Oceano/Pink</option>
                         </select>
                     </div>
                 </div>
@@ -156,28 +155,28 @@
             </div>
 
             <div class="lg:col-span-4 bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm relative">
-                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4 text-black">
                     <h3 class="font-black text-lg uppercase flex items-center gap-3">
                         <span class="w-1.5 h-6 bg-black rounded-full"></span> Saúde
                     </h3>
                     <div class="flex items-center gap-3 chart-controls">
                         <label class="flex items-center gap-2 cursor-pointer">
                             <input type="checkbox" id="showLabelsPie" onchange="updateDashboard()" checked class="w-4 h-4 accent-black">
-                            <span class="text-[10px] font-black uppercase text-gray-400 text-black text-black">Valores</span>
+                            <span class="text-[10px] font-black uppercase text-gray-400 text-black text-black text-black">Valores</span>
                         </label>
                     </div>
                 </div>
                 <div class="h-[400px] text-black"><canvas id="pieChart"></canvas></div>
             </div>
 
-            <div class="lg:col-span-12 bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm relative">
-                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-                    <h3 class="font-black text-lg uppercase flex items-center gap-3">
-                        <span class="w-1.5 h-6 bg-black rounded-full text-black"></span> Ranking de Unidades
+            <div class="lg:col-span-12 bg-white p-8 rounded-[40px] border border-gray-100 shadow-sm relative text-black text-black text-black">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4 text-black text-black">
+                    <h3 class="font-black text-lg uppercase flex items-center gap-3 text-black">
+                        <span class="w-1.5 h-6 bg-black rounded-full"></span> Ranking Regional de Saldo
                     </h3>
-                    <div class="flex items-center gap-4 chart-controls text-black">
+                    <div class="flex items-center gap-4 chart-controls text-black text-black">
                         <label class="flex items-center gap-2 cursor-pointer text-black">
-                            <input type="checkbox" id="showLabelsRanking" onchange="updateDashboard()" checked class="w-4 h-4 accent-black">
+                            <input type="checkbox" id="showLabelsRanking" onchange="updateDashboard()" checked class="w-4 h-4 accent-black text-black">
                             <span class="text-[10px] font-black uppercase text-gray-400 text-black">Valores</span>
                         </label>
                     </div>
@@ -192,26 +191,26 @@
             </button>
         </div>
 
-        <div id="tableSection" class="bg-white border border-gray-100 rounded-[40px] overflow-hidden hidden transition-all duration-500 mt-8">
+        <div id="tableSection" class="bg-white border border-gray-100 rounded-[40px] overflow-hidden hidden transition-all duration-500 mt-8 text-black">
             <div class="p-8 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <h3 class="font-black text-xl tracking-tight uppercase">Histórico Regional</h3>
                 <div class="relative w-full md:w-80">
                     <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-300"></i>
-                    <input type="text" id="tableSearch" placeholder="Pesquisar igreja..." class="w-full pl-12 pr-4 py-3 bg-gray-50 rounded-2xl text-sm font-medium outline-none border-none focus:ring-1 ring-black text-black" onkeyup="renderTable()">
+                    <input type="text" id="tableSearch" placeholder="Filtrar por igreja..." class="w-full pl-12 pr-4 py-3 bg-gray-50 rounded-2xl text-sm font-medium outline-none border-none focus:ring-1 ring-black text-black" onkeyup="renderTable()">
                 </div>
             </div>
-            <div class="overflow-x-auto custom-scrollbar text-black">
+            <div class="overflow-x-auto custom-scrollbar text-black text-black">
                 <table class="w-full text-left text-sm text-black">
                     <thead>
-                        <tr class="bg-gray-50/50 text-gray-400 font-black text-[10px] uppercase border-b border-gray-50 tracking-widest text-black">
-                            <th class="px-8 py-5 text-black">Igreja</th>
-                            <th class="px-6 py-5 text-center text-black">Mês/Ano</th>
+                        <tr class="bg-gray-50/50 text-gray-400 font-black text-[10px] uppercase border-b border-gray-50 tracking-widest">
+                            <th class="px-8 py-5">Igreja</th>
+                            <th class="px-6 py-5 text-center text-black">Data</th>
                             <th class="px-6 py-5 text-right text-black">Créditos</th>
                             <th class="px-6 py-5 text-right text-black">Débitos</th>
-                            <th class="px-8 py-5 text-right text-black text-black text-black">Saldo</th>
+                            <th class="px-8 py-5 text-right">Saldo</th>
                         </tr>
                     </thead>
-                    <tbody id="dataTableBody" class="divide-y divide-gray-50 text-black text-black"></tbody>
+                    <tbody id="dataTableBody" class="divide-y divide-gray-50"></tbody>
                 </table>
             </div>
         </div>
@@ -221,7 +220,7 @@
     <div id="passwordModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[150] hidden items-center justify-center p-4">
         <div class="bg-white rounded-[40px] p-12 max-w-sm w-full text-center shadow-2xl">
             <i data-lucide="shield-check" class="w-12 h-12 mx-auto mb-8 text-black"></i>
-            <h4 class="font-black text-2xl mb-2 uppercase text-black">Acesso Administrativo</h4>
+            <h4 class="font-black text-2xl mb-2 uppercase">Acesso Administrativo</h4>
             <input type="password" id="adminPasswordInput" placeholder="••••" class="w-full text-center p-5 bg-gray-50 rounded-3xl border-none outline-none focus:ring-2 ring-black mb-6 text-3xl tracking-[0.8em] text-black">
             <button onclick="checkAdminPassword()" class="w-full py-5 bg-black text-white rounded-3xl text-xs font-black uppercase shadow-xl">Entrar</button>
             <button onclick="closeModal('passwordModal')" class="mt-6 text-[10px] font-black text-gray-300 uppercase hover:text-gray-500 text-black">Voltar</button>
@@ -229,50 +228,50 @@
     </div>
 
     <!-- MODAL ADMIN -->
-    <div id="adminModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 text-black text-black">
-        <div class="bg-white w-full max-w-3xl rounded-[40px] shadow-2xl overflow-hidden animate-in zoom-in duration-200">
+    <div id="adminModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-4 text-black">
+        <div class="bg-white w-full max-w-3xl rounded-[40px] shadow-2xl overflow-hidden animate-in zoom-in duration-200 text-black">
             <div class="p-8 bg-gray-50 border-b border-gray-100 flex items-center justify-between text-black">
-                <h3 class="font-black uppercase text-xl text-black tracking-tighter">Gestão Regional</h3>
+                <h3 class="font-black uppercase text-xl text-black tracking-tighter">Gestão Financeira</h3>
                 <div class="flex gap-2">
-                    <button id="tabManualBtn" onclick="switchAdminTab('manual')" class="px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-black text-white transition-all">Lançar</button>
-                    <button id="tabBulkBtn" onclick="switchAdminTab('bulk')" class="px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-gray-100 text-gray-400 text-black text-black">Importar</button>
-                    <button onclick="exitAdmin()" class="btn-exit px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase flex items-center gap-2">Sair</button>
+                    <button id="tabManualBtn" onclick="switchAdminTab('manual')" class="px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-black text-white transition-all text-white text-white">Lançar</button>
+                    <button id="tabBulkBtn" onclick="switchAdminTab('bulk')" class="px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-gray-100 text-gray-400">Massa</button>
+                    <button onclick="exitAdmin()" class="btn-exit px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase flex items-center gap-2 text-white text-white text-white">Sair</button>
                 </div>
             </div>
             
             <div id="tabManual" class="p-10 space-y-6 text-black">
-                <div class="grid grid-cols-2 gap-6 text-black text-black">
+                <div class="grid grid-cols-2 gap-6 text-black text-black text-black">
                     <select id="adminYear" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-black font-bold text-black text-black text-black">
                         <option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
                     </select>
                     <select id="adminMonth" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-black font-bold text-black"></select>
                 </div>
-                <select id="adminChurch" class="w-full p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-black font-bold text-black"></select>
-                <div class="grid grid-cols-2 gap-6 text-black text-black">
+                <select id="adminChurch" class="w-full p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-black font-bold text-black text-black text-black"></select>
+                <div class="grid grid-cols-2 gap-6 text-black">
                     <input type="number" id="adminIncome" placeholder="Créditos" step="0.01" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-blue-500 font-black text-black">
                     <input type="number" id="adminExpense" placeholder="Débitos" step="0.01" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-2 ring-rose-500 font-black text-black">
                 </div>
-                <button onclick="saveAdminData()" class="w-full py-5 bg-black text-white rounded-3xl text-xs font-black uppercase shadow-xl">Salvar Registro</button>
+                <button onclick="saveAdminData()" class="w-full py-5 bg-black text-white rounded-3xl text-xs font-black uppercase shadow-xl text-white">Salvar Registro</button>
                 
                 <div class="pt-8 border-t border-gray-100 text-black">
-                    <p class="text-[10px] font-black uppercase text-gray-400 mb-4 text-center tracking-widest text-black">Forçar Sincronização de Dados Reais</p>
-                    <button onclick="forceSyncAll()" class="w-full mb-6 py-5 bg-blue-600 text-white rounded-[24px] text-[11px] font-black uppercase shadow-xl hover:bg-blue-700 transition-all text-white">Sincronizar Base Completa (2023, 2024, 2025)</button>
+                    <p class="text-[10px] font-black uppercase text-gray-400 mb-4 text-center tracking-widest text-black font-bold text-black">Forçar Sincronização Definitiva</p>
+                    <button id="btnSyncAll" onclick="forceSyncAll()" class="w-full mb-6 py-5 bg-blue-600 text-white rounded-[24px] text-[11px] font-black uppercase shadow-xl hover:bg-blue-700 transition-all text-white">Sincronizar Base Completa (2023-2025)</button>
                     <div class="grid grid-cols-3 gap-4">
-                        <button onclick="forceSyncYear(2023, event)" class="py-4 bg-blue-50 text-blue-600 rounded-2xl text-[10px] font-black uppercase border border-blue-100 hover:bg-blue-600 hover:text-white transition-all text-black">Ano 2023</button>
-                        <button onclick="forceSyncYear(2024, event)" class="py-4 bg-blue-50 text-blue-600 rounded-2xl text-[10px] font-black uppercase border border-blue-100 hover:bg-blue-600 hover:text-white transition-all text-black">Ano 2024</button>
-                        <button onclick="forceSyncYear(2025, event)" class="py-4 bg-blue-50 text-blue-600 rounded-2xl text-[10px] font-black uppercase border border-blue-100 hover:bg-blue-600 hover:text-white transition-all text-black">Ano 2025</button>
+                        <button onclick="forceSyncYear(2023, event)" class="py-4 bg-blue-50 text-blue-600 rounded-2xl text-[10px] font-black uppercase border border-blue-100 hover:bg-blue-600 hover:text-white transition-all text-black">2023</button>
+                        <button onclick="forceSyncYear(2024, event)" class="py-4 bg-blue-50 text-blue-600 rounded-2xl text-[10px] font-black uppercase border border-blue-100 hover:bg-blue-600 hover:text-white transition-all text-black">2024</button>
+                        <button onclick="forceSyncYear(2025, event)" class="py-4 bg-blue-50 text-blue-600 rounded-2xl text-[10px] font-black uppercase border border-blue-100 hover:bg-blue-600 hover:text-white transition-all text-black text-black">2025</button>
                     </div>
-                    <button onclick="resetRegionalData()" class="w-full mt-6 py-4 text-[10px] font-black text-rose-500 uppercase border border-rose-50 rounded-2xl hover:bg-rose-50">Limpar Firebase (Zerar Tudo)</button>
+                    <button onclick="resetRegionalData()" class="w-full mt-6 py-4 text-[10px] font-black text-rose-500 uppercase border border-rose-50 rounded-2xl hover:bg-rose-50 text-black text-black">Zerar Firebase (Limpar Tudo)</button>
                 </div>
             </div>
 
             <div id="tabBulk" class="p-10 space-y-6 hidden text-black">
                 <textarea id="bulkDataInput" rows="8" placeholder="Igreja Mês Crédito Débito..." class="w-full p-6 bg-gray-50 rounded-[24px] text-[11px] font-mono border-none outline-none focus:ring-1 ring-black text-black"></textarea>
                 <div class="grid grid-cols-2 gap-4">
-                    <select id="bulkYear" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-1 ring-black font-bold text-black text-black">
+                    <select id="bulkYear" class="p-4 bg-gray-50 rounded-2xl border-none outline-none focus:ring-1 ring-black font-bold text-black">
                         <option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option>
                     </select>
-                    <button onclick="processBulkPaste()" class="py-4 bg-blue-600 text-white rounded-2xl text-[10px] font-black uppercase shadow-lg text-white">Salvar Lote</button>
+                    <button onclick="processBulkPaste()" class="py-4 bg-blue-600 text-white rounded-2xl text-[10px] font-black uppercase shadow-lg text-white">Importar Lote</button>
                 </div>
             </div>
         </div>
@@ -281,50 +280,49 @@
     <!-- FEEDBACK -->
     <div id="feedbackModal" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[200] hidden items-center justify-center p-4">
         <div class="bg-white rounded-[40px] p-10 max-w-xs w-full text-center shadow-2xl border border-gray-100 text-black">
-            <h4 id="feedbackTitle" class="font-black mb-2 uppercase text-black">Aviso</h4>
-            <p id="feedbackText" class="text-sm text-gray-400 font-medium mb-8 leading-relaxed text-black text-black"></p>
+            <h4 id="feedbackTitle" class="font-black mb-2 uppercase text-black text-black">Aviso</h4>
+            <p id="feedbackText" class="text-sm text-gray-400 font-medium mb-8 leading-relaxed text-black"></p>
             <button onclick="closeModal('feedbackModal')" class="w-full py-4 bg-black text-white rounded-2xl text-[10px] font-black uppercase text-white">Fechar</button>
         </div>
     </div>
 
     <!-- IMPRESSÃO -->
-    <div id="printSelectionModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[150] hidden items-center justify-center p-4 text-black text-black text-black">
-        <div class="bg-white rounded-[40px] p-10 max-w-md w-full text-center shadow-2xl text-black text-black">
-            <div class="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i data-lucide="printer" class="w-8 h-8 text-black text-black text-black"></i>
-            </div>
-            <h4 class="font-black text-xl uppercase mb-2">Gerar PDF Regional</h4>
-            <div id="printOptsContainer" class="space-y-4 mb-8 text-left text-black text-black"></div>
+    <div id="printSelectionModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[150] hidden items-center justify-center p-4 text-black text-black">
+        <div class="bg-white rounded-[40px] p-10 max-w-md w-full text-center shadow-2xl text-black">
+            <i data-lucide="printer" class="w-12 h-12 mx-auto mb-6 text-black text-black text-black"></i>
+            <h4 class="font-black text-xl uppercase mb-2 text-black">Gerar PDF Regional</h4>
+            <div id="printOptsContainer" class="space-y-4 mb-8 text-left text-black"></div>
             
-            <div class="mb-8 p-5 bg-gray-50 rounded-[24px] text-left">
-                <p class="text-[10px] font-black uppercase text-gray-400 mb-4 tracking-widest text-black">Orientação</p>
+            <div class="mb-8 p-5 bg-gray-50 rounded-[24px] text-left text-black">
+                <p class="text-[10px] font-black uppercase text-gray-400 mb-4 tracking-widest text-black">Orientação do Relatório</p>
                 <div class="flex gap-4">
                     <label class="flex-1 flex items-center gap-3 p-3 bg-white rounded-xl border border-gray-100 cursor-pointer text-black">
-                        <input type="radio" name="printOrient" value="landscape" checked class="accent-black">
-                        <span class="text-[10px] font-black uppercase text-black">Paisagem</span>
+                        <input type="radio" name="printOrient" value="landscape" checked class="accent-black text-black">
+                        <span class="text-[10px] font-black uppercase">Paisagem</span>
                     </label>
-                    <label class="flex-1 flex items-center gap-3 p-3 bg-white rounded-xl border border-gray-100 cursor-pointer text-black text-black">
-                        <input type="radio" name="printOrient" value="portrait" class="accent-black">
-                        <span class="text-[10px] font-black uppercase text-black text-black text-black">Retrato</span>
+                    <label class="flex-1 flex items-center gap-3 p-3 bg-white rounded-xl border border-gray-100 cursor-pointer text-black">
+                        <input type="radio" name="printOrient" value="portrait" class="accent-black text-black">
+                        <span class="text-[10px] font-black uppercase text-black text-black">Retrato</span>
                     </label>
                 </div>
             </div>
             <div class="flex gap-4 text-black">
-                <button onclick="closeModal('printSelectionModal')" class="flex-1 py-4 text-[10px] font-black text-gray-300 uppercase text-black">Cancelar</button>
-                <button onclick="executePrint()" class="flex-2 px-10 py-4 bg-black text-white rounded-3xl text-[10px] font-black uppercase text-white">Gerar PDF</button>
+                <button onclick="closeModal('printSelectionModal')" class="flex-1 py-4 text-[10px] font-black text-gray-300 uppercase">Cancelar</button>
+                <button onclick="executePrint()" class="flex-2 px-10 py-4 bg-black text-white rounded-3xl text-[10px] font-black uppercase text-white">Confirmar PDF</button>
             </div>
         </div>
     </div>
 
-    <div id="printContainer" class="hidden text-black"></div>
+    <div id="printContainer" class="hidden"></div>
 
     <script>
-        // Registrar Plugin Labels
         Chart.register(ChartDataLabels);
 
         const COLOR_PALETTES = {
-            default: { pos: '#3b82f6', neg: '#ef4444' }, emerald: { pos: '#10b981', neg: '#fb7185' },
-            modern: { pos: '#6366f1', neg: '#f97316' }, vibrant: { pos: '#a855f7', neg: '#eab308' },
+            default: { pos: '#3b82f6', neg: '#ef4444' }, 
+            emerald: { pos: '#10b981', neg: '#fb7185' },
+            modern: { pos: '#6366f1', neg: '#f97316' }, 
+            vibrant: { pos: '#a855f7', neg: '#eab308' },
             ocean: { pos: '#06b6d4', neg: '#ec4899' }
         };
 
@@ -338,6 +336,7 @@
         const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
         const FULL_MONTHS = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
+        // --- DADOS REAIS INTEGRAIS ---
         const REAL_DATA = {
             "2023": {
                 "Casa Verde Alta": [[10273.43, 3806.81], [7346.39, 3915.18], [10929.20, 3790.03], [10507.32, 3467.90], [7005.42, 4609.99], [8268.53, 5354.84], [7327.75, 4290.12], [5684.70, 4296.93], [6247.38, 4010.16], [5648.37, 4768.46], [7768.66, 4285.82], [6779.92, 3393.23]],
@@ -386,8 +385,8 @@
         let isTableVisible = false;
 
         window.onload = async () => {
-            // Regra 1: Padronização do appId
-            appId = 'regional-santa-maria-landscape-v20';
+            // Regra 1: Padronização do appId definitiva
+            appId = 'regional-santa-maria-dashboard-final-v1';
             
             const firebaseConfig = {
                 apiKey: "AIzaSyCnorDiiAufnAchlggOhXuIFPcBK5WC_Q4",
@@ -408,7 +407,7 @@
             generateSelectors();
 
             try {
-                // Autenticação é mandatória para gravação
+                // Autenticação é mandatória para persistência
                 await auth.signInAnonymously();
                 auth.onAuthStateChanged((user) => {
                     if (user) {
@@ -447,8 +446,9 @@
         function onSectorChange() {
             const sector = document.getElementById('sectorFilter').value;
             const churchFilter = document.getElementById('churchFilter');
+            if(!churchFilter) return;
+
             churchFilter.innerHTML = '<option value="Todas">Todas Igrejas</option>';
-            
             const list = sector === "Todos" ? ALL_CHURCHES : (SECTORS[sector] || []);
             [...list].sort().forEach(n => {
                 const o = document.createElement('option');
@@ -460,18 +460,18 @@
         function generateSelectors() {
             const adminMonth = document.getElementById('adminMonth');
             if(adminMonth) adminMonth.innerHTML = MONTHS.map((m, i) => `<option value="${m}">${FULL_MONTHS[i]}</option>`).join('');
+            
             const printContainer = document.getElementById('printOptsContainer');
             if(printContainer) {
                 const printList = [{id:'printMain',t:'Fluxo Regional'},{id:'printPie',t:'Saúde Financeira'},{id:'printRanking',t:'Ranking de Saldo'}];
-                printContainer.innerHTML = printList.map(p => `<label class="flex items-center gap-4 p-5 bg-gray-50 rounded-[24px] cursor-pointer hover:bg-gray-100 transition-all text-black"><input type="checkbox" id="${p.id}" checked class="w-5 h-5 accent-black text-black"><span class="text-[10px] font-black uppercase text-gray-600 text-black text-black">${p.t}</span></label>`).join('');
+                printContainer.innerHTML = printList.map(p => `<label class="flex items-center gap-4 p-5 bg-gray-50 rounded-[24px] cursor-pointer hover:bg-gray-100 transition-all text-black"><input type="checkbox" id="${p.id}" checked class="w-5 h-5 accent-black text-black"><span class="text-[10px] font-black uppercase text-gray-600 text-black text-black text-black">${p.t}</span></label>`).join('');
             }
         }
 
         async function setupFirestoreListener() {
-            if (!auth.currentUser) return;
+            if (!auth || !auth.currentUser) return;
             const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
             col.onSnapshot((snap) => {
-                // Se o banco estiver vazio, o seedInitialData é chamado
                 if (snap.empty) { seedInitialData(col); return; }
                 currentData = snap.docs.map(d => d.data());
                 updateDashboard();
@@ -500,18 +500,20 @@
         }
 
         async function forceSyncAll() {
-            if (!auth.currentUser) return;
-            if(!confirm("Sincronizar base COMPLETA (2023-2025)? Isso substituirá tudo no site.")) return;
-            const btn = event.target;
+            if (!auth || !auth.currentUser) return;
+            if(!confirm("Sincronizar base COMPLETA (2023-2025)? Isso substituirá tudo o que já está salvo no Firebase.")) return;
+            
+            const btn = document.getElementById('btnSyncAll');
             const originalText = btn.innerText;
             btn.innerText = "Sincronizando...";
             btn.disabled = true;
+
             try {
                 const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
                 await seedInitialData(col);
-                showFeedback("Sucesso", "Toda a base regional (2023-2025) foi sincronizada.");
+                showFeedback("Concluído", "Todos os dados de 2023, 2024 e 2025 foram salvos permanentemente.");
             } catch (e) {
-                showFeedback("Erro", "Falha ao gravar dados totais.");
+                showFeedback("Erro", "Erro ao gravar no banco de dados.");
             } finally {
                 btn.innerText = originalText;
                 btn.disabled = false;
@@ -519,12 +521,14 @@
         }
 
         async function forceSyncYear(year, event) {
-            if (!auth.currentUser) return;
-            if(!confirm(`Deseja sincronizar todos os dados de ${year}? Isso substituirá o que está no site.`)) return;
+            if (!auth || !auth.currentUser) return;
+            if(!confirm(`Deseja sincronizar todos os dados de ${year}?`)) return;
+            
             const btn = event.target;
             const originalText = btn.innerText;
             btn.innerText = "SINC...";
             btn.disabled = true;
+
             try {
                 const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
                 const batch = db.batch();
@@ -540,7 +544,7 @@
                     }
                 });
                 await batch.commit();
-                showFeedback("Sucesso", `Ano de ${year} sincronizado com o Firebase.`);
+                showFeedback("Sucesso", `Ano de ${year} sincronizado.`);
             } catch (e) {
                 showFeedback("Erro", "Falha ao gravar dados.");
             } finally {
@@ -550,119 +554,20 @@
         }
 
         async function resetRegionalData() {
-            if(!confirm("Zerar? Todos os dados de todos os anos no site serão apagados.")) return;
+            if(!confirm("Zerar? Todos os dados salvos no Firebase serão apagados definitivamente.")) return;
             const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
             const snap = await col.get();
             const batch = db.batch();
             snap.docs.forEach(d => batch.update(d.ref, { income: 0, expense: 0, status: "Vazio" }));
             await batch.commit();
-            showFeedback("Base Zerada", "Lançamentos limpos no Firebase.");
+            showFeedback("Base Zerada", "Lançamentos limpos no banco de dados.");
         }
 
         function updateDashboard() {
-            const year = parseInt(document.getElementById('yearFilter').value);
-            const sector = document.getElementById('sectorFilter').value;
-            const church = document.getElementById('churchFilter').value;
-            
-            let filtered = currentData.filter(d => d.year === year);
-            
-            if (sector !== "Todos" && SECTORS[sector]) {
-                filtered = filtered.filter(d => SECTORS[sector].includes(d.church));
-            }
-            if (church !== "Todas") {
-                filtered = filtered.filter(d => d.church === church);
-            }
-            
-            const totalInc = filtered.reduce((a, b) => a + b.income, 0);
-            const totalExp = filtered.reduce((a, b) => a + b.expense, 0);
-            
-            document.getElementById('kpi-income').innerText = `R$ ${totalInc.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
-            document.getElementById('kpi-expense').innerText = `R$ ${totalExp.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
-            document.getElementById('kpi-balance').innerText = `R$ ${(totalInc - totalExp).toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
-            document.getElementById('kpi-active').innerText = `${[...new Set(filtered.filter(d => d.income > 0 || d.expense > 0).map(d => d.church))].length} Unidades Ativas`;
+            const yearSelect = document.getElementById('yearFilter');
+            const sectorSelect = document.getElementById('sectorFilter');
+            const churchSelect = document.getElementById('churchFilter');
+            if(!yearSelect || !sectorSelect || !churchSelect) return;
 
-            renderCharts(filtered);
-            renderTable(filtered);
-        }
-
-        const currencyFormatter = (val) => 'R$ ' + Math.round(val).toLocaleString('pt-BR');
-
-        function renderCharts(data) {
-            const incs = MONTHS.map(m => data.filter(d => d.month === m).reduce((a,b) => a+b.income, 0));
-            const exps = MONTHS.map(m => data.filter(d => d.month === m).reduce((a,b) => a+b.expense, 0));
-            const pMain = COLOR_PALETTES[document.getElementById('colorMain').value];
-            const pDefault = COLOR_PALETTES['default'];
-            const showM = document.getElementById('showLabelsMain').checked;
-            const showP = document.getElementById('showLabelsPie').checked;
-            const showR = document.getElementById('showLabelsRanking').checked;
-            const labelConfig = (visible) => ({ display: visible, color: '#000', font: { weight: 'bold', size: 9 }, formatter: (v) => v > 0 ? currencyFormatter(v) : '', anchor: 'end', align: 'top', offset: 4 });
-
-            if (mainChart) mainChart.destroy();
-            mainChart = new Chart(document.getElementById('mainChart'), { type: 'bar', data: { labels: MONTHS, datasets: [{ label: 'Entradas', data: incs, backgroundColor: pMain.pos, borderRadius: 6, datalabels: labelConfig(showM) }, { label: 'Saídas', data: exps, backgroundColor: pMain.neg, borderRadius: 6, datalabels: labelConfig(showM) }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'top' }, datalabels: labelConfig(showM) } } });
-            if (pieChart) pieChart.destroy();
-            pieChart = new Chart(document.getElementById('pieChart'), { type: 'doughnut', data: { labels: ['Entradas', 'Saídas'], datasets: [{ data: [total(incs) || 1, total(exps) || 0], backgroundColor: [pDefault.pos, pDefault.neg], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, datalabels: { display: showP, color: '#fff', font: { weight: 'bold' }, formatter: (v, ctx) => { let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0); return (v * 100 / sum).toFixed(1) + "%"; } } } } });
-            
-            const balances = ALL_CHURCHES.map(name => {
-                const d = data.filter(i => i.church === name);
-                return { n: name, b: d.reduce((a,c)=>a+c.income, 0) - d.reduce((a,c)=>a+c.expense, 0) };
-            }).sort((a,b) => b.b - a.b);
-            
-            if (rankingChart) rankingChart.destroy();
-            rankingChart = new Chart(document.getElementById('rankingChart'), { type: 'bar', data: { labels: balances.map(x => x.n), datasets: [{ data: balances.map(x => x.b), backgroundColor: balances.map(x => x.b >= 0 ? pDefault.pos : pDefault.neg), borderRadius: 8 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, datalabels: { ...labelConfig(showR), align: 'right', anchor: 'end', formatter: (v) => currencyFormatter(v) } } } });
-        }
-
-        function requestAdminAccess() { document.getElementById('adminPasswordInput').value = ''; showModal('passwordModal'); }
-        function checkAdminPassword() { if (document.getElementById('adminPasswordInput').value === "1234") { closeModal('passwordModal'); openAdminModal(); } else { showFeedback("Erro", "Senha regional incorreta."); } }
-        function exitAdmin() { closeModal('adminModal'); showFeedback("Fim", "Sessão administrativa encerrada."); }
-        function openAdminModal() { 
-            document.getElementById('adminChurch').innerHTML = [...ALL_CHURCHES].sort().map(c => `<option value="${c}">${c}</option>`).join('');
-            showModal('adminModal'); 
-        }
-        function switchAdminTab(tab) {
-            const isM = tab === 'manual';
-            document.getElementById('tabManual').classList.toggle('hidden', !isM);
-            document.getElementById('tabBulk').classList.toggle('hidden', isM);
-            document.getElementById('tabManualBtn').className = isM ? "px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-black text-white" : "px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-gray-100 text-gray-400";
-            document.getElementById('tabBulkBtn').className = !isM ? "px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-black text-white" : "px-5 py-2.5 rounded-2xl text-[10px] font-black uppercase bg-gray-100 text-gray-400";
-        }
-
-        async function saveAdminData() {
-            const ch = document.getElementById('adminChurch').value; const yr = parseInt(document.getElementById('adminYear').value); const mt = document.getElementById('adminMonth').value; const inc = parseFloat(document.getElementById('adminIncome').value) || 0; const exp = parseFloat(document.getElementById('adminExpense').value) || 0;
-            const mIdx = MONTHS.indexOf(mt);
-            await db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records').doc(`${ch}_${yr}_${mIdx}`).set({ church: ch, year: yr, month: mt, income: inc, expense: exp, status: "Real" }, { merge: true });
-            closeModal('adminModal'); showFeedback("Salvo", "Registro individual atualizado.");
-        }
-
-        function toggleTableVisibility() { isTableVisible = !isTableVisible; document.getElementById('tableSection').classList.toggle('hidden', !isTableVisible); document.getElementById('toggleText').innerText = isTableVisible ? "Ocultar Detalhes" : "Ver Listagem Completa"; }
-
-        function renderTable(dataInput) {
-            const body = document.getElementById('dataTableBody'); body.innerHTML = "";
-            const rows = (dataInput || currentData).sort((a,b) => b.income - a.income);
-            rows.forEach(r => { if(r.income === 0 && r.expense === 0) return; const tr = document.createElement('tr'); tr.innerHTML = `<td class="px-8 py-5 font-bold text-black text-black">${r.church}</td><td class="px-6 py-5 text-center text-gray-400 font-bold text-black">${r.month}/${r.year}</td><td class="px-6 py-5 text-right text-blue-600 font-black">R$ ${r.income.toLocaleString('pt-BR')}</td><td class="px-6 py-5 text-right text-rose-600 font-black text-black">R$ ${r.expense.toLocaleString('pt-BR')}</td><td class="px-8 py-5 text-right font-black text-black">R$ ${(r.income - r.expense).toLocaleString('pt-BR')}</td>`; body.appendChild(tr); });
-        }
-
-        function showPrintSelection() { showModal('printSelectionModal'); }
-        function executePrint() {
-            const cont = document.getElementById('printContainer'); cont.innerHTML = '';
-            const orientation = document.querySelector('input[name="printOrient"]:checked').value;
-            document.body.classList.remove('print-landscape', 'print-portrait');
-            document.body.classList.add(orientation === 'landscape' ? 'print-landscape' : 'print-portrait');
-            const opts = [{id:'printMain',t:'Fluxo Mensal',c:'mainChart'},{id:'printPie',t:'Saúde Financeira',c:'pieChart'},{id:'printRanking',t:'Ranking Regional',c:'rankingChart'}];
-            opts.forEach(o => { if (document.getElementById(o.id).checked) { const p = document.createElement('div'); p.className = 'print-page'; p.innerHTML = `<div style="text-align:center; border-bottom:3px solid #000; padding-bottom:10px; width:100%; margin-bottom:40px;"><h1 style="font-size:24px; font-weight:900; color:black;">AD.PERUS - REGIONAL SANTA MARIA</h1><p style="font-size:14px; font-weight:700; color:black;">${o.t.toUpperCase()} | ANO: ${document.getElementById('yearFilter').value}</p></div><img src="${document.getElementById(o.c).toDataURL()}" style="width:100%; max-height:80%; object-fit:contain;"><div style="margin-top:40px; font-size:10px; color:#999; text-align:right; width:100%;">Gerado em: ${new Date().toLocaleString()}</div>`; cont.appendChild(p); } });
-            if (!cont.innerHTML) return;
-            closeModal('printSelectionModal'); setTimeout(() => window.print(), 500);
-        }
-
-        async function processBulkPaste() {
-            const text = document.getElementById('bulkDataInput').value; const year = parseInt(document.getElementById('bulkYear').value); const lines = text.split('\n'); const batch = db.batch(); const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records'); let count = 0;
-            lines.forEach(line => { if (!line.trim()) return; const regex = /^(.*?)\s+(Jan|Fev|Mar|Abr|Mai|Jun|Jul|Ago|Set|Out|Nov|Dez)\s+R\$\s*([\d.,]+)\s+R\$\s*([\d.,]+)/i; const match = line.match(regex); if (match) { const church = ALL_CHURCHES.find(c => c.toLowerCase().includes(match[1].trim().toLowerCase())) || match[1].trim(); const mIdx = MONTHS.indexOf(match[2].charAt(0).toUpperCase() + match[2].slice(1).toLowerCase()); const incVal = parseFloat(match[3].replace(/\./g, '').replace(',', '.')); const expVal = parseFloat(match[4].replace(/\./g, '').replace(',', '.')); if (mIdx !== -1 && ALL_CHURCHES.includes(church)) { batch.set(col.doc(`${church}_${year}_${mIdx}`), { church, year, month: MONTHS[mIdx], income: incVal, expense: expVal, status: "Real" }, { merge: true }); count++; } } });
-            if (count > 0) { await batch.commit(); closeModal('adminModal'); showFeedback("Sucesso", `${count} registros.`); } else { showFeedback("Aviso", "Formato inválido."); }
-        }
-
-        function showFeedback(title, text) { document.getElementById('feedbackTitle').innerText = title; document.getElementById('feedbackText').innerText = text; showModal('feedbackModal'); }
-        function showModal(id) { document.getElementById(id).classList.remove('hidden'); document.getElementById(id).classList.add('flex'); }
-        function closeModal(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
-        const total = arr => arr.reduce((a, b) => a + b, 0);
-    </script>
-</body>
-</html>
+            const year = parseInt(yearSelect.value);
+            const sector
