@@ -62,6 +62,8 @@
             border-radius: 40px;
             border: 1px solid #e2e8f0;
         }
+
+        .btn-exit { background-color: #ef4444; color: white; }
     </style>
 </head>
 <body class="transition-colors duration-300 antialiased">
@@ -69,128 +71,121 @@
     <!-- NAVBAR -->
     <nav class="fixed top-0 left-0 right-0 h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 z-50 px-8 flex items-center justify-between print-hidden shadow-sm">
         <div class="flex items-center gap-4">
-            <div class="bg-slate-900 p-2.5 rounded-2xl text-white shadow-lg shadow-slate-200">
-                <i data-lucide="layout-dashboard" class="w-6 h-6 text-white"></i>
+            <!-- LOGOTIPO (Substitua o src pelo link da sua imagem se desejar) -->
+            <div class="bg-slate-900 p-2 rounded-xl text-white shadow-lg">
+                <i data-lucide="layout-dashboard" class="w-6 h-6"></i>
             </div>
             <div>
-                <h1 class="text-xl font-black uppercase leading-none tracking-tight">AD.PERUS</h1>
-                <p class="text-[10px] font-bold text-slate-500 tracking-widest uppercase text-black">Regional 2 - Santa Maria</p>
+                <h1 class="text-xl font-black uppercase leading-none tracking-tight text-slate-900">AD.PERUS</h1>
+                <p class="text-[10px] font-bold text-slate-500 tracking-widest uppercase">Regional 2 - Santa Maria</p>
             </div>
         </div>
         <div class="flex items-center gap-6">
             <div id="sync-status" class="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-full text-[11px] font-black uppercase tracking-tighter border border-slate-100">
-                <span id="sync-dot" class="w-2.5 h-2.5 bg-slate-300 rounded-full"></span> <span id="sync-text">Conectando...</span>
+                <span id="sync-dot" class="w-2.5 h-2.5 bg-slate-300 rounded-full"></span> <span id="sync-text" class="text-slate-600">Conectando...</span>
             </div>
         </div>
     </nav>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="pt-28 px-4 md:px-10 max-w-[1600px] mx-auto pb-20 print-hidden">
+    <main class="pt-28 px-4 md:px-10 max-w-[1600px] mx-auto pb-20 print-hidden text-black">
         
         <div class="flex flex-col xl:flex-row xl:items-end justify-between gap-8 mb-12">
             <div>
-                <h2 class="text-4xl font-black tracking-tighter text-slate-900 uppercase">Visão Regional</h2>
-                <p class="text-slate-500 font-medium mt-1 uppercase text-xs tracking-widest">Controle Financeiro Consolidado</p>
+                <h2 class="text-4xl font-black tracking-tighter text-slate-900 uppercase">Dashboard Regional</h2>
+                <p class="text-slate-500 font-medium mt-1 uppercase text-xs tracking-widest font-bold">Consolidado Financeiro Eclesiástico</p>
             </div>
             
             <div class="flex flex-wrap items-center gap-4">
-                <button onclick="requestAdminAccess()" class="flex items-center gap-2 bg-slate-900 text-white px-6 py-3.5 rounded-2xl text-xs font-black uppercase shadow-xl hover:bg-slate-800 transition-all text-white">
-                    <i data-lucide="lock" class="w-4 h-4 text-white"></i> Admin
+                <button onclick="requestAdminAccess()" class="flex items-center gap-2 bg-slate-900 text-white px-6 py-3.5 rounded-2xl text-xs font-black uppercase shadow-xl hover:bg-slate-800 transition-all active:scale-95">
+                    <i data-lucide="lock" class="w-4 h-4"></i> Admin
                 </button>
-                <button onclick="showPrintSelection()" class="flex items-center gap-2 border-2 border-slate-200 text-slate-700 px-6 py-3.5 rounded-2xl text-xs font-black uppercase hover:border-slate-900 transition-all">
+                <button onclick="showPrintSelection()" class="flex items-center gap-2 border-2 border-slate-200 text-slate-700 px-6 py-3.5 rounded-2xl text-xs font-black uppercase hover:bg-white hover:border-slate-900 transition-all active:scale-95">
                     <i data-lucide="printer" class="w-4 h-4"></i> Gerar PDF
                 </button>
 
                 <div class="flex flex-wrap items-center bg-white border border-slate-200 rounded-2xl p-1.5 shadow-sm text-black">
-                    <select id="yearFilter" class="bg-transparent pl-4 pr-10 py-2.5 text-[11px] font-black uppercase outline-none border-r border-slate-100 cursor-pointer text-black" onchange="updateDashboard()">
+                    <select id="yearFilter" class="bg-transparent pl-4 pr-10 py-2.5 text-[11px] font-black uppercase outline-none border-r border-slate-100 cursor-pointer text-slate-900" onchange="updateDashboard()">
                         <option value="Trienio">Triénio 2023-2025</option>
                         <option value="2025">Ano 2025</option>
                         <option value="2024">Ano 2024</option>
                         <option value="2023">Ano 2023</option>
                     </select>
-                    <select id="sectorFilter" class="bg-transparent pl-4 pr-10 py-2.5 text-[11px] font-black uppercase outline-none border-r border-slate-100 cursor-pointer text-black" onchange="onSectorChange()">
+                    <select id="sectorFilter" class="bg-transparent pl-4 pr-10 py-2.5 text-[11px] font-black uppercase outline-none border-r border-slate-100 cursor-pointer text-slate-900" onchange="onSectorChange()">
                         <option value="Todos">Todos Setores</option>
                         <option value="JARDIM ALMANARA">Setor Almanara</option>
                         <option value="VILA ACRE">Setor Vila Acre</option>
                         <option value="CASA VERDE ALTA">Setor Casa Verde</option>
                         <option value="VILA SANTA MARIA">Setor Vila Santa Maria</option>
                     </select>
-                    <select id="churchFilter" class="bg-transparent pl-4 pr-10 py-2.5 text-[11px] font-black uppercase outline-none cursor-pointer text-black" onchange="updateDashboard()">
+                    <select id="churchFilter" class="bg-transparent pl-4 pr-10 py-2.5 text-[11px] font-black uppercase outline-none cursor-pointer text-slate-900" onchange="updateDashboard()">
                         <option value="Todas">Todas Igrejas</option>
                     </select>
                 </div>
             </div>
         </div>
 
-        <!-- KPI CARDS -->
+        <!-- ACUMULADOS -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             <div class="bg-slate-900 text-white p-10 rounded-[40px] shadow-2xl relative overflow-hidden group">
                 <div class="relative z-10">
                     <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-3">Total de Entradas</p>
                     <p id="tri-income" class="text-4xl font-black tabular-nums">R$ 0,00</p>
                 </div>
-                <i data-lucide="trending-up" class="absolute -right-4 -bottom-4 w-32 h-32 text-white/5"></i>
             </div>
-            <div class="bg-white border border-slate-200 p-10 rounded-[40px] shadow-sm relative overflow-hidden group">
-                <div class="relative z-10">
-                    <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-3 text-black">Total de Saídas</p>
-                    <p id="tri-expense" class="text-4xl font-black text-rose-600 tabular-nums">R$ 0,00</p>
-                </div>
-                <i data-lucide="trending-down" class="absolute -right-4 -bottom-4 w-32 h-32 text-slate-50"></i>
+            <div class="bg-white border border-slate-200 p-10 rounded-[40px] shadow-sm">
+                <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-3 text-slate-600">Total de Saídas</p>
+                <p id="tri-expense" class="text-4xl font-black text-rose-600 tabular-nums">R$ 0,00</p>
             </div>
-            <div class="bg-white border border-slate-200 p-10 rounded-[40px] shadow-sm relative overflow-hidden group">
-                <div class="relative z-10">
-                    <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-3 text-black">Saldo Disponível</p>
-                    <p id="tri-balance" class="text-4xl font-black text-indigo-600 tabular-nums">R$ 0,00</p>
-                </div>
-                <i data-lucide="landmark" class="absolute -right-4 -bottom-4 w-32 h-32 text-slate-50"></i>
+            <div class="bg-white border border-slate-200 p-10 rounded-[40px] shadow-sm">
+                <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-3 text-slate-600">Saldo do Período</p>
+                <p id="tri-balance" class="text-4xl font-black text-indigo-600 tabular-nums">R$ 0,00</p>
             </div>
         </div>
 
-        <!-- EVOLUÇÃO PERCENTUAL -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            <div class="card-main p-8 flex items-center justify-between border-black/5 text-black">
+        <!-- INDICADORES EVOLUÇÃO -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12 text-black">
+            <div class="card-main p-8 flex items-center justify-between border-slate-200">
                 <div>
-                    <p class="text-[10px] font-black uppercase text-slate-400 mb-1">Crescimento 2024 vs 2023</p>
-                    <p id="growth-23-24" class="text-3xl font-black">--%</p>
+                    <p class="text-[10px] font-black uppercase text-slate-400 mb-1">Evolução 2024 vs 2023</p>
+                    <p id="growth-23-24" class="text-3xl font-black text-slate-300">--%</p>
                 </div>
-                <div id="icon-23-24" class="w-14 h-14 rounded-2xl flex items-center justify-center bg-slate-50 text-black">
-                    <i data-lucide="minus" class="w-8 h-8"></i>
+                <div id="icon-23-24" class="w-14 h-14 rounded-2xl flex items-center justify-center bg-slate-50 text-slate-300 transition-all">
+                    <i data-lucide="minus"></i>
                 </div>
             </div>
-            <div class="card-main p-8 flex items-center justify-between border-black/5 text-black">
+            <div class="card-main p-8 flex items-center justify-between border-slate-200">
                 <div>
-                    <p class="text-[10px] font-black uppercase text-slate-400 mb-1 text-black">Crescimento 2025 vs 2024</p>
-                    <p id="growth-24-25" class="text-3xl font-black">--%</p>
+                    <p class="text-[10px] font-black uppercase text-slate-400 mb-1">Evolução 2025 vs 2024</p>
+                    <p id="growth-24-25" class="text-3xl font-black text-slate-300">--%</p>
                 </div>
-                <div id="icon-24-25" class="w-14 h-14 rounded-2xl flex items-center justify-center bg-slate-50 text-black">
-                    <i data-lucide="minus" class="w-8 h-8"></i>
+                <div id="icon-24-25" class="w-14 h-14 rounded-2xl flex items-center justify-center bg-slate-50 text-slate-300 transition-all">
+                    <i data-lucide="minus"></i>
                 </div>
             </div>
         </div>
 
         <!-- GRÁFICOS -->
-        <div class="flex flex-col gap-10">
+        <div class="flex flex-col gap-12">
             <!-- 1. Evolução Anual -->
-            <div class="chart-container shadow-xl border-t-4 border-t-indigo-600 text-black">
-                <h3 class="font-black text-xl uppercase mb-10 flex items-center gap-3 text-black text-black">
-                    <span class="w-2 h-8 bg-indigo-600 rounded-full"></span> Evolução Anual (Triénio)
+            <div class="chart-container shadow-xl border-t-4 border-t-indigo-600">
+                <h3 class="font-black text-xl uppercase mb-10 flex items-center gap-3">
+                    <span class="w-2.5 h-8 bg-indigo-600 rounded-full"></span> Evolução Anual do Triênio
                 </h3>
-                <div class="h-[450px] text-black"><canvas id="triChart"></canvas></div>
+                <div class="h-[450px]"><canvas id="triChart"></canvas></div>
             </div>
 
             <!-- 2. Fluxo Mensal -->
-            <div class="chart-container shadow-sm text-black">
-                <div class="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
-                    <h3 class="font-black text-xl uppercase flex items-center gap-3 text-black text-black">
-                        <span class="w-2 h-8 bg-emerald-500 rounded-full"></span> Comportamento Mensal
+            <div class="chart-container shadow-sm">
+                <div class="flex flex-col md:flex-row md:items-center justify-between mb-10">
+                    <h3 class="font-black text-xl uppercase flex items-center gap-3">
+                        <span class="w-2.5 h-8 bg-emerald-500 rounded-full"></span> Fluxo Mensal Detalhado
                     </h3>
-                    <div class="flex items-center gap-6 chart-controls text-black text-black">
-                        <label class="flex items-center gap-3 cursor-pointer">
+                    <div class="flex items-center gap-6 chart-controls">
+                        <label class="flex items-center gap-3 cursor-pointer group">
                             <input type="checkbox" id="showLabelsMain" onchange="updateDashboard()" checked class="w-5 h-5 accent-slate-900">
-                            <span class="text-[10px] font-black uppercase text-slate-500">Valores</span>
+                            <span class="text-[10px] font-black uppercase text-slate-500 group-hover:text-slate-900 transition-colors">Exibir Valores</span>
                         </label>
-                        <select id="colorMain" onchange="updateDashboard()" class="text-[10px] font-black uppercase bg-slate-100 border-none rounded-xl px-5 py-2.5 text-black">
+                        <select id="colorMain" onchange="updateDashboard()" class="text-[10px] font-black uppercase bg-slate-100 border-none rounded-xl px-5 py-2.5 text-slate-900">
                             <option value="default">Azul / Vermelho</option>
                             <option value="emerald">Verde / Rosa</option>
                         </select>
@@ -199,66 +194,104 @@
                 <div class="h-[450px] text-black"><canvas id="mainChart"></canvas></div>
             </div>
 
-            <!-- 3. Ranking -->
-            <div class="chart-container shadow-sm text-black text-black">
-                <h3 class="font-black text-xl uppercase mb-10 flex items-center gap-3 text-black text-black">
-                    <span class="w-2 h-8 bg-slate-900 rounded-full"></span> Ranking Regional de Saldo
-                </h3>
-                <div class="h-[700px] text-black text-black"><canvas id="rankingChart"></canvas></div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div class="chart-container shadow-sm text-black">
+                    <h3 class="font-black text-lg uppercase mb-10 flex items-center gap-3 text-black">
+                        <span class="w-2 h-8 bg-amber-400 rounded-full"></span> Saúde Financeira (Donut)
+                    </h3>
+                    <div class="h-[350px] text-black"><canvas id="pieChart"></canvas></div>
+                </div>
+
+                <div class="chart-container shadow-sm flex flex-col justify-center space-y-10 text-black">
+                    <div class="flex items-center justify-between border-b border-slate-50 pb-6 text-black">
+                        <p class="text-xs font-black uppercase text-slate-400">Unidades Ativas</p>
+                        <p id="kpi-active" class="text-4xl font-black text-slate-900">0</p>
+                    </div>
+                    <div class="flex items-center justify-between border-b border-slate-50 pb-6 text-black">
+                        <p class="text-xs font-black uppercase text-slate-400">Média Mensal</p>
+                        <p id="kpi-income" class="text-2xl font-black text-blue-600">R$ 0,00</p>
+                    </div>
+                    <div class="flex items-center justify-between text-black">
+                        <p class="text-xs font-black uppercase text-slate-400">Taxa de Saúde</p>
+                        <p id="kpi-balance" class="text-2xl font-black text-indigo-600">0%</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-container shadow-sm">
+                <div class="flex items-center justify-between mb-10 text-black">
+                    <h3 class="font-black text-xl uppercase flex items-center gap-3">
+                        <span class="w-2.5 h-8 bg-slate-900 rounded-full"></span> Ranking de Saldo por Igreja
+                    </h3>
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        <input type="checkbox" id="showLabelsRanking" onchange="updateDashboard()" checked class="w-5 h-5 accent-slate-900">
+                        <span class="text-[10px] font-black uppercase text-slate-400">Valores</span>
+                    </label>
+                </div>
+                <div class="h-[750px] text-black"><canvas id="rankingChart"></canvas></div>
             </div>
         </div>
 
-        <!-- TABELA OCULTA -->
-        <div id="tableSection" class="bg-white border border-slate-200 rounded-[40px] overflow-hidden hidden transition-all duration-500 mt-10 text-black">
-            <div class="p-10 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-8 text-black text-black">
-                <h3 class="font-black text-2xl tracking-tighter uppercase text-black text-black text-black">Detalhamento Regional</h3>
-                <div class="relative w-full md:w-96 text-black text-black text-black">
-                    <input type="text" id="tableSearch" placeholder="Pesquisar..." class="w-full pl-6 pr-6 py-4 bg-slate-50 rounded-2xl text-sm font-semibold outline-none text-black" onkeyup="renderTable()">
+        <!-- TABELA -->
+        <div class="flex justify-center mt-20">
+            <button onclick="toggleTableVisibility()" class="flex items-center gap-3 px-12 py-5 bg-white border border-slate-200 text-slate-500 rounded-3xl text-[11px] font-black uppercase transition-all hover:border-slate-900 hover:text-slate-900 shadow-sm">
+                <i data-lucide="list" class="w-5 h-5"></i> <span id="toggleText">Ver Listagem Detalhada</span>
+            </button>
+        </div>
+
+        <div id="tableSection" class="bg-white border border-slate-200 rounded-[48px] overflow-hidden hidden transition-all duration-500 mt-10 shadow-sm">
+            <div class="p-10 border-b border-slate-50 flex flex-col md:flex-row md:items-center justify-between gap-8">
+                <h3 class="font-black text-2xl tracking-tighter uppercase">Histórico Regional</h3>
+                <div class="relative w-full md:w-96">
+                    <i data-lucide="search" class="absolute left-5 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"></i>
+                    <input type="text" id="tableSearch" placeholder="Pesquisar..." class="w-full pl-14 pr-6 py-4 bg-slate-50 rounded-2xl text-sm font-semibold outline-none border-none focus:ring-2 ring-slate-900 transition-all text-slate-900" onkeyup="renderTable()">
                 </div>
             </div>
-            <div class="overflow-x-auto custom-scrollbar text-black text-black text-black">
-                <table class="w-full text-left text-sm text-black text-black">
+            <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left text-sm">
                     <thead>
-                        <tr class="bg-slate-50/50 text-slate-400 font-black text-[10px] uppercase border-b border-slate-100 tracking-widest text-black">
-                            <th class="px-10 py-6">Igreja</th>
-                            <th class="px-10 py-6 text-center">Período</th>
-                            <th class="px-10 py-6 text-right">Entradas</th>
-                            <th class="px-10 py-6 text-right">Saídas</th>
-                            <th class="px-10 py-6 text-right">Saldo</th>
+                        <tr class="bg-slate-50/50 text-slate-400 font-black text-[10px] uppercase border-b border-slate-100 tracking-widest">
+                            <th class="px-10 py-7">Igreja</th>
+                            <th class="px-10 py-7 text-center">Período</th>
+                            <th class="px-10 py-7 text-right">Entradas</th>
+                            <th class="px-10 py-7 text-right">Saídas</th>
+                            <th class="px-10 py-7 text-right">Saldo</th>
                         </tr>
                     </thead>
                     <tbody id="dataTableBody" class="divide-y divide-slate-50"></tbody>
                 </table>
             </div>
         </div>
-        
-        <div id="tableToggleContainer" class="flex justify-center mt-16 text-black">
-            <button onclick="toggleTableVisibility()" class="flex items-center gap-3 px-10 py-5 bg-white border border-slate-200 text-slate-500 rounded-2xl text-[11px] font-black uppercase transition-all shadow-sm active:scale-95 text-black">
-                <i data-lucide="list" class="w-5 h-5"></i> <span id="toggleText">Ver Listagem Detalhada</span>
-            </button>
-        </div>
     </main>
 
-    <!-- MODAL ADMIN -->
+    <!-- MODAIS -->
     <div id="adminModal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-xl z-[100] hidden items-center justify-center p-6 text-black">
-        <div class="bg-white w-full max-w-2xl rounded-[48px] shadow-2xl overflow-hidden text-black">
-            <div class="p-10 bg-slate-50 border-b border-slate-100 flex items-center justify-between text-black">
-                <h3 class="font-black uppercase text-xl text-slate-900">Sincronização do Triênio</h3>
-                <button onclick="exitAdmin()" class="text-rose-600 font-black uppercase text-xs text-black">Fechar</button>
-            </div>
-            <div class="p-12 space-y-10 text-black">
-                <button id="btnSyncAll" onclick="forceSyncAll()" class="w-full py-7 bg-indigo-600 text-white rounded-[32px] text-xs font-black uppercase shadow-xl hover:bg-indigo-700 transition-all text-white">Sincronizar Base Completa (2023-2025)</button>
-                <p class="text-center text-[10px] font-bold text-slate-400 uppercase tracking-widest text-black">Senha: 1234</p>
-            </div>
+        <div class="bg-white w-full max-w-2xl rounded-[48px] shadow-2xl p-12 text-black">
+            <h3 class="font-black uppercase text-2xl mb-8 text-slate-900">Controle Administrativo</h3>
+            <p class="text-sm text-slate-600 mb-10 leading-relaxed">A sincronização irá ler todos os dados reais (2023-2025) contidos no código e enviá-los para o Firebase, restaurando a base de dados oficial.</p>
+            <button id="btnSyncAll" onclick="forceSyncAll()" class="w-full py-6 bg-indigo-600 text-white rounded-[32px] font-black uppercase text-sm shadow-xl hover:bg-indigo-700 transition-all active:scale-95">Sincronizar Base Completa</button>
+            <button onclick="exitAdmin()" class="w-full mt-6 py-4 text-slate-400 font-bold uppercase text-xs">Fechar</button>
         </div>
     </div>
 
-    <!-- PRINT SELECTION -->
     <div id="printSelectionModal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-xl z-[150] hidden items-center justify-center p-6 text-black">
-        <div class="bg-white rounded-[48px] p-12 max-w-md w-full text-center shadow-2xl text-black">
-            <h4 class="font-black text-2xl uppercase mb-10 text-black">Escolha os Dados</h4>
-            <div id="printOptsContainer" class="space-y-4 mb-10 text-left text-black text-black"></div>
-            <div class="flex gap-4">
+        <div class="bg-white rounded-[48px] p-10 max-w-md w-full text-center shadow-2xl text-black">
+            <h4 class="font-black text-xl uppercase mb-10 text-slate-900">Configurações do PDF</h4>
+            <div id="printOptsContainer" class="space-y-4 mb-10 text-left"></div>
+            <div class="mb-10 p-6 bg-slate-50 rounded-[32px] text-left text-black">
+                <p class="text-[10px] font-black uppercase text-slate-400 mb-5 tracking-widest">Orientação</p>
+                <div class="flex gap-4">
+                    <label class="flex-1 flex items-center gap-3 p-4 bg-white rounded-2xl border-2 border-slate-100 cursor-pointer hover:border-slate-900 transition-all text-black">
+                        <input type="radio" name="printOrient" value="landscape" checked class="accent-slate-900">
+                        <span class="text-[11px] font-black uppercase text-slate-700">Paisagem</span>
+                    </label>
+                    <label class="flex-1 flex items-center gap-3 p-4 bg-white rounded-2xl border-2 border-slate-100 cursor-pointer hover:border-slate-900 transition-all text-black">
+                        <input type="radio" name="printOrient" value="portrait" class="accent-slate-900">
+                        <span class="text-[11px] font-black uppercase text-slate-700">Retrato</span>
+                    </label>
+                </div>
+            </div>
+            <div class="flex gap-4 text-black">
                 <button onclick="closeModal('printSelectionModal')" class="flex-1 py-5 text-slate-400 font-black uppercase text-[11px] text-black">Cancelar</button>
                 <button onclick="executePrint()" class="flex-2 px-10 py-5 bg-slate-900 text-white rounded-[24px] font-black uppercase text-[11px] text-white">Gerar PDF</button>
             </div>
@@ -268,7 +301,16 @@
     <div id="printContainer" class="hidden text-black"></div>
 
     <script>
+        // Registrar Plugin Labels
         Chart.register(ChartDataLabels);
+
+        // --- DEFINIÇÕES GLOBAIS ---
+        const currencyFormatter = (val) => 'R$ ' + Math.round(val).toLocaleString('pt-BR');
+
+        const COLOR_PALETTES = {
+            default: { pos: '#3b82f6', neg: '#ef4444' }, 
+            emerald: { pos: '#10b981', neg: '#fb7185' }
+        };
 
         const SECTORS = {
             "JARDIM ALMANARA": ["Jardim Almanara", "Parque Pedroso", "Vila Penteado", "Jardim dos Francos"],
@@ -279,7 +321,7 @@
         const ALL_CHURCHES = Object.values(SECTORS).flat();
         const MONTHS = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
 
-        // --- DADOS REAIS COMPLETOS ---
+        // --- DADOS REAIS INTEGRAIS ---
         const REAL_DATA = {
             "2023": {
                 "Casa Verde Alta": [[10273.43, 3806.81], [7346.39, 3915.18], [10929.20, 3790.03], [10507.32, 3467.90], [7005.42, 4609.99], [8268.53, 5354.84], [7327.75, 4290.12], [5684.70, 4296.93], [6247.38, 4010.16], [5648.37, 4768.46], [7768.66, 4285.82], [6779.92, 3393.23]],
@@ -296,7 +338,7 @@
             "2024": {
                 "Jardim Almanara": [[24210.05, 11410.27], [23816.50, 10862.06], [25344.12, 12999.58], [29588.00, 15401.27], [29419.15, 13130.35], [27611.85, 13515.90], [26651.75, 15317.99], [25473.25, 14330.27], [29174.01, 12366.60], [26316.96, 14118.13], [22608.20, 11876.59], [27828.72, 12550.25]],
                 "Parque Pedroso": [[8021.12, 4975.05], [5683.65, 4552.69], [7701.80, 4663.36], [7435.26, 4843.36], [7424.90, 4669.32], [8498.57, 4765.24], [7163.28, 4902.83], [8140.46, 4446.82], [8197.90, 4540.47], [5766.98, 5334.96], [6086.62, 4586.43], [9728.08, 4245.57]],
-                "Jardim dos Francos": [[4136.94, 1670.32], [4341.00, 2082.85], [5180.52, 1402.56], [3693.25, 1675.02], [4573.80, 1592.29], [4747.20, 1615.00], [4511.41, 2119.64], [4475.40, 1576.64], [5215.75, 1446.66], [4107.96, 1576.32], [2342.50, 574.88], [3374.18, 2302.66]],
+                "Jardim dos Francos": [[4136.94, 1670.32], [4341.00, 2082.85], [5180.52, 1402.56], [3693.25, 1675.02], [4747.20, 1615.00], [4511.41, 2119.64], [4475.40, 1576.64], [5215.75, 1446.66], [4107.96, 1576.32], [2342.50, 574.88], [3374.18, 2302.66]],
                 "Vila Santa Maria": [[29928.48, 17004.03], [34357.67, 17160.39], [35475.88, 15598.60], [32016.54, 23017.93], [34782.09, 20069.04], [40410.13, 25080.50], [35276.69, 20439.65], [34600.75, 20097.12], [42110.90, 17716.68], [33326.76, 21654.14], [36429.85, 20717.17], [43577.70, 23568.81]],
                 "Casa Verde Alta": [[6843.99, 3391.29], [8194.35, 5369.92], [9274.11, 4858.59], [8976.98, 4997.71], [10056.74, 4627.47], [10334.07, 5869.25], [7643.34, 5708.52], [8953.56, 5503.66], [10577.30, 5053.11], [10159.03, 5266.87], [14000.10, 5789.02], [11744.21, 4367.17]],
                 "Vila Santista": [[8838.30, 2577.94], [10014.37, 3470.16], [11818.25, 3988.40], [9488.55, 3777.46], [10898.05, 3718.37], [12138.35, 4024.75], [10467.00, 3948.95], [9901.45, 3137.71], [9614.62, 3208.63], [9003.18, 4048.26], [9681.13, 3091.36], [8144.21, 2338.91]],
@@ -322,7 +364,7 @@
         };
 
         // --- FIREBASE INIT ---
-        const appId = 'regional-santa-maria-persistence-v3';
+        const appId = 'regional-santa-maria-persistence-v22'; 
         let db, auth;
         let currentData = [];
         let mainChart, triChart, rankingChart, pieChart;
@@ -358,6 +400,7 @@
                     }
                 });
             } catch (e) {
+                console.error(e);
                 updateSyncStatus('error', 'Falha na Conexão');
             }
         };
@@ -382,6 +425,16 @@
             }
         }
 
+        function generateSelectors() {
+            const adminMonth = document.getElementById('adminMonth');
+            if(adminMonth) adminMonth.innerHTML = MONTHS.map((m, i) => `<option value="${m}">${FULL_MONTHS[i]}</option>`).join('');
+            const printContainer = document.getElementById('printOptsContainer');
+            if(printContainer) {
+                const printList = [{id:'printTri',t:'Evolução Anual'},{id:'printMain',t:'Fluxo Mensal'},{id:'printRanking',t:'Ranking Regional'}];
+                printContainer.innerHTML = printList.map(p => `<label class="flex items-center gap-4 p-5 bg-slate-50 rounded-2xl cursor-pointer hover:bg-gray-100 transition-all text-black"><input type="checkbox" id="${p.id}" checked class="w-5 h-5 accent-slate-900"><span class="text-[11px] font-black uppercase text-gray-600">${p.t}</span></label>`).join('');
+            }
+        }
+
         function onSectorChange() {
             const sectorSelect = document.getElementById('sectorFilter');
             const churchFilter = document.getElementById('churchFilter');
@@ -397,12 +450,6 @@
             updateDashboard();
         }
 
-        function generateSelectors() {
-            const printList = [{id:'printTri',t:'Evolução Anual'},{id:'printMain',t:'Fluxo Mensal'},{id:'printRanking',t:'Ranking Regional'}];
-            const pc = document.getElementById('printOptsContainer');
-            if(pc) pc.innerHTML = printList.map(p => `<label class="flex items-center gap-4 p-5 bg-slate-50 rounded-2xl cursor-pointer hover:bg-slate-100 transition-all text-black"><input type="checkbox" id="${p.id}" checked class="w-5 h-5 accent-slate-900"><span class="text-[11px] font-black uppercase text-slate-600">${p.t}</span></label>`).join('');
-        }
-
         async function setupFirestoreListener() {
             if (!auth.currentUser) return;
             const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
@@ -411,7 +458,8 @@
                 currentData = snap.docs.map(d => d.data());
                 updateDashboard();
             }, (error) => {
-                updateSyncStatus('error', 'Erro Permissão');
+                console.error(error);
+                updateSyncStatus('error', 'Sem Permissão');
             });
         }
 
@@ -434,27 +482,27 @@
         }
 
         async function forceSyncAll() {
-            if (!auth.currentUser) return;
-            if(!confirm("Deseja sincronizar a base definitiva?")) return;
+            if (!auth || !auth.currentUser) return;
+            if(!confirm("Deseja sincronizar a base completa?")) return;
             const btn = document.getElementById('btnSyncAll');
-            const orig = btn.innerText; btn.innerText = "SINC..."; btn.disabled = true;
+            const orig = btn.innerText; btn.innerText = "GRAVANDO..."; btn.disabled = true;
             try {
                 const col = db.collection('artifacts').doc(appId).collection('public').doc('data').collection('records');
                 await seedInitialData(col);
-                showFeedback("Sucesso", "Base sincronizada com o Firebase.");
+                showFeedback("Sucesso", "Base sincronizada definitivamente.");
             } catch (e) { showFeedback("Erro", "Falha ao gravar."); }
             finally { btn.innerText = orig; btn.disabled = false; }
         }
 
         function updateDashboard() {
-            const yEl = document.getElementById('yearFilter');
-            const sEl = document.getElementById('sectorFilter');
-            const cEl = document.getElementById('churchFilter');
-            if(!yEl || !sEl || !cEl) return;
+            const yearSelect = document.getElementById('yearFilter');
+            const sectorSelect = document.getElementById('sectorFilter');
+            const churchSelect = document.getElementById('churchFilter');
+            if(!yearSelect || !sectorSelect || !churchSelect) return;
 
-            const yearRaw = yEl.value;
-            const sectorVal = sEl.value;
-            const churchVal = cEl.value;
+            const yearRaw = yearSelect.value;
+            const sectorVal = sectorSelect.value;
+            const churchVal = churchSelect.value;
             
             let triFiltered = currentData;
             if (sectorVal !== "Todos" && SECTORS[sectorVal]) triFiltered = triFiltered.filter(d => SECTORS[sectorVal].includes(d.church));
@@ -475,12 +523,12 @@
             const periodInc = filtered.reduce((a, b) => a + b.income, 0);
             const periodExp = filtered.reduce((a, b) => a + b.expense, 0);
             
-            const elTriInc = document.getElementById('tri-income');
-            const elTriExp = document.getElementById('tri-expense');
-            const elTriBal = document.getElementById('tri-balance');
-            if(elTriInc) elTriInc.innerText = `R$ ${periodInc.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
-            if(elTriExp) elTriExp.innerText = `R$ ${periodExp.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
-            if(elTriBal) elTriBal.innerText = `R$ ${(periodInc - periodExp).toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
+            const triIncEl = document.getElementById('tri-income');
+            const triExpEl = document.getElementById('tri-expense');
+            const triBalEl = document.getElementById('tri-balance');
+            if(triIncEl) triIncEl.innerText = `R$ ${periodInc.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
+            if(triExpEl) triExpEl.innerText = `R$ ${periodExp.toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
+            if(triBalEl) triBalEl.innerText = `R$ ${(periodInc - periodExp).toLocaleString('pt-BR', {minimumFractionDigits:2})}`;
 
             const mediaMensal = yearRaw === "Trienio" ? (periodInc / 36) : (periodInc / 12);
             const elKpiInc = document.getElementById('kpi-income');
@@ -522,10 +570,12 @@
             lucide.createIcons();
         }
 
-        const currencyFormatter = (val) => 'R$ ' + Math.round(val).toLocaleString('pt-BR');
-
-        function renderCharts(currentData, triData, isTriSelected) {
-            const pMain = COLOR_PALETTES[document.getElementById('colorMain').value];
+        function renderCharts(yearData, triData, isTriSelected) {
+            const colorMainSelect = document.getElementById('colorMain');
+            const pMain = COLOR_PALETTES[colorMainSelect ? colorMainSelect.value : 'default'];
+            const showLabelsMain = document.getElementById('showLabelsMain');
+            const showLabelsRanking = document.getElementById('showLabelsRanking');
+            
             const labelConfig = (visible) => ({ 
                 display: visible, 
                 color: '#000', 
@@ -542,7 +592,7 @@
                 triChart = new Chart(triCtx, { 
                     type: 'bar', 
                     data: { labels: ['2023', '2024', '2025'], datasets: [{ data: yrTotals, backgroundColor: '#0f172a', borderRadius: 12 }] }, 
-                    options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 40 } }, plugins: { legend: { display: false }, datalabels: { display: true, anchor: 'end', align: 'top', offset: 8, font: { weight: 'black', size: 11 }, formatter: v => currencyFormatter(v), clip: false } }, scales: { y: { beginAtZero: true, grace: '15%' } } }
+                    options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 40 } }, plugins: { legend: { display: false }, datalabels: { display: true, anchor: 'end', align: 'top', offset: 8, font: { weight: 'black', size: 11 }, formatter: v => currencyFormatter(v), clip: false } }, scales: { y: { beginAtZero: true, grace: '20%' } } }
                 });
             }
 
@@ -552,26 +602,26 @@
                 incs = MONTHS.map(m => triData.filter(d => d.month === m).reduce((a,b) => a+b.income, 0));
                 exps = MONTHS.map(m => triData.filter(d => d.month === m).reduce((a,b) => a+b.expense, 0));
             } else {
-                incs = MONTHS.map(m => currentData.filter(d => d.month === m).reduce((a,b) => a+b.income, 0));
-                exps = MONTHS.map(m => currentData.filter(d => d.month === m).reduce((a,b) => a+b.expense, 0));
+                incs = MONTHS.map(m => yearData.filter(d => d.month === m).reduce((a,b) => a+b.income, 0));
+                exps = MONTHS.map(m => yearData.filter(d => d.month === m).reduce((a,b) => a+b.expense, 0));
             }
 
             if (mainChart) mainChart.destroy();
             const mainCtx = document.getElementById('mainChart');
             if(mainCtx) {
-                mainChart = new Chart(mainCtx, { type: 'bar', data: { labels: MONTHS, datasets: [{ label: 'Entradas', data: incs, backgroundColor: pMain.pos, borderRadius: 6 }, { label: 'Saídas', data: exps, backgroundColor: pMain.neg, borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 40 } }, plugins: { datalabels: labelConfig(document.getElementById('showLabelsMain').checked) }, scales: { y: { beginAtZero: true, grace: '10%' } } } });
+                mainChart = new Chart(mainCtx, { type: 'bar', data: { labels: MONTHS, datasets: [{ label: 'Entradas', data: incs, backgroundColor: pMain.pos, borderRadius: 6 }, { label: 'Saídas', data: exps, backgroundColor: pMain.neg, borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, layout: { padding: { top: 40 } }, plugins: { datalabels: labelConfig(showLabelsMain ? showLabelsMain.checked : true) }, scales: { y: { beginAtZero: true, grace: '15%' } } } });
             }
 
             // 3. Ranking Regional de Saldo
             const balances = ALL_CHURCHES.map(name => { 
-                const d = currentData.filter(i => i.church === name); 
+                const d = (isTriSelected ? triData : yearData).filter(i => i.church === name); 
                 return { n: name, b: d.reduce((a,c)=>a+c.income, 0) - d.reduce((a,c)=>a+c.expense, 0) }; 
             }).sort((a,b) => b.b - a.b);
             
             if (rankingChart) rankingChart.destroy();
             const rankCtx = document.getElementById('rankingChart');
             if(rankCtx) {
-                rankingChart = new Chart(rankCtx, { type: 'bar', data: { labels: balances.map(x => x.n), datasets: [{ data: balances.map(x => x.b), backgroundColor: balances.map(x => x.b >= 0 ? '#3b82f6' : '#ef4444'), borderRadius: 8 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { right: 80 } }, plugins: { legend: { display: false }, datalabels: { display: document.getElementById('showLabelsRanking').checked, color: '#000', align: 'right', anchor: 'end', formatter: (v) => currencyFormatter(v), clip: false, font: { weight: 'bold', size: 10 } } }, scales: { x: { beginAtZero: true, grace: '15%' } } } });
+                rankingChart = new Chart(rankCtx, { type: 'bar', data: { labels: balances.map(x => x.n), datasets: [{ data: balances.map(x => x.b), backgroundColor: balances.map(x => x.b >= 0 ? '#3b82f6' : '#ef4444'), borderRadius: 8 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { right: 100 } }, plugins: { legend: { display: false }, datalabels: { display: (showLabelsRanking ? showLabelsRanking.checked : true), color: '#000', align: 'right', anchor: 'end', formatter: (v) => currencyFormatter(v), clip: false, font: { weight: 'bold', size: 10 } } }, scales: { x: { beginAtZero: true, grace: '20%' } } } });
             }
 
             // 4. Saúde Financeira (Donut)
@@ -592,7 +642,7 @@
             const body = document.getElementById('dataTableBody'); if(!body) return;
             body.innerHTML = "";
             const rows = (dataInput || currentData).sort((a,b) => b.income - a.income);
-            rows.forEach(r => { if(r.income === 0 && r.expense === 0) return; const tr = document.createElement('tr'); tr.innerHTML = `<td class="px-10 py-6 font-bold text-slate-800">${r.church}</td><td class="px-10 py-6 text-center text-slate-500 font-bold">${r.month}/${r.year}</td><td class="px-10 py-6 text-right text-emerald-600 font-black">R$ ${r.income.toLocaleString('pt-BR')}</td><td class="px-10 py-6 text-right text-rose-600 font-black">R$ ${r.expense.toLocaleString('pt-BR')}</td><td class="px-10 py-6 text-right font-black text-slate-900">R$ ${(r.income - r.expense).toLocaleString('pt-BR')}</td>`; body.appendChild(tr); });
+            rows.forEach(r => { if(r.income === 0 && r.expense === 0) return; const tr = document.createElement('tr'); tr.innerHTML = `<td class="px-10 py-7 font-bold text-slate-800">${r.church}</td><td class="px-10 py-7 text-center text-slate-500 font-bold">${r.month}/${r.year}</td><td class="px-10 py-7 text-right text-emerald-600 font-black">R$ ${r.income.toLocaleString('pt-BR')}</td><td class="px-10 py-7 text-right text-rose-600 font-black">R$ ${r.expense.toLocaleString('pt-BR')}</td><td class="px-10 py-7 text-right font-black text-slate-900">R$ ${(r.income - r.expense).toLocaleString('pt-BR')}</td>`; body.appendChild(tr); });
         }
 
         function showPrintSelection() { document.getElementById('printSelectionModal').classList.remove('hidden'); document.getElementById('printSelectionModal').classList.add('flex'); }
@@ -610,7 +660,7 @@
             const opts = [{id:'printTri',t:'Evolução Anual',c:'triChart'},{id:'printMain',t:'Fluxo Mensal',c:'mainChart'},{id:'printRanking',t:'Ranking Regional',c:'rankingChart'}];
             opts.forEach(o => { if (document.getElementById(o.id).checked) { 
                 const p = document.createElement('div'); p.className = 'print-page'; 
-                p.innerHTML = `<div style="text-align: center; border-bottom:3px solid #000; padding-bottom:10px; width:100%; margin-bottom:40px; color: black;"><h1 style="font-size:22px; font-weight:900; margin:0;">AD.PERUS - REGIONAL SANTA MARIA</h1><p style="font-size:14px; font-weight:800; margin: 10px 0; text-transform: uppercase;">FILTRO: ${filterHeader}</p><p style="font-size:12px; font-weight:700; margin:0;">RELATÓRIO: ${o.t.toUpperCase()} | ANO: ${year}</p></div><img src="${document.getElementById(o.c).toDataURL()}" style="width:100%; max-height:75%; object-fit:contain;"><div style="margin-top:40px; font-size:10px; color:#999; text-align:right; width:100%;">Emitido em: ${new Date().toLocaleString()}</div>`; 
+                p.innerHTML = `<div style="text-align: center; border-bottom:3px solid #000; padding-bottom:10px; width:100%; margin-bottom:40px; color: black;"><h1 style="font-size:22px; font-weight:900; margin:0;">AD.PERUS - REGIONAL SANTA MARIA</h1><p style="font-size:14px; font-weight:800; margin: 10px 0; text-transform: uppercase;">FILTRO: ${filterHeader}</p><p style="font-size:12px; font-weight:700; margin:0;">RELATÓRIO: ${o.t.toUpperCase()} | ANO: ${year}</p></div><img src="${document.getElementById(o.c).toDataURL()}" style="width:100%; max-height:75%; object-fit:contain;"><div style="margin-top:40px; font-size:10px; color:#999; text-align:right; width:100%;">Gerado em: ${new Date().toLocaleString()}</div>`; 
                 cont.appendChild(p); 
             } });
             if (!cont.innerHTML) return;
